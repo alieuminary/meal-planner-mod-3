@@ -10,10 +10,10 @@ namespace Capstone.Models
         public int RecipeId { get; set; }
         public string RecipeName { get; set; }
         public string Description { get; set; }
-        public TimeSpan PrepTime { get; set; }
-        public TimeSpan CookTime { get; set; }
+        public int PrepTime { get; set; }
+        public int CookTime { get; set; }
         public DateTime DateCreated { get; set; }
         public int UserId { get; set; }
-        public int CuisineId { get; set; }
+        public string CuisineName { get; set; }
     }
 }
