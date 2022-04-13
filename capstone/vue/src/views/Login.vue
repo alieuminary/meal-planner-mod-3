@@ -1,7 +1,7 @@
 <template>
   <div id="login" class="text-center">
     <form class="form-signin" @submit.prevent="login">
-      <h1 class="h3 mb-3 font-weight-normal">Please Sign In</h1>
+      <h1 class="h3 mb-3 font-weight-normal">Log In</h1>
       <div
         class="alert alert-danger"
         role="alert"
@@ -32,7 +32,7 @@
         required
       />
       <router-link :to="{ name: 'register' }">Need an account?</router-link>
-      <button type="submit">Sign in</button>
+      <button type="submit">Log in</button>  
     </form>
   </div>
 </template>
@@ -74,3 +74,49 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#login {
+  width: 60%;
+  background: white;
+  margin: auto;
+  padding: 25px;  
+}
+.sr-only{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.form-signin {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  line-height: 5em;
+}
+
+button {
+  display: block;
+  align-items:center;
+  width: 100%;
+  padding: 10px 0px;
+  font-size: 24px;
+  font-weight: bold;
+  background-color:#BFAC9B;
+}
+
+label {
+  font-size: 24px;
+  text-transform: uppercase;
+  font-weight: bold;
+
+}
+
+input {
+  font-size: 16px;
+  width: 100%;
+  line-height: 3em;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+</style>
