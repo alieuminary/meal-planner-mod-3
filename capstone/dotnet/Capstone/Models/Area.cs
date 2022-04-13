@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Capstone.Models
 {
-    public class Cuisine
+    public class Area
     {
-        public int CuisineId { get; set; }
+        public int AreaId { get; set; }
         public string Name { get; set; }
     }
 }

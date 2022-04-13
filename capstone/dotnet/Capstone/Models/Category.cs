@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 
 namespace Capstone.Models
 {
-    public class FoodType
+    public class Category
     {
-        public int TypeId { get; set; }
+        public int CategoryId { get; set; }
         public string Name { get; set; }
-        public bool isFresh { get; set; }
+        public string CategoryImage { get; set; }
+        public string CategoryDescription { get; set; }
     }
 }

@@ -21,9 +21,9 @@ namespace Capstone.Controllers
         }
 
         [HttpGet()]
-        public ActionResult<List<Recipes>> GetRecipesList(int userId)
+        public ActionResult<List<Recipe>> GetRecipesList(int userId)
         {
-            List<Recipes> recipesList = recipesDao.GetRecipesList(userId);
+            List<Recipe> recipesList = recipesDao.GetRecipesList(userId);
 
             if (recipesList != null)
             {
@@ -45,9 +45,9 @@ namespace Capstone.Controllers
         }
 
         [HttpGet("{recipeId}")]
-        public ActionResult<Recipes> GetRecipe (int recipeid)
+        public ActionResult<Recipe> GetRecipe (int recipeid)
         {
-            Recipes recipe = recipesDao.GetRecipe(recipeid);
+            Recipe recipe = recipesDao.GetRecipe(recipeid);
 
             if (recipe != null)
             {
@@ -70,7 +70,7 @@ namespace Capstone.Controllers
         }
 
         [HttpPost()]
-        public ActionResult<Recipes> AddRecipe (Recipes recipe)
+        public ActionResult<Recipe> AddRecipe (Recipe recipe)
         {
             if (recipe != null)
             { 
@@ -78,7 +78,7 @@ namespace Capstone.Controllers
 
                 if (userId == recipe.UserId)
                 {
-                    Recipes newrRecipe = recipesDao.AddRecipe(recipe);
+                    Recipe newrRecipe = recipesDao.AddRecipe(recipe);
                     return Ok();
                 }
                 else

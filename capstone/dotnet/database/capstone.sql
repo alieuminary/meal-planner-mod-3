@@ -46,59 +46,103 @@ CREATE TABLE accounts
 	CONSTRAINT PK_accounts PRIMARY KEY (account_id),
 	CONSTRAINT FK_accounts_users FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
-CREATE TABLE cuisine
+
+CREATE TABLE category
 (
-	cuisine_id int identity(1,1),
+	category_id int identity(1,1),
 	name varchar(50) not null,
-	CONSTRAINT PK_cuisine PRIMARY KEY (cuisine_id),
+	category_image varchar(500),
+	category_description varchar(500),
+	CONSTRAINT PK_category PRIMARY KEY (category_id),
 );
-CREATE TABLE recipes
+
+CREATE TABLE area
+(
+	area_id int identity(1,1),
+	name varchar(50) not null,
+	CONSTRAINT PK_area PRIMARY KEY (area_id),
+);
+
+CREATE TABLE recipe
 (
 	recipe_id int identity(1,1),
 	recipe_name varchar(100) not null,
-	description varchar(500),
-	prep_time time,
-	cook_time time,
-	date_created date,
-	user_id int not null,
-	cuisine_id int not null,
-	CONSTRAINT PK_recipes PRIMARY KEY (recipe_id),
-	CONSTRAINT FK_recipes_users FOREIGN KEY (user_id) REFERENCES users(user_id),
-	CONSTRAINT FK_recipes_cuisine FOREIGN KEY (cuisine_id) REFERENCES cuisine(cuisine_id),
+	drink_alternate varchar(100),
+	category_id int,
+	area_id int,
+	instructions varchar(500),
+	recipe_image varchar(500),
+	recipe_tags varchar(500),
+	youtube varchar(500),
+	source varchar(500),
+	image_source varchar(500),
+	date varchar(100),
+	user_id int,
+	CONSTRAINT PK_recipe PRIMARY KEY (recipe_id),
+	CONSTRAINT FK_recipe_users FOREIGN KEY (user_id) REFERENCES users(user_id),
+	CONSTRAINT FK_recipe_category FOREIGN KEY (category_id) REFERENCES category(category_id),
 );
-CREATE TABLE food_type
+
+CREATE TABLE ingred_type
 (
 	type_id int identity(1,1),
 	name varchar(50) not null,
-	isFresh bit not null,
-	CONSTRAINT PK_food_type PRIMARY KEY (type_id),
+	isFresh bit,
+	CONSTRAINT PK_ingred_type PRIMARY KEY (type_id),
 );
+
+INSERT INTO ingred_type (name) VALUES ('Grain');
+INSERT INTO ingred_type (name) VALUES ('Bread');
+INSERT INTO ingred_type (name) VALUES ('Seafood');
+INSERT INTO ingred_type (name) VALUES ('Vegetable');
+INSERT INTO ingred_type (name) VALUES ('Drink');
+INSERT INTO ingred_type (name) VALUES ('Fruit');
+INSERT INTO ingred_type (name) VALUES ('Rice');
+INSERT INTO ingred_type (name) VALUES ('Preserve');
+INSERT INTO ingred_type (name) VALUES ('Fish');
+INSERT INTO ingred_type (name) VALUES ('Spice');
+INSERT INTO ingred_type (name) VALUES ('Meat');
+INSERT INTO ingred_type (name) VALUES ('Sugar');
+INSERT INTO ingred_type (name) VALUES ('Juice');
+INSERT INTO ingred_type (name) VALUES ('Liquid');
+INSERT INTO ingred_type (name) VALUES ('Fat');
+INSERT INTO ingred_type (name) VALUES ('Cheese');
+INSERT INTO ingred_type (name) VALUES ('Sauce');
+INSERT INTO ingred_type (name) VALUES ('Cereal');
+INSERT INTO ingred_type (name) VALUES ('Stock');
+INSERT INTO ingred_type (name) VALUES ('Root Vegetable');
+INSERT INTO ingred_type (name) VALUES ('Wine');
+INSERT INTO ingred_type (name) VALUES ('Liqueur');
+INSERT INTO ingred_type (name) VALUES ('Confectionery');
+INSERT INTO ingred_type (name) VALUES ('Pastry');
+INSERT INTO ingred_type (name) VALUES ('Bean');
+INSERT INTO ingred_type (name) VALUES ('Dressing');
+INSERT INTO ingred_type (name) VALUES ('Spirit');
+INSERT INTO ingred_type (name) VALUES ('Side');
+INSERT INTO ingred_type (name) VALUES ('Curd');
+INSERT INTO ingred_type (name) VALUES ('Sedge');
+INSERT INTO ingred_type (name) VALUES ('Vinegar');
+INSERT INTO ingred_type (name) VALUES ('Seasoning');
+
 CREATE TABLE ingredient
 (
 	ingred_id int identity(1,1),
 	name varchar(100) not null,
-	cost money not null,
-	type_id int not null,
+	description varchar(1000),
+	type_id int,
 	CONSTRAINT PK_ingredient PRIMARY KEY (ingred_id),
-	CONSTRAINT FK_ingredient_food_type FOREIGN KEY (type_id) REFERENCES food_type (type_id),
+	CONSTRAINT FK_ingredient_ingred_type FOREIGN KEY (type_id) REFERENCES ingred_type (type_id),
 );
+
 CREATE TABLE recipes_ingredients
 (
 	recipe_id int not null,
 	ingred_id int not null,
 	CONSTRAINT PK_recipes_ingredients PRIMARY KEY (recipe_id, ingred_id),
-	CONSTRAINT FK_recipes_ingredients_recipes FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id),
+	CONSTRAINT FK_recipes_ingredients_recipe FOREIGN KEY (recipe_id) REFERENCES recipe(recipe_id),
 	CONSTRAINT FK_recipes_ingredients_ingredient FOREIGN KEY (ingred_id) REFERENCES ingredient(ingred_id),
 );
-CREATE TABLE directions
-(
-	steps_id int not null,
-	description varchar(500),
-	step_number int,
-	recipe_id int not null,
-	CONSTRAINT PK_directions PRIMARY KEY(steps_id),
-	CONSTRAINT FK_directions_recipes FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id)
-);
+
 CREATE TABLE planner
 (
 	planner_id int not null,
@@ -109,7 +153,7 @@ CREATE TABLE planner
 	week int,
 	isSharable bit not null,
 	CONSTRAINT PK_planner PRIMARY KEY(planner_id),
-	CONSTRAINT FK_planner_recipes FOREIGN KEY(recipe_id) REFERENCES recipes(recipe_id),
+	CONSTRAINT FK_planner_recipe FOREIGN KEY(recipe_id) REFERENCES recipe(recipe_id),
 	CONSTRAINT FK_planner_users FOREIGN KEY(user_id) REFERENCES users(user_id),
 	CONSTRAINT CHK_day CHECK (day IN ('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday')),
 );

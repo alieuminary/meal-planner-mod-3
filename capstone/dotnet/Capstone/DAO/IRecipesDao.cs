@@ -8,10 +8,10 @@ namespace Capstone.DAO
 {
     public interface IRecipesDAO
     {
-        Recipes GetRecipe(int recipeId);
+        Recipe GetRecipe(int recipeId);
 
-        List<Recipes> GetRecipesList(int userId);
+        List<Recipe> GetRecipesList(int userId);
 
-        Recipes AddRecipe(Recipes recipe);
+        Recipe AddRecipe(Recipe recipe);
     }
 }

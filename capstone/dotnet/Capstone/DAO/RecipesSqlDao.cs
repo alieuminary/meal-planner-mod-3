@@ -16,9 +16,9 @@ namespace Capstone.DAO
             connectionString = dbConnectionString;
         }
 
-        public Recipes GetRecipe(int recipeId)
+        public Recipe GetRecipe(int recipeId)
         {
-            Recipes recipe = null;
+            Recipe recipe = null;
 
             try
             {
@@ -48,9 +48,9 @@ namespace Capstone.DAO
             return recipe;
         }
 
-        public List<Recipes> GetRecipesList(int userId)
+        public List<Recipe> GetRecipesList(int userId)
         {
-            List<Recipes> recipeList = null;
+            List<Recipe> recipeList = null;
 
             try
             {
@@ -68,7 +68,7 @@ namespace Capstone.DAO
 
                     while (reader.Read())
                     {
-                        Recipes recipe = new Recipes();
+                        Recipe recipe = new Recipe();
                         recipe = GetRecipeFromReader(reader);
                         recipeList.Add(recipe);
                     }
@@ -82,7 +82,7 @@ namespace Capstone.DAO
             return recipeList;
         }
 
-        public Recipes AddRecipe(Recipes recipe)
+        public Recipe AddRecipe(Recipe recipe)
         {
             int recipeId;
 
@@ -115,9 +115,9 @@ namespace Capstone.DAO
             return GetRecipe(recipeId);
         }
 
-        private Recipes GetRecipeFromReader(SqlDataReader reader)
+        private Recipe GetRecipeFromReader(SqlDataReader reader)
         {
-            Recipes recipe = new Recipes();
+            Recipe recipe = new Recipe();
 
             recipe.RecipeName = Convert.ToString(reader["recipe_name"]);
             recipe.Description = Convert.ToString(reader["description"]);
