@@ -13,4 +13,4 @@ namespace Capstone.Models
         public int TypeId { get; set; }
     }
 }
-}
+
