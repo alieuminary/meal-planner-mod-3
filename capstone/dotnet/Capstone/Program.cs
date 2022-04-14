@@ -8,9 +8,9 @@ namespace Capstone
     {
         public static void Main(string[] args)
         {
-            //CreateHostBuilder(args).Build().Run();
-            mealPlannerApp mp = new mealPlannerApp("http//themealdb.com/api/json/v2/9973533");
-            mp.Run();
+            CreateHostBuilder(args).Build().Run();
+            //mealPlannerApp mp = new mealPlannerApp("http//themealdb.com/api/json/v2/9973533");
+            //mp.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

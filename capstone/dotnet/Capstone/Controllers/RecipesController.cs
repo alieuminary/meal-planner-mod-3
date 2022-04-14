@@ -10,20 +10,21 @@ namespace Capstone.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
 
-    public class RecipesController : ControllerBase
+    public class RecipeController : ControllerBase
     {
-        private readonly IRecipesDAO recipesDao;
+        private readonly IRecipeDao recipesDao;
 
-        public RecipesController(IRecipesDAO recipesDao)
+        public RecipeController(IRecipeDao recipesDao)
         {
             this.recipesDao = recipesDao;
         }
 
-        [HttpGet()]
+        [HttpGet("users/{userId}")]
         public ActionResult<List<Recipe>> GetRecipesList(int userId)
         {
-            List<Recipe> recipesList = recipesDao.GetRecipesList(userId);
+            List<Recipe> recipesList = recipesDao.GetRecipeList(userId);
 
             if (recipesList != null)
             {
@@ -45,21 +46,29 @@ namespace Capstone.Controllers
         }
 
         [HttpGet("{recipeId}")]
-        public ActionResult<Recipe> GetRecipe (int recipeid)
+        public ActionResult<Recipe> GetRecipe(int recipeid)
         {
-            Recipe recipe = recipesDao.GetRecipe(recipeid);
+            Recipe recipe = recipesDao.GetRecipeById(recipeid);
 
             if (recipe != null)
             {
-                //NOT WORKING TO HAVE AUTHENTICATED USER
+                return recipe;
+            }
 
-                //int userId = Int32.Parse(User.FindFirst("sub")?.Value);
+            else
+            {
+                return BadRequest();
+            }
+        }
 
-                //if (userId == recipe.UserId)
-                //{
-                //    return recipe;
-                //}
 
+        [HttpGet("{charLetter}")]
+        public ActionResult<List<Recipe>> GetRecipeListByLetter(char charlLetter)
+        {
+            List<Recipe> recipe = recipesDao.GetRecipeListByLetter(charlLetter);
+
+            if (recipe != null)
+            {
                 return recipe;
             }
 
@@ -70,21 +79,15 @@ namespace Capstone.Controllers
         }
 
         [HttpPost()]
-        public ActionResult<Recipe> AddRecipe (Recipe recipe)
+        public ActionResult<Recipe> AddRecipe(Recipe recipe)
         {
             if (recipe != null)
-            { 
+            {
                 int userId = Int32.Parse(User.FindFirst("sub")?.Value);
 
-                if (userId == recipe.UserId)
-                {
-                    Recipe newrRecipe = recipesDao.AddRecipe(recipe);
-                    return Ok();
-                }
-                else
-                {
-                    return Unauthorized();
-                }
+                Recipe newRecipe = recipesDao.AddRecipe(recipe, userId);
+
+                return Ok(newRecipe);
             }
             else
             {
@@ -96,3 +99,5 @@ namespace Capstone.Controllers
 
     }
 }
+
+
