@@ -52,7 +52,7 @@ CREATE TABLE category
 	category_id int identity(1,1),
 	name varchar(50) not null,
 	category_image varchar(500),
-	category_description varchar(500),
+	category_description varchar(2000),
 	CONSTRAINT PK_category PRIMARY KEY (category_id),
 );
 
@@ -66,17 +66,17 @@ CREATE TABLE area
 CREATE TABLE recipe
 (
 	recipe_id int identity(1,1),
-	recipe_name varchar(100) not null,
-	drink_alternate varchar(100),
+	recipe_name varchar(500) not null,
+	drink_alternate varchar(500),
 	category_id int,
 	area_id int,
-	instructions varchar(500),
+	instructions varchar(5000),
 	recipe_image varchar(500),
-	recipe_tags varchar(500),
-	youtube varchar(500),
-	source varchar(500),
-	image_source varchar(500),
-	date varchar(100),
+	recipe_tags varchar(1000),
+	youtube varchar(1000),
+	source varchar(1000),
+	image_source varchar(1000),
+	date varchar(1000),
 	user_id int,
 	CONSTRAINT PK_recipe PRIMARY KEY (recipe_id),
 	CONSTRAINT FK_recipe_users FOREIGN KEY (user_id) REFERENCES users(user_id),
@@ -86,7 +86,7 @@ CREATE TABLE recipe
 CREATE TABLE ingred_type
 (
 	type_id int identity(1,1),
-	name varchar(50) not null,
+	name varchar(100) not null,
 	isFresh bit,
 	CONSTRAINT PK_ingred_type PRIMARY KEY (type_id),
 );
@@ -127,8 +127,8 @@ INSERT INTO ingred_type (name) VALUES ('Seasoning');
 CREATE TABLE ingredient
 (
 	ingred_id int identity(1,1),
-	name varchar(100) not null,
-	description varchar(1000),
+	name varchar(500) not null,
+	description varchar(5000),
 	type_id int,
 	CONSTRAINT PK_ingredient PRIMARY KEY (ingred_id),
 	CONSTRAINT FK_ingredient_ingred_type FOREIGN KEY (type_id) REFERENCES ingred_type (type_id),
@@ -146,7 +146,7 @@ CREATE TABLE recipes_ingredients
 CREATE TABLE planner
 (
 	planner_id int not null,
-	name varchar(50),
+	name varchar(500),
 	recipe_id int,
 	user_id int,
 	day varchar(20),
