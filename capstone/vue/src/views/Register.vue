@@ -1,5 +1,7 @@
 <template>
   <div id="register" class="text-center">
+    <h1>Register to save your meal plans and recipes!</h1>
+    <h2>With SMPL you’ll have go-to recipes and meal plans to save time and eat healthier. Register today and we’ll send you our five most popular meal plans.</h2>
     <form class="form-register" @submit.prevent="register">
       <h1 class="h3 mb-3 font-weight-normal">Create Your Account</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
@@ -91,50 +93,26 @@ export default {
 </script>
 
 <style scoped>
-body {
-  font-size: 16px;
-}
 #register {
-  width: 60%;
-  background: white;
+  width: 80%;
   margin: auto;
-  padding: 25px;  
-}
-.sr-only{
-  display: flex;
-  justify-content: space-evenly;
+  padding: 20px;  
 }
 
 .form-register {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  line-height: 5em;
-}
-
-button {
-  display: block;
-  align-items:center;
-  width: auto%;
-  padding: 10px 0px;
-  font-size: 24px;
-  font-weight: bold;
-  background-color:#BFAC9B;
-}
-
-label {
-  font-size: 24px;
-  text-transform: uppercase;
-  font-weight: bold;
-
-}
-
-input {
-  font-size: 16px;
   width: auto;
-  line-height: 3em;
-  margin-bottom: 10px;
-  text-align: center;
+  background: white;
+  line-height: 4em;
+  margin: 25px 0px;
+  padding: 50px 100px;
 }
+
+.form-register h1 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 400;
+  color: #D95525;
+};
 
 </style>

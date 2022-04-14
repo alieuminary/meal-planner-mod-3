@@ -1,7 +1,11 @@
 <template>
   <div id="login" class="text-center">
+    <h1>The Ultimate SMPL Cooking App</h1>
+    <h2>
+      Conquer meal planning and live a healthier life with Shawn’s Meal Planning App–the all-in-one app for recipe saving, meal planning, and grocery shopping.
+    </h2>
     <form class="form-signin" @submit.prevent="login">
-      <h1 class="h3 mb-3 font-weight-normal">Log In</h1>
+      <h1 class="h3 mb-3 font-weight-normal">Sign In</h1>
       <div
         class="alert alert-danger"
         role="alert"
@@ -17,7 +21,7 @@
         type="text"
         id="username"
         class="form-control"
-        placeholder="Username"
+        placeholder="enter username ..."
         v-model="user.username"
         required
         autofocus
@@ -27,12 +31,12 @@
         type="password"
         id="password"
         class="form-control"
-        placeholder="Password"
+        placeholder="enter password ..."
         v-model="user.password"
         required
       />
       <router-link :to="{ name: 'register' }">Need an account?</router-link>
-      <button type="submit">Log in</button>  
+      <button type="submit">Sign in</button>  
     </form>
   </div>
 </template>
@@ -77,46 +81,24 @@ export default {
 
 <style scoped>
 #login {
-  width: 60%;
-  background: white;
+  width: 80%;
   margin: auto;
-  padding: 25px;  
-}
-.sr-only{
-  display: flex;
-  justify-content: space-evenly;
+  padding: 20px;  
 }
 
 .form-signin {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  line-height: 5em;
+  width: auto;
+  background: white;
+  line-height: 4em;
+  margin: 25px 0px;
+  padding: 50px 100px;
 }
 
-button {
-  display: block;
-  align-items:center;
-  width: 100%;
-  padding: 10px 0px;
-  font-size: 24px;
-  font-weight: bold;
-  background-color:#BFAC9B;
-}
-
-label {
-  font-size: 24px;
-  text-transform: uppercase;
-  font-weight: bold;
-
-}
-
-input {
-  font-size: 16px;
-  width: 100%;
-  line-height: 3em;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
+.form-signin h1 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 400;
+  color: #D95525;
+};
 </style>
