@@ -8,7 +8,7 @@ using System;
 
 namespace Capstone.Service
 {
-    public class ApiService 
+    public class ApiService
     {
         public static RestClient client = new RestClient("http://themealdb.com/api/json/v2/9973533/");
 
@@ -31,7 +31,7 @@ namespace Capstone.Service
                 Console.WriteLine("Error");
             }
             ArrayIngredients ingredient = Newtonsoft.Json.JsonConvert.DeserializeObject<ArrayIngredients>(response.Content);
-            for (int i = 0; i < ingredient.meals.Length;i++)
+            for (int i = 0; i < ingredient.meals.Length; i++)
             {
                 ingredientsList.Add(ingredient.meals[i]);
             }
@@ -41,6 +41,7 @@ namespace Capstone.Service
         public List<Meals> GetMealsListByLetter(char c)
         {
             List<Meals> mealsList = new List<Meals>();
+
             RestRequest request = new RestRequest($"search.php?f={c}");
             IRestResponse response = client.Get(request);
             CheckForError(response);
@@ -54,11 +55,13 @@ namespace Capstone.Service
                 Console.WriteLine("Error");
             }
             ArrayMeals meal = Newtonsoft.Json.JsonConvert.DeserializeObject<ArrayMeals>(response.Content);
+
             for (int i = 0; i < meal.meals.Length; i++)
             {
                 mealsList.Add(meal.meals[i]);
             }
             return mealsList;
+
 
         }
 
@@ -78,9 +81,9 @@ namespace Capstone.Service
                 Console.WriteLine("Error");
             }
             ArrayCategories cat = Newtonsoft.Json.JsonConvert.DeserializeObject<ArrayCategories>(response.Content);
-            for (int i = 0; i < cat.meals.Length; i++)
+            for (int i = 0; i < cat.categories.Length; i++)
             {
-                catsList.Add(cat.meals[i]);
+                catsList.Add(cat.categories[i]);
             }
             return catsList;
         }

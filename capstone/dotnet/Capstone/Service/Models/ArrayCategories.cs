@@ -7,6 +7,6 @@ namespace Capstone.Service.Models
 {
     public class ArrayCategories
     {
-        public Categories[] meals { get; set; }
+        public Categories[] categories { get; set; }
     }
 }

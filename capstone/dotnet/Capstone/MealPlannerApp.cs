@@ -21,9 +21,9 @@ namespace Capstone
 
         public void Run()
         {
-            InputIngredientsIntoDatabase();
-            InputCategoriesIntoDatabase();
             InputAreasIntoDatabase();
+            InputCategoriesIntoDatabase();
+            InputIngredientsIntoDatabase();
             InputRecipesIntoDatabase();
         }
 
@@ -44,9 +44,24 @@ namespace Capstone
                                                     "OUTPUT INSERTED.ingred_id " +
                                                     "VALUES (@name, @description, (SELECT type_id FROM ingred_type WHERE name = @type_id));", conn);
                         cmd.Parameters.AddWithValue("@name", ingred.strIngredient);
-                        cmd.Parameters.AddWithValue("@description", ingred.strDescription);
-                        cmd.Parameters.AddWithValue("@type_id", ingred.strType);
-
+                        if(ingred.strDescription == null)
+                        {
+                            cmd.Parameters.AddWithValue("@description", "NULL");
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@description", ingred.strDescription);
+                        }
+                        
+                        if(ingred.strType == null)
+                        {
+                            cmd.Parameters.AddWithValue("@type_id", "NULL");
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@type_id", ingred.strType);
+                        }
+                       
                         ingredId = Convert.ToInt32(cmd.ExecuteScalar());
                         ingred.idIngredient = ingredId.ToString();
                     }
@@ -106,8 +121,8 @@ namespace Capstone
 
                     foreach (Areas area in areas)
                     {
-                        SqlCommand cmd = new SqlCommand("INSERT INTO category (name) " +
-                                                    "OUTPUT INSERTED.category_id " +
+                        SqlCommand cmd = new SqlCommand("INSERT INTO area (name) " +
+                                                    "OUTPUT INSERTED.area_id " +
                                                     "VALUES (@name);", conn);
                         cmd.Parameters.AddWithValue("@name", area.strArea);
 
@@ -129,7 +144,8 @@ namespace Capstone
             int recipeId = 0;
             try
             {
-                string alphabet = "abcdefghijklmnopqrstuvwxyz";
+                //took out q,u,x, z
+                string alphabet = "abcdefghijklmnoprstvwy";
 
                 foreach (char c in alphabet)
                 {
@@ -145,16 +161,87 @@ namespace Capstone
                                                         "OUTPUT INSERTED.recipe_id " +
                                                         "VALUES (@recipe_name, @drink_alternate, (SELECT category_id FROM category WHERE name = @category_id), (SELECT area_id FROM area WHERE name = @area_id), @instructions, @recipe_image, @recipe_tags, @youtube, @source, @image_source, @date);", conn);
                             cmd.Parameters.AddWithValue("@recipe_name", recipe.strMeal);
-                            cmd.Parameters.AddWithValue("@drink_alternate", recipe.strDrinkAlternate);
-                            cmd.Parameters.AddWithValue("@category_id", recipe.strCategory);
-                            cmd.Parameters.AddWithValue("@area_id", recipe.strArea);
-                            cmd.Parameters.AddWithValue("@instructions", recipe.strInstructions);
-                            cmd.Parameters.AddWithValue("@recipe_image", recipe.strMealThumb);
-                            cmd.Parameters.AddWithValue("@recipe_tags", recipe.strTags);
-                            cmd.Parameters.AddWithValue("@youtube", recipe.strYoutube);
-                            cmd.Parameters.AddWithValue("@source", recipe.strSource);
-                            cmd.Parameters.AddWithValue("@image_source", recipe.strImageSource);
-                            cmd.Parameters.AddWithValue("@date", recipe.dateModified);
+                            if (recipe.strDrinkAlternate == null)
+                            {
+                                cmd.Parameters.AddWithValue("@drink_alternate", "NULL");
+                            }
+                            else
+                            {
+                                cmd.Parameters.AddWithValue("@drink_alternate", recipe.strDrinkAlternate);
+                            }
+                            if (recipe.strCategory == null)
+                            {
+                                cmd.Parameters.AddWithValue("@category_id", "NULL");
+                            }
+                            else
+                            {
+                                cmd.Parameters.AddWithValue("@category_id", recipe.strCategory);
+                            }
+                            if (recipe.strArea == null)
+                            {
+                                cmd.Parameters.AddWithValue("@area_id", "NULL");
+                            }
+                            else
+                            {
+                                cmd.Parameters.AddWithValue("@area_id", recipe.strArea);
+                            }
+                            if (recipe.strInstructions == null)
+                            {
+                                cmd.Parameters.AddWithValue("@instructions", "NULL");
+                            }
+                            else
+                            {
+                                cmd.Parameters.AddWithValue("@instructions", recipe.strInstructions);
+                            }
+                            if (recipe.strMealThumb == null)
+                            {
+                                cmd.Parameters.AddWithValue("@recipe_image", "NULL");
+                            }
+                            else
+                            {
+                                cmd.Parameters.AddWithValue("@recipe_image", recipe.strMealThumb);
+                            }
+                            if (recipe.strTags == null)
+                            {
+                                cmd.Parameters.AddWithValue("@recipe_tags", "NULL");
+                            }
+                            else
+                            {
+                                cmd.Parameters.AddWithValue("@recipe_tags", recipe.strTags);
+                            }
+                            if (recipe.strYoutube == null)
+                            {
+                                cmd.Parameters.AddWithValue("@youtube", "NULL");
+                            }
+                            else
+                            {
+                                cmd.Parameters.AddWithValue("@youtube", recipe.strYoutube);
+                            }
+                            if (recipe.strSource == null)
+                            {
+                                cmd.Parameters.AddWithValue("@source", "NULL");
+                            }
+                            else
+                            {
+                                cmd.Parameters.AddWithValue("@source", recipe.strSource);
+                            }
+                            if (recipe.strImageSource == null)
+                            {
+                                cmd.Parameters.AddWithValue("@image_source", "NULL");
+                            }
+                            else
+                            {
+                                cmd.Parameters.AddWithValue("@image_source", recipe.strImageSource);
+                            }
+                            if (recipe.dateModified == null)
+                            {
+                                cmd.Parameters.AddWithValue("@date", "NULL");
+                            }
+                            else
+                            {
+                                cmd.Parameters.AddWithValue("@date", recipe.dateModified);
+                            }
+                            
 
                             recipeId = Convert.ToInt32(cmd.ExecuteScalar());
                             recipe.idMeal = recipeId.ToString();
@@ -171,22 +258,39 @@ namespace Capstone
             Console.WriteLine("Successful Input");
         }
 
-        //private void IngredientList()
-        //{
+        private void IngredientList()
+        {
 
-        //    List<Ingredient> ingreds = apiService.GetIngredientList();
-        //    if (ingreds != null)
-        //    {
-        //        Console.WriteLine("\n*********** Ingredients ***********");
-        //        foreach (Ingredient ingred in ingreds)
-        //        {
-        //            Console.WriteLine($"Id: {ingred.idIngredient} | Description: {ingred.strDescription} | Name: {ingred.strIngredient} | Type: {ingred.strType}");
-        //        }
-        //        Console.WriteLine("****************************");
-        //        Console.WriteLine("");
+            List<Ingredient> ingreds = apiService.GetIngredientList();
+            if (ingreds != null)
+            {
+                Console.WriteLine("\n*********** Ingredients ***********");
+                foreach (Ingredient ingred in ingreds)
+                {
+                    Console.WriteLine($"Id: {ingred.idIngredient} | Description: {ingred.strDescription} | Name: {ingred.strIngredient} | Type: {ingred.strType}");
+                }
+                Console.WriteLine("****************************");
+                Console.WriteLine("");
 
-        //    }
-        //}
+            }
+        }
+
+        private void AreaList()
+        {
+
+            List<Areas> ingreds = apiService.GetAreasList();
+            if (ingreds != null)
+            {
+                Console.WriteLine("\n*********** Area***********");
+                foreach (Areas ingred in ingreds)
+                {
+                    Console.WriteLine($"NAME: {ingred.strArea}");
+                }
+                Console.WriteLine("****************************");
+                Console.WriteLine("");
+
+            }
+        }
 
     }
 }
