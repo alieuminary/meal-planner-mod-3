@@ -1,7 +1,7 @@
 <template>
     <div class=footer-container>
         
-        &copy; SMPL
+        <p>&copy; SMPL</p>
         <h1>Follow Us</h1>
         <font-awesome-icon icon="fa-brands fa-facebook" />
         <font-awesome-icon icon="fa-brands fa-instagram" />

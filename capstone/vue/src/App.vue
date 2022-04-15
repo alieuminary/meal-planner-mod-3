@@ -15,13 +15,13 @@
        
     </div>
     <div id="container">
-      <footer-bar />
+      <!-- <footer-bar /> -->
     <router-view />      
     </div>
 
     <div id="footer">
       <div id="copyright">
-        &copy;SMPL
+        <p>&copy; SMPL </p>
       </div>
       <p>
         Follow Us! 
@@ -49,6 +49,7 @@
 
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap');
 * {
   box-sizing: border-box;
   padding: 0;
@@ -66,71 +67,79 @@
   }
 
 #container {
-    background-color: #F2E2DC;
-    padding: 35px;
+    background-color: #faf8f6;
+    padding: 75px 0px 25px 0px;
   }
 
-body, h1, h2, h3 {
-  font-family: Lato, sans-serif;
-  color: #233A41;
-  font-size: 16px;
+body {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.05em;
+  color: #262f35;
+  font-size: 1em;
 }
 
 h1 {
-  color: #023859;
+  /* font-family: Georgia, 'Times New Roman', Times, serif; */
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.05em;
+  font-weight: 600;
   font-size: 3em;
   margin-bottom: 0.5em;
   }
 
 h2 {
-  color: #233A41;
+  font-family: 'Montserrat', sans-serif;
   font-size: 1.75em;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.5;
   margin-bottom: 0.25em;
   }
 
 h3 {
-  color: #233A41;
+  font-family: 'Montserrat', sans-serif;
   font-size: 1.25em;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.3;
   margin-bottom: 0.25em;
   }
 
 .sr-only {
-  color: #8C7A1C;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 1.5em;
   font-weight: 600;
   text-transform: uppercase;
   }
 
 button {
+  font-family: 'Montserrat', sans-serif;
+  color: #262f35;
+  font-size: 1.75em;
+  font-weight: 600;
   display: block;
   align-items:center;
-  line-height: 3em;
+  line-height: 2em;
   padding: 10px;
-  font-size: 1.5em;
-  font-weight: 400;
   border: none;
-  background-color: #F28749;
+  background-color: #f5c177;
 }
 
 input {
+  font-family: 'Montserrat', sans-serif;
   font-size: 1.25em;
   width: 100%;
   line-height: 3em;
   margin-bottom: 10px;
   text-align: center;
   border: none;
-  background-color: #F2E2DC;
+  background-color: #e9e9e9;
 }
 
 .logo {
-  color: #F2E2DC;
+  font-family: 'Montserrat', sans-serif;
+  color: #f5c177;
   line-height: 1.2;
   font-size: 3em;
-  font-weight: 300;
+  font-weight: 400;
   margin: 50px;
 }
 
@@ -139,12 +148,13 @@ input {
     align-items: center;
     justify-content:space-between;
     gap: 20px;
-    background-color: #32941E;
+    background-color: #54782c;
     height: 75px;
   }
 
 .menu {
     display: flex;
+    padding-right: 30px;
     gap: 1em;
     font-size: 24px;
     letter-spacing: .05rem;
@@ -154,11 +164,12 @@ input {
     color: #fff;
     text-decoration: none;
     padding: 10px ;
+    border: #c6c6c6 solid 1px;
   }
 
 .menu a:hover {
-    background-color: #F2E2DC;
-    color: #32941E;
+    background-color: #f5c177;
+    color: #000;
     border-radius: 0px;
     transition: 0.3s ease;
   }
@@ -171,16 +182,15 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #8C7A1C;
+    background-color: #BFA38A;
     width: 100%;
     height: 150px;
     padding: 0;
   }
 
 #footer p {
-    font-size: 16px;
-    color: white;
-  }
+    font-size: 1.25em;
+}
 
 
 </style>
