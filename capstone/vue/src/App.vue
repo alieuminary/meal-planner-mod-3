@@ -12,34 +12,48 @@
       <!-- <nav-bar  /> -->
       <!-- <router-link v-bind:to="{ name: 'home' }">Home</router-link>&nbsp;|&nbsp;
       <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link> -->
+       
     </div>
     <div id="container">
+      <footer-bar />
     <router-view />      
     </div>
 
     <div id="footer">
-      <p>Enter short text here...</p>
+      <div id="copyright">
+        &copy;SMPL
+      </div>
+      <p>
+        Follow Us! 
+        <font-awesome-icon icon="fa-brands fa-facebook" />
+        <font-awesome-icon icon="fa-brands fa-instagram" />
+        <font-awesome-icon icon="fa-brands fa-twitter" />
+      </p>
     </div>
   </div>
 </template>
 
-// <script>
+<script>
 // import NavBar from '@/components/NavBar'
+// import FooterBar from '@/components/FooterBar'
 
 // export default {
 //   name: 'app',
 //   components:{
-//     NavBar
+//     //NavBar,
+//     FooterBar
 //   }
 
 // }
-// </script>
+</script>
+
 
 <style>
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  
 }
 
 #app {
@@ -167,5 +181,6 @@ input {
     font-size: 16px;
     color: white;
   }
+
 
 </style>

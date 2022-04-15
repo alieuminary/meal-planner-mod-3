@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>My Recipes Page</h1>
-        <p>Display Recipes Here</p>
+        <h2>Display Recipes Here</h2>
         <recipe-display/>
 
 
