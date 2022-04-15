@@ -22,19 +22,9 @@ namespace Capstone.Controllers
         }
 
         [HttpGet()]
-        public ActionResult<Accounts> GetAllAccounts()
+        public ActionResult<Accounts> GetAccount()
         {
-            IList<Accounts> accounts = accountDao.GetAllAccountsList();
-            if (accounts == null)
-            {
-                return NoContent();
-            }
-            return Ok(accounts);
-        }
-
-        [HttpGet("{username}")]
-        public ActionResult<Accounts> GetAccount(string username)
-        {
+            string username = User.Identity.Name;
             Accounts account = accountDao.GetAccount(username);
             if (account != null)
             {

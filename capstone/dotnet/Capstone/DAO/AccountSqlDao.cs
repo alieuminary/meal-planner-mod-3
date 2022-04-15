@@ -24,7 +24,7 @@ namespace Capstone.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand("SELECT a.account_id, a.first_name, a.last_name, a.address, a.zipcode, a.state, a.phone_number, a.email, a.user_id, u.username " +
-                                                    "FROM accounts a JOIN users u on a.user_id = u.user_id" +
+                                                    "FROM accounts a JOIN users u on a.user_id = u.user_id " +
                                                     "WHERE username = @username;", conn);
                     cmd.Parameters.AddWithValue("@username", username);
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -117,14 +117,15 @@ namespace Capstone.DAO
                     cmd.Parameters.AddWithValue("@state", account.State);
                     cmd.Parameters.AddWithValue("@phone_number", account.PhoneNumber);
                     cmd.Parameters.AddWithValue("@email", account.Email);
-                    //int accountNumber = 
-                    Convert.ToInt32(cmd.ExecuteScalar());
-                    //account.AccountId = accountNumber;
+                    cmd.ExecuteScalar();
+             
                 }
             }
             catch (SqlException e)
             {
                 Console.WriteLine(e);
+                return null;
+
             }
             return account;
         }
