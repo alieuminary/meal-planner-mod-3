@@ -12,7 +12,6 @@ namespace Capstone.Service
     {
         public static RestClient client = new RestClient("http://themealdb.com/api/json/v2/9973533/");
 
-
         public ApiService(string apiUrl) { }
 
         public List<Ingredient> GetIngredientList()

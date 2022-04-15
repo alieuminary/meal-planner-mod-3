@@ -20,7 +20,8 @@ namespace Capstone.Models
 
         public string State { get; set; }
 
-        public int PhoneNumber { get; set; }
+        public long PhoneNumber { get; set; }
         public string Email { get; set; }
+        public string Username { get; set; }
     }
 }

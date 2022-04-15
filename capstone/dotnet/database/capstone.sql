@@ -130,6 +130,7 @@ CREATE TABLE ingredient
 	name varchar(500) not null,
 	description varchar(5000),
 	type_id int,
+	ingred_image varchar(500),
 	CONSTRAINT PK_ingredient PRIMARY KEY (ingred_id),
 	CONSTRAINT FK_ingredient_ingred_type FOREIGN KEY (type_id) REFERENCES ingred_type (type_id),
 );
@@ -180,4 +181,14 @@ CREATE TABLE account_recipes
 	CONSTRAINT PK_account_recipes PRIMARY KEY (recipe_id, account_id),
 	CONSTRAINT FK_account_recipes_recipe FOREIGN KEY (recipe_id) REFERENCES recipe(recipe_id),
 	CONSTRAINT FK_account_recipes_accounts FOREIGN KEY (account_id) REFERENCES accounts(account_id),
+)
+
+CREATE TABLE grocery_list
+(
+	grocery_id int not null,
+	ingred_id int not null,
+	account_id int not null,
+	CONSTRAINT PK_grocery_list PRIMARY KEY (grocery_id),
+	CONSTRAINT FK_grocery_list_ingredient FOREIGN KEY (ingred_id) REFERENCES ingredient(ingred_id),
+	CONSTRAINT FK_grocery_list_accounts FOREIGN KEY (account_id) REFERENCES accounts(account_id),
 )
