@@ -96,23 +96,21 @@ export default {
 #register {
   width: 80%;
   margin: auto;
-  padding: 20px;  
 }
 
 .form-register {
   display: flex;
   flex-direction: column;
   width: auto;
-  background: white;
   line-height: 4em;
   margin: 25px 0px;
   padding: 50px 100px;
 }
 
 .form-register h1 {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-weight: 400;
-  color: #D95525;
+  font-family: 'Montserrat', sans-serif;  
+  font-weight: 500;
+  color: #54782c;
 };
 
 </style>
