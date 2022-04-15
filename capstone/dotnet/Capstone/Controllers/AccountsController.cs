@@ -75,14 +75,24 @@ namespace Capstone.Controllers
         [HttpPut("update")]
         public ActionResult<Accounts> UpdateAccount(Accounts account)
         {
-            Accounts updatedAccount = accountDao.UpdateAccount(account);
-            if (updatedAccount != null)
+            if (account != null)
             {
-                return Created($"/accounts/{updatedAccount.Username}", updatedAccount);
+                int currentUserId = Int32.Parse(User.FindFirst("sub")?.Value);
+
+                if (currentUserId == account.UserId)
+                {
+                    Accounts updatedAccount = accountDao.UpdateAccount(account);
+                    return Created($"/accounts/{updatedAccount.Username}", updatedAccount);
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+               
             }
             else
             {
-                return BadRequest();
+                return Unauthorized();
             }
         }
 

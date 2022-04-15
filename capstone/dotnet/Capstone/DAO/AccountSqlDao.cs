@@ -25,7 +25,7 @@ namespace Capstone.DAO
 
                     SqlCommand cmd = new SqlCommand("SELECT a.account_id, a.first_name, a.last_name, a.address, a.zipcode, a.state, a.phone_number, a.email, a.user_id, u.username " +
                                                     "FROM accounts a JOIN users u on a.user_id = u.user_id" +
-                                                    "WHERE username= @account_id;", conn);
+                                                    "WHERE username = @username;", conn);
                     cmd.Parameters.AddWithValue("@username", username);
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -131,7 +131,6 @@ namespace Capstone.DAO
 
         public Accounts UpdateAccount(Accounts account)
         {
-            account = GetAccount(account.Username);
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
