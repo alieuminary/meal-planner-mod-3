@@ -158,6 +158,43 @@ namespace Capstone.DAO
             return GetRecipeById(recipeId);
         }
 
+        public Recipe ChangeRecipe(Recipe recipe)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("UPDATE recipe " +
+                                                    "SET recipe name = @recipeName, drink_alternate = @drinkAlternate, category_id = (SELECT category_id FROM category WHERE name = @categoryName), area_id = (SELECT area_id FROM area WHERE name = @areaName), " +
+                                                    "instructions = @instructions, recipe_image = @recipeImage, recipe_tags = @recipeTags, youtube = @youtube, source = @source, image_source = @imageSource, date = @date, user_id = @userId);", conn);
+                    cmd.Parameters.AddWithValue("@recipeName", recipe.RecipeName);
+                    cmd.Parameters.AddWithValue("@drinkAlternate", recipe.DrinkAlternate);
+                    cmd.Parameters.AddWithValue("@categoryName", recipe.CategoryName);
+                    cmd.Parameters.AddWithValue("@areaName", recipe.AreaName);
+                    cmd.Parameters.AddWithValue("@instructions", recipe.Instructions);
+                    cmd.Parameters.AddWithValue("@recipeImage", recipe.RecipeImage);
+                    cmd.Parameters.AddWithValue("@recipeTags", recipe.RecipeTags);
+                    cmd.Parameters.AddWithValue("@youtube", recipe.Youtube);
+                    cmd.Parameters.AddWithValue("@source", recipe.Source);
+                    cmd.Parameters.AddWithValue("@imageSource", recipe.ImageSource);
+                    cmd.Parameters.AddWithValue("@data", recipe.Date);
+                    cmd.Parameters.AddWithValue("@userId", recipe.UserId);
+
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException)
+            {
+                return null;
+            }
+
+            return GetRecipeById(recipe.RecipeId);
+
+        }
+
         private Recipe GetRecipeFromReader(SqlDataReader reader)
         {
             Recipe myRecipe = new Recipe();

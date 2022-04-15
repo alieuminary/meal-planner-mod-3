@@ -15,5 +15,7 @@ namespace Capstone.DAO
         List<Recipe> GetRecipeListByLetter(char charLetter);
 
         Recipe AddRecipe(Recipe recipe, int userId);
+
+        Recipe ChangeRecipe(Recipe recipe);
     }
 }

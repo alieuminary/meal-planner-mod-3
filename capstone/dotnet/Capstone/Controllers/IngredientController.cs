@@ -37,6 +37,23 @@ namespace Capstone.Controllers
             }
         }
 
+        [HttpPost()]
+        public ActionResult<Ingredient> AddIngredient(Ingredient newIngredient)
+        {
+            if (newIngredient != null)
+            {
+
+                Ingredient ingredient = ingredientDao.AddIngredient(newIngredient);
+
+                return Ok(ingredient);
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+        }
+
 
     }
 }

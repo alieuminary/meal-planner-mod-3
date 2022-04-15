@@ -9,5 +9,9 @@ namespace Capstone.DAO
     public interface IIngredientDao
     {
         List<Ingredient> IngredientsByRecipeId(int recipeId);
+
+        Ingredient GetIngredientByIngredientId(int ingredientId);
+
+        Ingredient AddIngredient(Ingredient newIngredient);
     }
 }
