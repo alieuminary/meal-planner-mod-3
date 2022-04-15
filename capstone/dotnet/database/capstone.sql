@@ -134,11 +134,26 @@ CREATE TABLE ingredient
 	CONSTRAINT FK_ingredient_ingred_type FOREIGN KEY (type_id) REFERENCES ingred_type (type_id),
 );
 
+INSERT INTO ingredient (name) VALUES ('butter, softened');
+INSERT INTO ingredient (name) VALUES ('Green Chili');
+INSERT INTO ingredient (name) VALUES ('Blackberrys');
+INSERT INTO ingredient (name) VALUES ('Red Chili Powder');
+INSERT INTO ingredient (name) VALUES ('All spice');
+INSERT INTO ingredient (name) VALUES ('Carrot');
+INSERT INTO ingredient (name) VALUES ('Self raising flour');
+INSERT INTO ingredient (name) VALUES ('Vermicelli');
+INSERT INTO ingredient (name) VALUES ('Harissa');
+INSERT INTO ingredient (name) VALUES ('Clove');
+INSERT INTO ingredient (name) VALUES ('Potato');
+
 CREATE TABLE recipes_ingredients
 (
-	recipe_id int not null,
-	ingred_id int not null,
-	CONSTRAINT PK_recipes_ingredients PRIMARY KEY (recipe_id, ingred_id),
+	ri_id int identity(1,1) not null,
+	name VARCHAR(500) not null,
+	recipe_id int,
+	ingred_id int,
+	measure VARCHAR(500),
+	CONSTRAINT PK_recipes_ingredients PRIMARY KEY (ri_id),
 	CONSTRAINT FK_recipes_ingredients_recipe FOREIGN KEY (recipe_id) REFERENCES recipe(recipe_id),
 	CONSTRAINT FK_recipes_ingredients_ingredient FOREIGN KEY (ingred_id) REFERENCES ingredient(ingred_id),
 );
@@ -157,3 +172,12 @@ CREATE TABLE planner
 	CONSTRAINT FK_planner_users FOREIGN KEY(user_id) REFERENCES users(user_id),
 	CONSTRAINT CHK_day CHECK (day IN ('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday')),
 );
+
+CREATE TABLE account_recipes
+(
+	recipe_id int not null,
+	account_id int not null,
+	CONSTRAINT PK_account_recipes PRIMARY KEY (recipe_id, account_id),
+	CONSTRAINT FK_account_recipes_recipe FOREIGN KEY (recipe_id) REFERENCES recipe(recipe_id),
+	CONSTRAINT FK_account_recipes_accounts FOREIGN KEY (account_id) REFERENCES accounts(account_id),
+)

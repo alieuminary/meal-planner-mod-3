@@ -25,6 +25,7 @@ namespace Capstone
             InputCategoriesIntoDatabase();
             InputIngredientsIntoDatabase();
             InputRecipesIntoDatabase();
+            InputIngredientsFromRecipesIntoDatabase();
         }
 
         private void InputIngredientsIntoDatabase()
@@ -44,7 +45,7 @@ namespace Capstone
                                                     "OUTPUT INSERTED.ingred_id " +
                                                     "VALUES (@name, @description, (SELECT type_id FROM ingred_type WHERE name = @type_id));", conn);
                         cmd.Parameters.AddWithValue("@name", ingred.strIngredient);
-                        if(ingred.strDescription == null)
+                        if (ingred.strDescription == null)
                         {
                             cmd.Parameters.AddWithValue("@description", "NULL");
                         }
@@ -52,8 +53,8 @@ namespace Capstone
                         {
                             cmd.Parameters.AddWithValue("@description", ingred.strDescription);
                         }
-                        
-                        if(ingred.strType == null)
+
+                        if (ingred.strType == null)
                         {
                             cmd.Parameters.AddWithValue("@type_id", "NULL");
                         }
@@ -61,7 +62,7 @@ namespace Capstone
                         {
                             cmd.Parameters.AddWithValue("@type_id", ingred.strType);
                         }
-                       
+
                         ingredId = Convert.ToInt32(cmd.ExecuteScalar());
                         ingred.idIngredient = ingredId.ToString();
                     }
@@ -241,10 +242,89 @@ namespace Capstone
                             {
                                 cmd.Parameters.AddWithValue("@date", recipe.dateModified);
                             }
-                            
+
 
                             recipeId = Convert.ToInt32(cmd.ExecuteScalar());
                             recipe.idMeal = recipeId.ToString();
+                        }
+
+                    }
+                }
+
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+            }
+            Console.WriteLine("Successful Input");
+        }
+
+        private void InputIngredientsFromRecipesIntoDatabase()
+        {
+            try
+            {
+                //took out q,u,x, z
+                string alphabet = "abcdefghijklmnoprstvwy";
+
+                foreach (char c in alphabet)
+                {
+                    List<Meals> recipes = apiService.GetMealsListByLetter(c);
+
+                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    {
+                        conn.Open();
+
+                        foreach (Meals recipe in recipes)
+                        {
+                            List<string> names = new List<string>();
+                            List<string> measures = new List<string>();
+                            List<string> nameMeasures = new List<string>();
+
+                            names.Add(recipe.strIngredient1); names.Add(recipe.strIngredient2); names.Add(recipe.strIngredient3); names.Add(recipe.strIngredient4);
+                            names.Add(recipe.strIngredient5); names.Add(recipe.strIngredient6); names.Add(recipe.strIngredient7); names.Add(recipe.strIngredient8);
+                            names.Add(recipe.strIngredient9); names.Add(recipe.strIngredient10); names.Add(recipe.strIngredient11); names.Add(recipe.strIngredient12);
+                            names.Add(recipe.strIngredient13); names.Add(recipe.strIngredient14); names.Add(recipe.strIngredient15); names.Add(recipe.strIngredient16);
+                            names.Add(recipe.strIngredient17); names.Add(recipe.strIngredient18); names.Add(recipe.strIngredient19); names.Add(recipe.strIngredient20);
+
+                            measures.Add(recipe.strMeasure1); measures.Add(recipe.strMeasure2); measures.Add(recipe.strMeasure3); measures.Add(recipe.strMeasure4);
+                            measures.Add(recipe.strMeasure5); measures.Add(recipe.strMeasure6); measures.Add(recipe.strMeasure7); measures.Add(recipe.strMeasure8);
+                            measures.Add(recipe.strMeasure9); measures.Add(recipe.strMeasure10); measures.Add(recipe.strMeasure11); measures.Add(recipe.strMeasure12);
+                            measures.Add(recipe.strMeasure13); measures.Add(recipe.strMeasure14); measures.Add(recipe.strMeasure15); measures.Add(recipe.strMeasure16);
+                            measures.Add(recipe.strMeasure17); measures.Add(recipe.strMeasure18); measures.Add(recipe.strMeasure19); measures.Add(recipe.strMeasure20);
+
+                            for (int i = 0; i < names.Count; i++)
+                            {
+                                nameMeasures.Add(names[i] + " " + measures[i]);
+                            }
+
+
+                            Console.WriteLine("ingredient name count: " + names.Count);
+                            Console.WriteLine("ingredient measure count: " + measures.Count);
+
+                            for (int i = 0; i < names.Count; i++)
+                            {
+                                if ((names[i] == "" || names[i] == "null" || names[i] == null) && (measures[i] == "" || measures[i] == " " || measures[i] == "null" || measures[i] == null))
+                                {
+                                    break;
+                                }
+                                SqlCommand cmd = new SqlCommand("INSERT INTO recipes_ingredients (name, recipe_id, ingred_id, measure) " +
+                                                        "OUTPUT INSERTED.ri_id " +
+                                                        "VALUES (@name, (SELECT recipe_id FROM recipe WHERE recipe_name = @recipe_id), (SELECT ingred_id FROM ingredient WHERE name = @ingred_id), @measure);", conn);
+                                cmd.Parameters.AddWithValue("@name", nameMeasures[i]);
+                                cmd.Parameters.AddWithValue("@recipe_id", recipe.strMeal);
+                                cmd.Parameters.AddWithValue("@ingred_id", names[i]);
+                                if (measures[i] == "")
+                                {
+                                    cmd.Parameters.AddWithValue("@measure", "NULL");
+                                }
+                                else
+                                {
+                                    cmd.Parameters.AddWithValue("@measure", measures[i]);
+                                }
+                                Convert.ToInt32(cmd.ExecuteScalar());
+
+                                Console.WriteLine($"{recipe.strMeal} {names[i]} {measures[i]} added");
+                            }
                         }
 
                     }
@@ -272,6 +352,41 @@ namespace Capstone
                 Console.WriteLine("****************************");
                 Console.WriteLine("");
 
+            }
+        }
+
+        private void GetIngredientList()
+        {
+
+            List<Meals> ingreds = apiService.GetMealsListByLetter('a');
+            List<string> names = new List<string>();
+            List<string> measures = new List<string>();
+            if (ingreds != null)
+            {
+                Console.WriteLine("\n*********** Ingredients ***********");
+                foreach (Meals recipe in ingreds)
+                {
+                    Console.WriteLine(recipe.strMeal);
+                    names.Add(recipe.strIngredient1); names.Add(recipe.strIngredient2); names.Add(recipe.strIngredient3); names.Add(recipe.strIngredient4);
+                    names.Add(recipe.strIngredient5); names.Add(recipe.strIngredient6); names.Add(recipe.strIngredient7); names.Add(recipe.strIngredient8);
+                    names.Add(recipe.strIngredient9); names.Add(recipe.strIngredient10); names.Add(recipe.strIngredient11); names.Add(recipe.strIngredient12);
+                    names.Add(recipe.strIngredient13); names.Add(recipe.strIngredient14); names.Add(recipe.strIngredient15); names.Add(recipe.strIngredient16);
+                    names.Add(recipe.strIngredient17); names.Add(recipe.strIngredient18); names.Add(recipe.strIngredient19); names.Add(recipe.strIngredient20);
+
+                    measures.Add(recipe.strMeasure1); measures.Add(recipe.strMeasure2); measures.Add(recipe.strMeasure3); measures.Add(recipe.strMeasure4);
+                    measures.Add(recipe.strMeasure5); measures.Add(recipe.strMeasure6); measures.Add(recipe.strMeasure7); measures.Add(recipe.strMeasure8);
+                    measures.Add(recipe.strMeasure9); measures.Add(recipe.strMeasure10); measures.Add(recipe.strMeasure11); measures.Add(recipe.strMeasure12);
+                    measures.Add(recipe.strMeasure13); measures.Add(recipe.strMeasure14); measures.Add(recipe.strMeasure15); measures.Add(recipe.strMeasure16);
+                    measures.Add(recipe.strMeasure17); measures.Add(recipe.strMeasure18); measures.Add(recipe.strMeasure19); measures.Add(recipe.strMeasure20);
+                    for (int i = 0; i < 20; i++)
+                    {
+                        if (names[i] == "" && measures[i] == "")
+                        {
+                            break;
+                        }
+                        Console.WriteLine($"{recipe.strMeal} {names[i]} {measures[i]}");
+                    }
+                }
             }
         }
 
