@@ -21,23 +21,27 @@ namespace Capstone.Controllers
             this.recipesDao = recipesDao;
         }
 
-        [HttpGet("users/{userId}")]
-        public ActionResult<List<Recipe>> GetRecipesList(int userId)
+        [HttpGet("/area/{areaId}")]
+        public ActionResult<Recipe> GetAreaById(int areaId)
         {
-            List<Recipe> recipesList = recipesDao.GetRecipeList(userId);
-
-            if (recipesList != null)
+            Area area = recipesDao.GetAreaById(areaId);
+            if (area != null)
             {
-                int currentUserId = Int32.Parse(User.FindFirst("sub")?.Value);
+                return Ok(area);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
 
-                if (currentUserId == userId)
-                {
-                    return recipesList;
-                }
-                else
-                {
-                    return Unauthorized();
-                }
+        [HttpGet("/category/{catId}")]
+        public ActionResult<Recipe> GetCategoryById(int catId)
+        {
+            Category cat = recipesDao.GetCategoryById(catId);
+            if (cat != null)
+            {
+                return Ok(cat);
             }
             else
             {
@@ -46,13 +50,55 @@ namespace Capstone.Controllers
         }
 
         [HttpGet("{recipeId}")]
-        public ActionResult<Recipe> GetRecipe(int recipeid)
+        public ActionResult<Recipe> GetRecipeById(int recipeId)
         {
-            Recipe recipe = recipesDao.GetRecipeById(recipeid);
-
+            Recipe recipe = recipesDao.GetRecipeById(recipeId);
             if (recipe != null)
             {
-                return recipe;
+                return Ok(recipe);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("c={catId}")]
+        public ActionResult<List<Recipe>> GetRecipesByCategoriesId(int catId)
+        {
+            List<Recipe> recipes = recipesDao.GetRecipeListByCategoryId(catId);
+            if (recipes != null)
+            {
+                return Ok(recipes);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("a={areaId}")]
+        public ActionResult<List<Recipe>> GetRecipesByAreasId(int areaId)
+        {
+            List<Recipe> recipes = recipesDao.GetRecipeListByAreaId(areaId);
+            if (recipes != null)
+            {
+                return Ok(recipes);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet()]
+        public ActionResult<List<Recipe>> GetAllRecipes()
+        {
+            List<Recipe> recipes = recipesDao.GetAllRecipes();
+
+            if (recipes != null)
+            {
+                return Ok(recipes);
             }
 
             else
@@ -62,40 +108,64 @@ namespace Capstone.Controllers
         }
 
 
-        [HttpGet("{charLetter}")]
+        [HttpGet("f={charLetter}")]
         public ActionResult<List<Recipe>> GetRecipeListByLetter(char charlLetter)
         {
-            List<Recipe> recipe = recipesDao.GetRecipeListByLetter(charlLetter);
-
-            if (recipe != null)
+            List<Recipe> recipes = recipesDao.GetRecipeListByLetter(charlLetter);
+            if (recipes != null)
             {
-                return recipe;
+                return Ok(recipes);
             }
-
             else
             {
                 return BadRequest();
             }
         }
 
-        [HttpPost()]
+        [HttpGet("s={term}")]
+        public ActionResult<List<Recipe>> GetRecipeListByTerm(string term)
+        {
+            List<Recipe> recipes = recipesDao.GetRecipeListBySearchterm(term);
+            if (recipes != null)
+            {
+                return Ok(recipes);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("post")]
         public ActionResult<Recipe> AddRecipe(Recipe recipe)
         {
             if (recipe != null)
             {
-                int userId = Int32.Parse(User.FindFirst("sub")?.Value);
-
-                Recipe newRecipe = recipesDao.AddRecipe(recipe, userId);
-
-                return Ok(newRecipe);
+                recipe.UserId = Int32.Parse(User.FindFirst("sub")?.Value);
+                Recipe newRecipe = recipesDao.AddRecipe(recipe);
+                
+                return Created($"/recipe/{newRecipe.RecipeId}", newRecipe);
             }
             else
             {
                 return BadRequest();
             }
-
         }
 
+        [HttpPut("update")]
+        public ActionResult<Recipe> UpdateRecipe(Recipe recipe)
+        {
+            if (recipe != null)
+            {
+                Recipe updatedRecipe = recipesDao.UpdateRecipe(recipe);
+                return Created($"/recipe/{updatedRecipe.RecipeId}", updatedRecipe);
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
 
     }
 }

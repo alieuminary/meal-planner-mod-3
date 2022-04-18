@@ -33,20 +33,20 @@ namespace Capstone.Controllers
             return NotFound();
         }
 
-        [HttpGet("otheraccounts")]
-        public ActionResult<Accounts> List()
-        {
-            string username = User.Identity.Name;
-            IList<Accounts> accounts = accountDao.GetAllAccountsListButMe(username);
-            if (accounts != null)
-            {
-                return Ok(accounts);
-            }
-            else
-            {
-                return NoContent();
-            }
-        }
+        //[HttpGet("otheraccounts")]
+        //public ActionResult<Accounts> List()
+        //{
+        //    string username = User.Identity.Name;
+        //    IList<Accounts> accounts = accountDao.GetAllAccountsListButMe(username);
+        //    if (accounts != null)
+        //    {
+        //        return Ok(accounts);
+        //    }
+        //    else
+        //    {
+        //        return NoContent();
+        //    }
+        //}
 
         [HttpPost("post")]
         public ActionResult<Accounts> PostAccount(Accounts account)
@@ -77,12 +77,11 @@ namespace Capstone.Controllers
                 else
                 {
                     return Unauthorized();
-                }
-               
+                }              
             }
             else
             {
-                return Unauthorized();
+                return BadRequest();
             }
         }
 

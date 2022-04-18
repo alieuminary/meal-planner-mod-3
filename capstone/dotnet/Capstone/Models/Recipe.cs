@@ -17,8 +17,8 @@ namespace Capstone.Models
         public string Source { get; set; }
         public string ImageSource { get; set; }
         public string Date { get; set; }
-        public string AreaName { get; set; }
+        public int AreaId { get; set; }
         public int UserId { get; set; }
-        public string CategoryName { get; set; }
+        public int CategoryId { get; set; }
     }
 }

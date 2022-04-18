@@ -16,6 +16,58 @@ namespace Capstone.DAO
             connectionString = dbConnectionString;
         }
 
+        public Category GetCategoryById(int catId)
+        {
+            Category cat = new Category();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM category WHERE category_id = @catId;", conn);
+                    cmd.Parameters.AddWithValue("@catId", catId);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        cat = GetCategoryFromReader(reader);
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+            }
+            return cat;
+        }
+
+        public Area GetAreaById(int areaId)
+        {
+            Area area = new Area();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM area WHERE area_id = @areaId;", conn);
+                    cmd.Parameters.AddWithValue("@areaId", areaId);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        area = GetAreaFromReader(reader);
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+            }
+            return area;
+        }
+
         public Recipe GetRecipeById(int recipeId)
         {
             Recipe recipe = new Recipe();
@@ -26,12 +78,8 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT r.recipe_id, r.recipe_name, r.drink_alternate, c.name AS category, a.name AS area, r.instructions, r.recipe_image, r.recipe_tags, r.youtube, r.source, r.image_source, r.date, r.user_id " +
-                                                    "FROM recipe r " +
-                                                    "JOIN category c ON r.category_id = c.category_id " +
-                                                    "JOIN area a ON r.area_id = a.area_id " +
-                                                    "WHERE r.recipe_id = @recipeId", conn);
-                    cmd.Parameters.AddWithValue("@recipeId", recipeId);
+                    SqlCommand cmd = new SqlCommand("SELECT recipe_id, recipe_name, drink_alternate, instructions, recipe_image, recipe_tags, youtube, source, image_source, date, area_id, user_id, category_id FROM recipe WHERE recipe_id = @recipe_id;", conn);
+                    cmd.Parameters.AddWithValue("@recipe_id", recipeId);
 
                     SqlDataReader reader= cmd.ExecuteReader();
 
@@ -41,30 +89,23 @@ namespace Capstone.DAO
                     }
                 }
             }
-            catch (SqlException)
+            catch (SqlException e)
             {
-                return null;
+                Console.WriteLine(e);
             }
-
             return recipe;
         }
 
-        public List<Recipe> GetRecipeList(int userId)
+        public List<Recipe> GetAllRecipes()
         {
             List<Recipe> recipeList = new List<Recipe>();
-
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT r.recipe_id, r.recipe_name, r.drink_alternate, c.name AS category, a.name AS area, r.instructions, r.recipe_image, r.recipe_tags, r.youtube, r.source, r.image_source, r.date, r.user_id " +
-                                                    "FROM recipe r " +
-                                                    "JOIN category c ON r.category_id = c.category_id " +
-                                                    "JOIN area a ON r.area_id = a.area_id " +
-                                                    "WHERE r.user_id = @userId", conn);
-                    cmd.Parameters.AddWithValue("@userId", userId);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM recipe;", conn);
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -76,32 +117,25 @@ namespace Capstone.DAO
                     }
                 }
             }
-            catch (SqlException)
+            catch (SqlException e)
             {
-                return null;
+                Console.WriteLine(e); 
             }
-
             return recipeList;
         }
+
         public List<Recipe> GetRecipeListByLetter(char charLetter)
         {
             List<Recipe> recipeList = new List<Recipe>();
-
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-
-                    SqlCommand cmd = new SqlCommand("SELECT r.recipe_id, r.recipe_name, r.drink_alternate, c.name AS category, a.name AS area, r.instructions, r.recipe_image, r.recipe_tags, r.youtube, r.source, r.image_source, r.date, r.user_id " +
-                                                    "FROM recipe r " +
-                                                    "JOIN category c ON r.category_id = c.category_id " +
-                                                    "JOIN area a ON r.area_id = a.area_id " +
-                                                    "WHERE r.recipe_name LIKE '@charLetter%'", conn);
-                    cmd.Parameters.AddWithValue("@charLetter", charLetter);
-
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM recipe " +
+                                                    "WHERE recipe_name LIKE @charLetter;", conn);
+                    cmd.Parameters.AddWithValue("@charLetter", charLetter+"%");
                     SqlDataReader reader = cmd.ExecuteReader();
-
                     while (reader.Read())
                     {
                         Recipe recipe = new Recipe();
@@ -110,89 +144,161 @@ namespace Capstone.DAO
                     }
                 }
             }
-            catch (SqlException)
+            catch (SqlException e)
             {
-                return null;
+                Console.WriteLine(e); ;
             }
-
             return recipeList;
         }
 
-        // Not working for whatever reason. Crashing in sQL
-        public Recipe AddRecipe(Recipe recipe, int userId)
+        public List<Recipe> GetRecipeListBySearchterm(string term)
         {
-            int recipeId;
-
+            List<Recipe> recipeList = new List<Recipe>();
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-
-                    SqlCommand cmd = new SqlCommand("INSERT INTO recipe (recipe_name, drink_alternate, category_id, area_id, instructions, recipe_image, recipe_tags, youtube, source, image_source, date, user_id) " +
-                                                    "OUTPUT INSERTED.recipe_id " +
-                                                    "VALUES (@recipeName, @drinkAlternate, (SELECT category_id FROM category WHERE name = @categoryName), (SELECT area_id FROM area WHERE name = @areaName), " +
-                                                    "@instructions, @recipeImage, @recipeTags, @youtube, @source, @imageSource, @date, @userId);", conn);
-                    cmd.Parameters.AddWithValue("@recipeName", recipe.RecipeName);
-                    cmd.Parameters.AddWithValue("@drinkAlternate", recipe.DrinkAlternate);
-                    cmd.Parameters.AddWithValue("@categoryName", recipe.CategoryName);
-                    cmd.Parameters.AddWithValue("@areaName", recipe.AreaName);
-                    cmd.Parameters.AddWithValue("@instructions", recipe.Instructions);
-                    cmd.Parameters.AddWithValue("@recipeImage", recipe.RecipeImage);
-                    cmd.Parameters.AddWithValue("@recipeTags", recipe.RecipeTags);
-                    cmd.Parameters.AddWithValue("@youtube", recipe.Youtube);
-                    cmd.Parameters.AddWithValue("@source", recipe.Source);
-                    cmd.Parameters.AddWithValue("@imageSource", recipe.ImageSource);
-                    cmd.Parameters.AddWithValue("@data", recipe.Date);
-                    cmd.Parameters.AddWithValue("@userId", userId);
-
-
-                    recipeId = Convert.ToInt32(cmd.ExecuteScalar());
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM recipe " +
+                                                    "WHERE recipe_name LIKE @term;", conn);
+                    cmd.Parameters.AddWithValue("@term", "%" + term + "%");
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Recipe recipe = new Recipe();
+                        recipe = GetRecipeFromReader(reader);
+                        recipeList.Add(recipe);
+                    }
                 }
             }
-            catch (SqlException)
+            catch (SqlException e)
             {
-                return null;
+                Console.WriteLine(e); ;
             }
-
-            return GetRecipeById(recipeId);
+            return recipeList;
         }
 
-        public Recipe ChangeRecipe(Recipe recipe)
+        public List<Recipe> GetRecipeListByCategoryId(int catId)
         {
+            List<Recipe> recipeList = new List<Recipe>();
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM recipe " +
+                                                    "WHERE category_id = @category_id;", conn);
+                    cmd.Parameters.AddWithValue("@category_id", catId);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Recipe recipe = new Recipe();
+                        recipe = GetRecipeFromReader(reader);
+                        recipeList.Add(recipe);
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e); ;
+            }
+            return recipeList;
+        }
 
-                    SqlCommand cmd = new SqlCommand("UPDATE recipe " +
-                                                    "SET recipe name = @recipeName, drink_alternate = @drinkAlternate, category_id = (SELECT category_id FROM category WHERE name = @categoryName), area_id = (SELECT area_id FROM area WHERE name = @areaName), " +
-                                                    "instructions = @instructions, recipe_image = @recipeImage, recipe_tags = @recipeTags, youtube = @youtube, source = @source, image_source = @imageSource, date = @date, user_id = @userId);", conn);
-                    cmd.Parameters.AddWithValue("@recipeName", recipe.RecipeName);
-                    cmd.Parameters.AddWithValue("@drinkAlternate", recipe.DrinkAlternate);
-                    cmd.Parameters.AddWithValue("@categoryName", recipe.CategoryName);
-                    cmd.Parameters.AddWithValue("@areaName", recipe.AreaName);
+        public List<Recipe> GetRecipeListByAreaId(int areaId)
+        {
+            List<Recipe> recipeList = new List<Recipe>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM recipe " +
+                                                    "WHERE area_id = @area_id;", conn);
+                    cmd.Parameters.AddWithValue("@area_id", areaId);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Recipe recipe = new Recipe();
+                        recipe = GetRecipeFromReader(reader);
+                        recipeList.Add(recipe);
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e); ;
+            }
+            return recipeList;
+        }
+
+        public Recipe AddRecipe(Recipe recipe)
+        {
+            int recipeId = 0;
+            try
+            {
+                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    {
+                        conn.Open();
+
+                            SqlCommand cmd = new SqlCommand("INSERT INTO recipe (recipe_name, drink_alternate, category_id, area_id, instructions, recipe_image, recipe_tags, youtube, source, image_source, date, user_id) " +
+                                                        "OUTPUT INSERTED.recipe_id " +
+                                                        "VALUES (@recipe_name, @drink_alternate, @category_id, @area_id, @instructions, @recipe_image, @recipe_tags, @youtube, @source, @image_source, @date, @userId);", conn);
+                            cmd.Parameters.AddWithValue("@recipe_name", recipe.RecipeName);                             
+                            cmd.Parameters.AddWithValue("@drink_alternate", recipe.DrinkAlternate);
+                            cmd.Parameters.AddWithValue("@category_id", recipe.CategoryId);
+                            cmd.Parameters.AddWithValue("@area_id", recipe.AreaId);
+                            cmd.Parameters.AddWithValue("@instructions", recipe.Instructions);
+                            cmd.Parameters.AddWithValue("@recipe_image", recipe.RecipeImage);
+                            cmd.Parameters.AddWithValue("@recipe_tags", recipe.RecipeTags);
+                            cmd.Parameters.AddWithValue("@youtube", recipe.Youtube);
+                            cmd.Parameters.AddWithValue("@source", recipe.Source);
+                            cmd.Parameters.AddWithValue("@image_source", recipe.ImageSource);
+                            cmd.Parameters.AddWithValue("@date", recipe.Date);
+                            cmd.Parameters.AddWithValue("@userId", recipe.UserId);
+
+                            recipeId = Convert.ToInt32(cmd.ExecuteScalar());
+                            recipe.RecipeId = recipeId;
+                    }
+                }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+            }
+            return recipe;
+        }
+
+        public Recipe UpdateRecipe(Recipe recipe)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string sqlText = "UPDATE recipe SET recipe_name = @recipe_name, drink_alternate = @drink_alternate, category_id = @category_id, area_id = @area_id, instructions = @instructions, recipe_image = @recipe_image, recipe_tags = @recipe_tags, youtube = @youtube, source = @source, image_source = @image_source, date = @date " +
+                                     "FROM recipe WHERE recipe_id = @recipe_id;";
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand(sqlText, conn);
+                    cmd.Parameters.AddWithValue("@recipe_name", recipe.RecipeName);
+                    cmd.Parameters.AddWithValue("@drink_alternate", recipe.DrinkAlternate);
+                    cmd.Parameters.AddWithValue("@category_id", recipe.CategoryId);
+                    cmd.Parameters.AddWithValue("@area_id", recipe.AreaId);
                     cmd.Parameters.AddWithValue("@instructions", recipe.Instructions);
-                    cmd.Parameters.AddWithValue("@recipeImage", recipe.RecipeImage);
-                    cmd.Parameters.AddWithValue("@recipeTags", recipe.RecipeTags);
+                    cmd.Parameters.AddWithValue("@recipe_image", recipe.RecipeImage);
+                    cmd.Parameters.AddWithValue("@recipe_tags", recipe.RecipeTags);
                     cmd.Parameters.AddWithValue("@youtube", recipe.Youtube);
                     cmd.Parameters.AddWithValue("@source", recipe.Source);
-                    cmd.Parameters.AddWithValue("@imageSource", recipe.ImageSource);
-                    cmd.Parameters.AddWithValue("@data", recipe.Date);
-                    cmd.Parameters.AddWithValue("@userId", recipe.UserId);
-
-
+                    cmd.Parameters.AddWithValue("@image_source", recipe.ImageSource);
+                    cmd.Parameters.AddWithValue("@date", recipe.Date);
+                    cmd.Parameters.AddWithValue("@recipe_id", recipe.RecipeId);
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch (SqlException)
+            catch (SqlException e)
             {
-                return null;
+                Console.WriteLine(e);
             }
-
-            return GetRecipeById(recipe.RecipeId);
-
+            return recipe;
         }
 
         private Recipe GetRecipeFromReader(SqlDataReader reader)
@@ -202,8 +308,8 @@ namespace Capstone.DAO
             myRecipe.RecipeId = Convert.ToInt32(reader["recipe_id"]);
             myRecipe.RecipeName = Convert.ToString(reader["recipe_name"]);
             myRecipe.DrinkAlternate = Convert.ToString(reader["drink_alternate"]);
-            myRecipe.CategoryName = Convert.ToString(reader["category"]);
-            myRecipe.AreaName = Convert.ToString(reader["area"]);
+            myRecipe.CategoryId = Convert.ToInt32(reader["category_id"]);
+            myRecipe.AreaId = Convert.ToInt32(reader["area_id"]);
             myRecipe.Instructions = Convert.ToString(reader["instructions"]);
             myRecipe.RecipeImage = Convert.ToString(reader["recipe_image"]);
             myRecipe.RecipeTags = Convert.ToString(reader["recipe_tags"]);
@@ -215,7 +321,26 @@ namespace Capstone.DAO
 
             return myRecipe;
         }
+        private Category GetCategoryFromReader(SqlDataReader reader)
+        {
+            Category cat = new Category();
 
+            cat.CategoryId = Convert.ToInt32(reader["category_id"]);
+            cat.Name = Convert.ToString(reader["name"]);
+            cat.CategoryImage = Convert.ToString(reader["category_image"]);
+            cat.CategoryDescription = Convert.ToString(reader["category_description"]);
+
+            return cat;
+        }
+        private Area GetAreaFromReader(SqlDataReader reader)
+        {
+            Area area = new Area();
+
+            area.AreaId = Convert.ToInt32(reader["area_id"]);
+            area.Name = Convert.ToString(reader["name"]);
+
+            return area;
+        }
 
     }
 }

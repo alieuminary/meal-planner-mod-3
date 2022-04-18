@@ -42,61 +42,61 @@ namespace Capstone.DAO
             return account;
         }
 
-        public IList<Accounts> GetAllAccountsList()
-        {
-            IList<Accounts> accounts = new List<Accounts>();
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
+        //public IList<Accounts> GetAllAccountsList()
+        //{
+        //    IList<Accounts> accounts = new List<Accounts>();
+        //    try
+        //    {
+        //        using (SqlConnection conn = new SqlConnection(connectionString))
+        //        {
+        //            conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT a.account_id, a.user_id, u.username " +
-                                                    "FROM accounts a JOIN users u ON a.user_id = u.user_id ", conn);
-                    SqlDataReader reader = cmd.ExecuteReader();
+        //            SqlCommand cmd = new SqlCommand("SELECT a.account_id, a.user_id, u.username " +
+        //                                            "FROM accounts a JOIN users u ON a.user_id = u.user_id ", conn);
+        //            SqlDataReader reader = cmd.ExecuteReader();
 
-                    while (reader.Read())
-                    {
-                        Accounts account = AccountFromReader(reader);
-                        accounts.Add(account);
-                    }
-                }
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e);
-            }
-            return accounts;
-        }
+        //            while (reader.Read())
+        //            {
+        //                Accounts account = AccountFromReader(reader);
+        //                accounts.Add(account);
+        //            }
+        //        }
+        //    }
+        //    catch (SqlException e)
+        //    {
+        //        Console.WriteLine(e);
+        //    }
+        //    return accounts;
+        //}
 
-        public IList<Accounts> GetAllAccountsListButMe(string username)
-        {
-            IList<Accounts> accounts = new List<Accounts>();
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
+        //public IList<Accounts> GetAllAccountsListButMe(string username)
+        //{
+        //    IList<Accounts> accounts = new List<Accounts>();
+        //    try
+        //    {
+        //        using (SqlConnection conn = new SqlConnection(connectionString))
+        //        {
+        //            conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT a.account_id, a.user_id, u.username " +
-                                                    "FROM accounts a JOIN users u ON a.user_id = u.user_id " +
-                                                    "WHERE u.username <> @username", conn);
-                    cmd.Parameters.AddWithValue("@username", username);
-                    SqlDataReader reader = cmd.ExecuteReader();
+        //            SqlCommand cmd = new SqlCommand("SELECT a.account_id, a.user_id, u.username " +
+        //                                            "FROM accounts a JOIN users u ON a.user_id = u.user_id " +
+        //                                            "WHERE u.username <> @username", conn);
+        //            cmd.Parameters.AddWithValue("@username", username);
+        //            SqlDataReader reader = cmd.ExecuteReader();
 
-                    while (reader.Read())
-                    {
-                        Accounts account = AccountFromReader(reader);
-                        accounts.Add(account);
-                    }
-                }
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e);
-            }
-            return accounts;
-        }
+        //            while (reader.Read())
+        //            {
+        //                Accounts account = AccountFromReader(reader);
+        //                accounts.Add(account);
+        //            }
+        //        }
+        //    }
+        //    catch (SqlException e)
+        //    {
+        //        Console.WriteLine(e);
+        //    }
+        //    return accounts;
+        //}
 
         public Accounts PostAccount(Accounts account)
         {

@@ -158,9 +158,9 @@ namespace Capstone
 
                         foreach (Meals recipe in recipes)
                         {
-                            SqlCommand cmd = new SqlCommand("INSERT INTO recipe (recipe_name, drink_alternate, category_id, area_id, instructions, recipe_image, recipe_tags, youtube, source, image_source, date) " +
+                            SqlCommand cmd = new SqlCommand("INSERT INTO recipe (recipe_name, drink_alternate, category_id, area_id, instructions, recipe_image, recipe_tags, youtube, source, image_source, date, user_id) " +
                                                         "OUTPUT INSERTED.recipe_id " +
-                                                        "VALUES (@recipe_name, @drink_alternate, (SELECT category_id FROM category WHERE name = @category_id), (SELECT area_id FROM area WHERE name = @area_id), @instructions, @recipe_image, @recipe_tags, @youtube, @source, @image_source, @date);", conn);
+                                                        "VALUES (@recipe_name, @drink_alternate, (SELECT category_id FROM category WHERE name = @category_id), (SELECT area_id FROM area WHERE name = @area_id), @instructions, @recipe_image, @recipe_tags, @youtube, @source, @image_source, @date, @userId);", conn);
                             cmd.Parameters.AddWithValue("@recipe_name", recipe.strMeal);
                             if (recipe.strDrinkAlternate == null)
                             {
@@ -242,6 +242,7 @@ namespace Capstone
                             {
                                 cmd.Parameters.AddWithValue("@date", recipe.dateModified);
                             }
+                            cmd.Parameters.AddWithValue("@userId", 1);
 
 
                             recipeId = Convert.ToInt32(cmd.ExecuteScalar());
