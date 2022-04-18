@@ -1,7 +1,9 @@
 <template>
   <div class="home">
     <h1>3 ways we help keep cooking and shopping SMPL!</h1>
-    <h2>Short subtitle text??</h2>
+    <button>
+      <router-link v-bind:to="{ name: 'all-recipes'}">All Recipes</router-link>
+    </button>
     <div>
       <p>enter flex box in here</p>
     </div>
@@ -19,5 +21,10 @@ export default {
   width: 80%;
   margin: auto;
   padding: 20px;  
+}
+
+button{
+  display: flex;
+  justify-content: center
 }
 </style>

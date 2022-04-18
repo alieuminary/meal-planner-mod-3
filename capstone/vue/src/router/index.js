@@ -8,6 +8,7 @@ import store from '../store/index'
 import Recipes from '../views/Recipes.vue'
 import MealPlans from '../views/MealPlans.vue'
 import GroceryList from '../views/GroceryList.vue'
+import AllRecipes from '../views/AllRecipes.vue'
 
 Vue.use(Router)
 
@@ -30,6 +31,14 @@ const router = new Router({
       component: Home,
       meta: {
         requiresAuth: true
+      }
+    },
+    {
+      path: '/allrecipes',
+      name: "all-recipes",
+      component: AllRecipes,
+      meta: {
+        requiresAuth: false
       }
     },
     {
