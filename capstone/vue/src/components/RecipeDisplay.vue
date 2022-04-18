@@ -1,15 +1,19 @@
 <template>
     <div>
-        <div class="recipe"
+        <button>Add Recipe</button>
+        <div class="recipe-container"
         v-for="recipe in recipes"
         v-bind:key="recipe.id">
 
-        <h4>{{ recipe.name }}</h4>
-        <h4>Category: </h4> {{ recipe.category }}
-        <h4>Instructions:</h4> {{ recipe.instructions }}
+        <h3>{{ recipe.name }}</h3>
+        <h5>Category: {{ recipe.category }}</h5> 
         
-
-
+        <h5>Instructions:</h5> {{ recipe.instructions }}
+        <div id="recipe-modify-container">
+            <button class="recipe-modify-btns direction-btn">Recipe Instructions</button>
+            <button class="recipe-modify-btns modify-btn">Modify Ingredients</button>
+            <button class="recipe-modify-btns delete-btn">Delete</button>
+        </div>
 
         </div>
 </div>
@@ -68,5 +72,49 @@ export default {
 </script>
 
 <style scoped>
-       
+
+.recipe-container{
+  display: flex; 
+  flex-direction: column;
+  border: 1px black solid;
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 10px;
+    
+}
+
+#recipe-modify-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.recipe-modify-btns {
+    
+    background-color: transparent;
+    border: 2px solid black;
+    color: black;
+    padding: .25em;
+    margin: .5em;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+
+
+.delete-btn:hover {
+    background: #f44336;
+
+}
+
+button {
+    border: 2px solid black;
+    padding: .25em;
+    margin: .5em;
+    font-size: 20px;
+    
+}
+
+
+
 </style>
