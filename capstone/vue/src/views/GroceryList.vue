@@ -1,15 +1,18 @@
 <template>
     <div>
-        <h1>My Grocery List Page</h1>
-        <p>Display Groceries Here</p>
+        <h1>Store your groceries</h1>
+        <grocery-list />
 
     </div>
 </template>
 
 <script>
-//import { defineComponent } from ''
+import GroceryList from '../components/GroceryList'
 
 export default {
+    components: {
+        GroceryList
+    }
 
 };
 </script>
