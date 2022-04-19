@@ -21,6 +21,7 @@ namespace Capstone.Controllers
         }
 
 
+        // handle requests to see all planners
         [HttpGet()]
 
         public ActionResult<List<Planner>> GetAllPlanners()
@@ -36,6 +37,36 @@ namespace Capstone.Controllers
                 return BadRequest();
             }
         }
-        
+
+        //handle requests to see a specific planner(by planner Id)
+        [HttpGet("{plannerId}")]
+        public ActionResult<Planner> GetPlannerById(int plannerId)
+        {
+            Planner planner = plannerDao.GetPlannerByPlannerId(plannerId);
+            if (planner != null)
+            {
+                return Ok(planner);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+
+        // handle requests to see planner(s) based on user id
+        [HttpGet("userId={userId}")]
+        public ActionResult<List<Planner>> GetPlannerByUserId(int userId)
+        {
+            List<Planner> planner = plannerDao.GetPlannerByUserId(userId);
+            if (planner != null)
+            {
+                return Ok(planner);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }

@@ -191,12 +191,6 @@ CREATE TABLE grocery_list
 	CONSTRAINT FK_grocery_list_accounts FOREIGN KEY (account_id) REFERENCES accounts(account_id),
 )
 
-CREATE TABLE recipes_planner
-(
-	planner_id int not null,
-	recipe_id int not null,
-	CONSTRAINT PK_recipes_planner PRIMARY KEY (recipe_id, planner_id),
-	CONSTRAINT FK_recipes_planner_recipe FOREIGN KEY (recipe_id) REFERENCES recipe(recipe_id),
-	CONSTRAINT FK_recipes_planner_planner FOREIGN KEY (planner_id) REFERENCES planner(planner_id),
-)
+CREATE TABLE recipes_planner(	rp_id int identity(1,1),	planner_id int not null,	recipe_id int not null,	CONSTRAINT PK_recipes_planner PRIMARY KEY (rp_id),	CONSTRAINT FK_recipes_planner_recipe FOREIGN KEY (recipe_id) REFERENCES recipe(recipe_id),	CONSTRAINT FK_recipes_planner_planner FOREIGN KEY (planner_id) REFERENCES planner(planner_id),)
+
 

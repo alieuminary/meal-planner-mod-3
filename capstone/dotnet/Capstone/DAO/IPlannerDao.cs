@@ -12,7 +12,11 @@ namespace Capstone.DAO
         // List of all planners
         List<Planner> GetAllPlanners();
 
-        // retrieve a planner (by ID)
-        //Planner GetPlannerById(int plannerId);
+        // Display specific planner by Planner Id
+        Planner GetPlannerByPlannerId(int plannerId);
+
+
+        // retrieve a planner by (user_id)
+        List<Planner> GetPlannerByUserId(int userId);
     }
 }

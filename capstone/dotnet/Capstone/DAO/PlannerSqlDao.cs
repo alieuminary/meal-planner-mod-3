@@ -48,16 +48,91 @@ namespace Capstone.DAO
             }
             return plannerList;
 
-            
         }
+
+        // retrieve specific planner (by planner Id)
+        public Planner GetPlannerByPlannerId(int plannerId)
+        {
+            Planner planner = new Planner();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string sqlText = "SELECT * FROM planner WHERE planner_id = @planner_id";
+
+                    SqlCommand cmd = new SqlCommand(sqlText, conn);
+                    cmd.Parameters.AddWithValue("@planner_id", plannerId);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                       
+                        planner = GetPlannerFromReader(reader);
+                        
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+            }
+            return planner;
+        }
+
+
+        // Retrieving a planner(s) from DB by user ID, store into planner model
+        public List<Planner> GetPlannerByUserId(int userId)
+        {
+            List<Planner> plannerList = new List<Planner>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string sqlText = "SELECT u.user_id, username, planner_id, name, day, week, isSharable FROM planner as p JOIN users as u ON p.user_id = u.user_id WHERE p.user_id = @user_id"; 
+                   // string sqlText = "SELECT r.planner_id, r.name, r.user_id, r.day, r.week, r.isSharable FROM planner as r JOIN recipes_planner as rp ON rp.planner_id = r.planner_id JOIN users as u ON r.user_id = u.user_id WHERE u.user_id = @user_id";
+
+
+                    SqlCommand cmd = new SqlCommand(sqlText, conn);
+                    cmd.Parameters.AddWithValue("@user_id", userId);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Planner planner = new Planner();
+                        planner = GetPlannerFromReader(reader);
+                        plannerList.Add(planner);
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+            }
+            return plannerList;
+        }
+
+
+
+
+
+
+
+        // Mapping reader
         private Planner GetPlannerFromReader(SqlDataReader reader)
         {
             Planner myPlanner = new Planner();
 
             myPlanner.PlannerId = Convert.ToInt32(reader["planner_id"]);
             myPlanner.Name = Convert.ToString(reader["name"]);
-            //myPlanner.RecipeId = Convert.ToInt32(reader["recipe_id"]);
-            myPlanner.UserId = Convert.ToInt32(reader["user_id"]);
+            myPlanner.UserId = Convert.ToInt32(reader["user_id"]);  // causes an error when value is NULL so I commented it out
             myPlanner.Day = Convert.ToString(reader["day"]);
             myPlanner.Week = Convert.ToInt32(reader["week"]);
             myPlanner.IsSharable = Convert.ToBoolean(reader["isSharable"]);
