@@ -168,7 +168,6 @@ CREATE TABLE planner
 	week int,
 	isSharable bit null,
 	CONSTRAINT PK_planner PRIMARY KEY(planner_id),
-	CONSTRAINT FK_planner_recipe FOREIGN KEY(recipe_id) REFERENCES recipe(recipe_id),
 	CONSTRAINT FK_planner_users FOREIGN KEY(user_id) REFERENCES users(user_id),
 	CONSTRAINT CHK_day CHECK (day IN ('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday')),
 );
