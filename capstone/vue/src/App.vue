@@ -4,7 +4,7 @@
       <h1 class="logo">SMPL</h1>
       <div class="menu">
       <router-link v-bind:to="{ name: 'home' }">Home</router-link>
-      <router-link v-bind:to="{ name: 'recipes' }">My Recipes</router-link>
+      <router-link v-bind:to="{ name: 'my-recipes' }">My Recipes</router-link>
       <router-link v-bind:to="{ name: 'meal-plan' }">My Meal Plans</router-link> 
       <router-link v-bind:to="{ name: 'grocery-list' }">Grocery List</router-link> 
       <router-link id="logout-btn" v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>

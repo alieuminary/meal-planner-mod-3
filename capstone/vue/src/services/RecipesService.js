@@ -5,7 +5,25 @@ const http = axios.create({
 });
 
 export default {
-    list() {
+    getList() {
         return http.get('/recipe');
+    },
+    getAreaById(areaId){
+        return http.get(`/area/${areaId}`);
+    },
+    getCategoryById(categoryId){
+        return http.get(`/category/${categoryId}`);
+    },
+    getRecipeById(recipeId){
+        return http.get(`/recipe/${recipeId}`);
+    },
+    GetRecipesByCategoriesId(catId){
+        return http.get(`/recipe/c=${catId}`);
+    },
+    GetRecipesByAreasId(areaId){
+        return http.get(`/recipe/a=${areaId}`);
+    },
+    GetAllRecipesIngredientsByRecipeId(recipeId){
+        return http.get(`/ri/${recipeId}`);
     }
 }

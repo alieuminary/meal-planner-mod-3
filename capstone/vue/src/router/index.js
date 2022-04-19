@@ -9,6 +9,7 @@ import Recipes from '../views/Recipes.vue'
 import MealPlans from '../views/MealPlans.vue'
 import GroceryList from '../views/GroceryList.vue'
 import AllRecipes from '../views/AllRecipes.vue'
+import Card from '../views/Card.vue'
 
 Vue.use(Router)
 
@@ -66,9 +67,17 @@ const router = new Router({
       }
     },
     {
-      path: "/recipes",
-      name: "recipes",
+      path: "/myrecipes",
+      name: "my-recipes",
       component: Recipes,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/recipes/:id",
+      name: "recipes",
+      component: Card,
       meta: {
         requiresAuth: true
       }
