@@ -3,6 +3,7 @@
     <nav id='nav-container'>
         <router-link class="nav-btn" v-bind:to="{ name: 'home' }">Home</router-link>&nbsp;&nbsp;
         <router-link class="nav-btn" tag= "button" v-bind:to="{ name: 'recipes' }" v-if="$store.state.token != ''">My Recipes</router-link>
+        <router-link class="nav-btn" id="button" v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Search</router-link>
         <router-link class="nav-btn" tag= "button" v-bind:to="{ name: 'meal-plan' }" v-if="$store.state.token != ''">My Meal Plans</router-link> 
         <router-link class="nav-btn" tag= "button" v-bind:to="{ name: 'grocery-list' }" v-if="$store.state.token != ''">Grocery List</router-link> 
         <router-link class="nav-btn" id="logout-btn" v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
