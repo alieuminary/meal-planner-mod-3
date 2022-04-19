@@ -1,86 +1,63 @@
 <template>
-    <div>
-        <button>Add Recipe</button>
-        <div class="recipe-container"
-        v-for="recipe in recipes"
+  <div class="all-recipes">
+
+    <div class="recipe-container"
+
+        v-for="recipe in this.$store.state.myRecipes"
         v-bind:key="recipe.id">
+        <h2>{{ recipe.recipeName }}</h2>
+        <img class="recipeImage" v-bind:src="recipe.recipeImage"/>
 
-        <h3>{{ recipe.name }}</h3>
-        <h5>Category: {{ recipe.category }}</h5> 
-        
-        <h5>Instructions:</h5> {{ recipe.instructions }}
         <div id="recipe-modify-container">
-            <button class="recipe-modify-btns direction-btn">Recipe Instructions</button>
-            <button class="recipe-modify-btns modify-btn">Modify Ingredients</button>
-            <button class="recipe-modify-btns delete-btn">Delete</button>
+            <button class="recipe-modify-btns direction-btn" v-on:click="displayInstructions = true; getIngredients">Recipe Instructions
+            </button> 
+            <button class="recipe-modify-btns modify-btn">Add to My Recipes</button>
         </div>
-
+        <div class="instructions" v-if="displayInstructions">
+            {{recipe.instructions}}
+            {{ingredients}}
         </div>
-</div>
+    </div>
+  </div>
 </template>
 
-
 <script>
-
-//import { defineComponent } from '@vue/composition-api'
-
+import recipesService from "@/services/RecipesService.js";
 export default {
-    name: "recipe-display",
     data() {
         return {
-            recipes: [
-                {
-                    name: "Quesadilla",
-                    category: "Mexican",
-                    ingredient: [
-                        "lime",
-                        "cheese",
-                        "lettuce",
-                    ],
-                    instructions: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
-
-                },
-                {
-                    name: "General Tso Chicken",
-                    category: "Chinese",
-                    ingredient: [
-                        "lime",
-                        "cheese",
-                        "lettuce",
-                    ],
-                    instructions: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
-
-                },
-                {
-                    name: "Paella",
-                    category: "Spanish",
-                    ingredient: [
-                        "lime",
-                        "cheese",
-                        "lettuce",
-                    ],
-                    instructions: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
-
-                }
-            ]
-            
-            
+            displayInstructions: false,
+            ingredients: []
         }
+    },
+    name: "recipe-display",
+    methods: {
+        getRecipes() {
+            recipesService.getList().then(response => {
+                this.$store.commit("SET_RECIPES", response.data);
+            });
+        },
+        getIngredients() {
+            recipesService.ingredients("recipe.recipeId").then(response => {
+                this.ingredients = response.data;
+            })
+        }
+    },
+    created() {
+    this.getRecipes();
     }
-
 }
 </script>
 
-<style scoped>
-
+<style>
 .recipe-container{
   display: flex; 
   flex-direction: column;
+  align-items: center;
   border: 1px black solid;
   border-radius: 6px;
   padding: 1rem;
   margin: 10px;
-    
 }
 
 #recipe-modify-container {
@@ -100,21 +77,19 @@ export default {
     cursor: pointer;
 }
 
-
-
-.delete-btn:hover {
-    background: #f44336;
-
-}
-
 button {
     border: 2px solid black;
     padding: .25em;
     margin: .5em;
     font-size: 20px;
-    
 }
 
+.recipeImage{
+    width: 30%;
+}
 
+.instructions{
 
+}
+    
 </style>

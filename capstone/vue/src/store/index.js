@@ -18,7 +18,7 @@ if(currentToken != null) {
 
 export default new Vuex.Store({
   state: {
-    recipes: [],
+    myRecipes: [],
     token: currentToken || '',
     user: currentUser || {}
   },
@@ -43,7 +43,7 @@ export default new Vuex.Store({
       axios.defaults.headers.common = {};
     },
     SET_RECIPES(state, data){
-      state.recipes = data;
+      state.myRecipes = data;
     }
   }
 })
