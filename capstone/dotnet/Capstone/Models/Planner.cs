@@ -9,7 +9,6 @@ namespace Capstone.Models
     {
         public int PlannerId { get; set; }
         public string Name { get; set; }
-        public int RecipeId { get; set; }
         public int UserId { get; set; }
         public string Day { get; set; }
         public int Week { get; set; }

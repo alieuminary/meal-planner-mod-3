@@ -163,11 +163,10 @@ CREATE TABLE planner
 (
 	planner_id int not null,
 	name varchar(500),
-	recipe_id int,
 	user_id int,
 	day varchar(20),
 	week int,
-	isSharable bit not null,
+	isSharable bit null,
 	CONSTRAINT PK_planner PRIMARY KEY(planner_id),
 	CONSTRAINT FK_planner_recipe FOREIGN KEY(recipe_id) REFERENCES recipe(recipe_id),
 	CONSTRAINT FK_planner_users FOREIGN KEY(user_id) REFERENCES users(user_id),
@@ -192,3 +191,13 @@ CREATE TABLE grocery_list
 	CONSTRAINT FK_grocery_list_ingredient FOREIGN KEY (ingred_id) REFERENCES ingredient(ingred_id),
 	CONSTRAINT FK_grocery_list_accounts FOREIGN KEY (account_id) REFERENCES accounts(account_id),
 )
+
+CREATE TABLE recipes_planner
+(
+	planner_id int not null,
+	recipe_id int not null,
+	CONSTRAINT PK_recipes_planner PRIMARY KEY (recipe_id, planner_id),
+	CONSTRAINT FK_recipes_planner_recipe FOREIGN KEY (recipe_id) REFERENCES recipe(recipe_id),
+	CONSTRAINT FK_recipes_planner_planner FOREIGN KEY (planner_id) REFERENCES planner(planner_id),
+)
+
