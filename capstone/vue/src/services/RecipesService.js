@@ -25,5 +25,8 @@ export default {
     },
     GetAllRecipesIngredientsByRecipeId(recipeId){
         return http.get(`/ri/${recipeId}`);
+    },
+    GetAllMyRecipes(userId){
+        return http.get(`/planner/userId=${userId}`)
     }
 }

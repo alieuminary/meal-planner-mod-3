@@ -9,7 +9,7 @@
         <img class="recipeImage" v-bind:src="recipe.recipeImage"/>
 
         <div id="recipe-modify-container">
-            <button class="recipe-modify-btns direction-btn" v-on:click="displayInstructions = true; getIngredients">Recipe Instructions
+            <button class="recipe-modify-btns direction-btn" v-on:click="changeDisplay">Recipe Instructions
             </button> 
             <button class="recipe-modify-btns modify-btn">Add to My Recipes</button>
         </div>
@@ -23,6 +23,7 @@
 
 <script>
 import recipesService from "@/services/RecipesService.js";
+
 export default {
     data() {
         return {
@@ -37,10 +38,18 @@ export default {
                 this.$store.commit("SET_RECIPES", response.data);
             });
         },
-        getIngredients() {
-            recipesService.ingredients("recipe.recipeId").then(response => {
+        getIngredients(recipe) {
+            recipesService.GetAllRecipesIngredientsByRecipeId(recipe.recipeId).then(response => {
                 this.ingredients = response.data;
             })
+        },
+        changeDisplay() {
+            if (!this.displayInstructions){
+                this.displayInstructions = true;
+            }
+            else {
+                this.displayInstructions = false;
+            }
         }
     },
     created() {
