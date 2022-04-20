@@ -19,7 +19,7 @@
     <div class="recipeButtons">
       <router-link
         tag="button"
-        :to="{ name: 'EditCard', params: {id: card.recipeId} }"
+        :to="{ name: 'EditCard', params: {id: $route.params.id}}"
         class="btn editCard"
       >Edit Recipe</router-link>
     </div>
@@ -61,10 +61,10 @@ export default {
   },
   methods: {
     editMyRecipe(){
-      this.editable ? this.editable = true : !this.editable;
+      !this.editable ? this.editable = true : !this.editable;
     },
     saveMyRecipe(){
-
+      
     },
     instructionsIntoArray(txt){
         const array = txt.split(". ");
