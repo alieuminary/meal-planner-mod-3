@@ -34,7 +34,7 @@ export default {
     name: "recipe-display",
     methods: {
         getRecipes() {
-            recipesService.getList().then(response => {
+            recipesService.getMyRecipesByUser().then(response => {
                 this.$store.commit("SET_RECIPES", response.data);
             });
         },
@@ -43,14 +43,13 @@ export default {
                 this.ingredients = response.data;
             })
         },
-        changeDisplay(target) {
+        changeDisplay() {
             if (!this.displayInstructions){
                 this.displayInstructions = true;
             }
             else {
                 this.displayInstructions = false;
             }
-            alert(target)
         }
     },
     created() {

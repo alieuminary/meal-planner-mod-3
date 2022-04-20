@@ -83,6 +83,16 @@ CREATE TABLE recipe
 	CONSTRAINT FK_recipe_category FOREIGN KEY (category_id) REFERENCES category(category_id),
 );
 
+CREATE TABLE user_recipes
+(
+	id int identity(1,1),
+	user_id int not null,
+	recipe_id int not null,
+	CONSTRAINT PK_user_recipes PRIMARY KEY (id),
+	CONSTRAINT FK_user_recipes_users FOREIGN KEY (user_Id) REFERENCES users(user_id),
+	CONSTRAINT FK_user_recipes_recipe FOREIGN KEY (recipe_id) REFERENCES recipe(recipe_id)
+);
+
 CREATE TABLE ingred_type
 (
 	type_id int identity(1,1),

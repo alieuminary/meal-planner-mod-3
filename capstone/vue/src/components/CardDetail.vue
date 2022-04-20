@@ -22,24 +22,10 @@
         :to="{ name: 'EditCard', params: {id: $route.params.id}}"
         class="btn editCard"
       >Edit Recipe</router-link>
+
+      <button v-on:click="saveMyRecipe()">Save Recipe</button>
+
     </div>
-
-      <div class="saveRecipe">
-        <button v-on:click="saveMyRecipe()">Save Recipe</button>
-      </div>
-
-      <form class="recipeEdit" v-if="editable = true">
-        <label>Directions</label>
-        <input>
-        <label>Ingredients</label>
-        <input>
-        <input>
-        <input>
-        <input>
-        <input>        
-        <input type="submit">
-
-      </form>
 
     </div>
 </template>
@@ -60,11 +46,10 @@ export default {
     };
   },
   methods: {
-    editMyRecipe(){
-      !this.editable ? this.editable = true : !this.editable;
-    },
     saveMyRecipe(){
-      
+      alert("Successfully added to your recipes");
+      recipesService
+        .saveRecipeToMyRecipes(this.card)
     },
     instructionsIntoArray(txt){
         const array = txt.split(". ");
@@ -94,8 +79,5 @@ export default {
   justify-content: center;
 }
 
-.recipeEdit{
-  
-}
 
 </style>

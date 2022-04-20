@@ -40,4 +40,13 @@ export default {
     getAllIngredients() {
         return http.get('/ingredient');
     },
+    getPlannerByUserId(id) {
+        return http.get(`/planner/userId=${id}`);
+    },
+    saveRecipeToMyRecipes(recipe) {
+        return http.post(`/userrecipes/post`, recipe);
+    },
+    getMyRecipesByUser() {
+        return http.get('/userrecipes');
+    }
 }
