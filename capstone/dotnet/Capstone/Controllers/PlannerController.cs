@@ -68,5 +68,23 @@ namespace Capstone.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpPost()]
+
+        public ActionResult AddMealPlan(Planner userParam)
+        {
+
+
+            if (userParam != null)
+            {
+                Planner newPlanner = plannerDao.AddMealPlan(userParam.Name, userParam.UserId, userParam.Day, userParam.Week, userParam.IsSharable);
+                return Created($"/planner/{newPlanner.PlannerId}", newPlanner);
+            }
+            else
+            {
+                return BadRequest();
+            }
+            
+        }
     }
 }

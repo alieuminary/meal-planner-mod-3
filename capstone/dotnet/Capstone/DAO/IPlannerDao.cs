@@ -18,5 +18,10 @@ namespace Capstone.DAO
 
         // retrieve a planner by (user_id)
         List<Planner> GetPlannerByUserId(int userId);
+
+        // Add/Create a meal plan
+        Planner AddMealPlan(string name, int user_id, string day, int week, bool isSharable);
+
+
     }
 }

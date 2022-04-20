@@ -161,7 +161,7 @@ CREATE TABLE recipes_ingredients
 
 CREATE TABLE planner
 (
-	planner_id int not null,
+	planner_id int identity(1,1),
 	name varchar(500),
 	user_id int,
 	day varchar(20),
