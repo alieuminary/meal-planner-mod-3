@@ -120,7 +120,7 @@ namespace Capstone.DAO
         }
 
 
-        // POST method: add new meal plan
+        // Add new meal plan
 
         public Planner AddMealPlan(string name, int user_id, string day, int week, bool isSharable)
         {
@@ -149,6 +149,43 @@ namespace Capstone.DAO
             return newMealPlan;
         }
 
+        // Update meal plan
+        //public Planner UpdateMealPlan(Planner planner)
+        public bool UpdateMealPlan(Planner planner)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string sqlText = "UPDATE planner SET name = @name, day = @day, week = @week, isSharable = @isSharable WHERE planner_id = @planner_id;";
+                    SqlCommand cmd = new SqlCommand(sqlText, conn);
+                    cmd.Parameters.AddWithValue("@name", planner.Name);
+                    cmd.Parameters.AddWithValue("@day", planner.Day);
+                    cmd.Parameters.AddWithValue("@week", planner.Week);
+                    cmd.Parameters.AddWithValue("@isSharable", planner.IsSharable);
+                    cmd.Parameters.AddWithValue("@planner_id", planner.PlannerId);
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+
+                    if (rowsAffected > 0)
+                    {
+                        return true; // change was successful
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+           
+        }
 
 
 

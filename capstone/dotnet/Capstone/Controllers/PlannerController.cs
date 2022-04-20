@@ -69,8 +69,9 @@ namespace Capstone.Controllers
             }
         }
 
-        [HttpPost()]
 
+        // handle requests to create a new meal plan
+        [HttpPost()]
         public ActionResult AddMealPlan(Planner userParam)
         {
 
@@ -78,13 +79,39 @@ namespace Capstone.Controllers
             if (userParam != null)
             {
                 Planner newPlanner = plannerDao.AddMealPlan(userParam.Name, userParam.UserId, userParam.Day, userParam.Week, userParam.IsSharable);
-                return Created($"/planner/{newPlanner.PlannerId}", newPlanner);
+                return Created($"/planner", newPlanner);
             }
             else
             {
                 return BadRequest();
             }
             
+        }
+
+        // handle requests to update a single meal plan
+        [HttpPut("update")]
+
+        public ActionResult<Planner> UpdateMealPlan(Planner planner, int plannerId)
+        {
+
+            //if (plannerDao.GetPlannerByPlannerId(plannerId) != null)
+            //{
+            //    if (planner.PlannerId == 0)
+            //    {
+            //        planner.PlannerId = plannerId;
+            //    }
+            //    return Ok(plannerDao.UpdateMealPlan(planner));
+            //}
+            //return NotFound();
+
+            bool result = plannerDao.UpdateMealPlan(planner);
+
+            if (result == true)
+            {
+                Planner updatedMealPlan = plannerDao.GetPlannerByPlannerId(plannerId);
+                return Ok(updatedMealPlan);
+            }
+            return NotFound();
         }
     }
 }
