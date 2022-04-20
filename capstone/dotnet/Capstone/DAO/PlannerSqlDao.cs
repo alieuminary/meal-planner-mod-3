@@ -120,6 +120,36 @@ namespace Capstone.DAO
         }
 
 
+        // POST method: add new meal plan
+
+        public Planner AddMealPlan(string name, int user_id, string day, int week, bool isSharable)
+        {
+            Planner newMealPlan = new Planner();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string sqlText = "INSERT INTO planner (name, user_id, day, week, isSharable) VALUES (@name, @user_id, @day, @week, @isSharable)";
+                    SqlCommand cmd = new SqlCommand(sqlText, conn);
+
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@user_id", user_id);
+                    cmd.Parameters.AddWithValue("@day", day);
+                    cmd.Parameters.AddWithValue("@week", week);
+                    cmd.Parameters.AddWithValue("@isSharable", isSharable);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+            }
+            return newMealPlan;
+        }
+
+
 
 
 
