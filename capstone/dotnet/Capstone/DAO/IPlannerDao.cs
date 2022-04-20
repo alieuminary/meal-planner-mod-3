@@ -20,7 +20,8 @@ namespace Capstone.DAO
         List<Planner> GetPlannerByUserId(int userId);
 
         // Add/Create a meal plan
-        Planner AddMealPlan(string name, int user_id, string day, int week, bool isSharable);
+        Planner AddMealPlan(Planner plan);
+
 
         // Update/Modify a meal plan
         bool UpdateMealPlan(Planner planner);

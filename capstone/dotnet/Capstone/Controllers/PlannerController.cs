@@ -78,7 +78,7 @@ namespace Capstone.Controllers
 
             if (userParam != null)
             {
-                Planner newPlanner = plannerDao.AddMealPlan(userParam.Name, userParam.UserId, userParam.Day, userParam.Week, userParam.IsSharable);
+                Planner newPlanner = plannerDao.AddMealPlan(userParam);
                 return Created($"/planner", newPlanner);
             }
             else

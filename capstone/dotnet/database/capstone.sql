@@ -164,12 +164,9 @@ CREATE TABLE planner
 	planner_id int identity(1,1),
 	name varchar(500),
 	user_id int,
-	day varchar(20),
-	week int,
 	isSharable bit null,
 	CONSTRAINT PK_planner PRIMARY KEY(planner_id),
 	CONSTRAINT FK_planner_users FOREIGN KEY(user_id) REFERENCES users(user_id),
-	CONSTRAINT CHK_day CHECK (day IN ('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday')),
 );
 
 CREATE TABLE account_recipes
@@ -196,8 +193,11 @@ CREATE TABLE recipes_planner
 	rp_id int identity(1,1),
 	planner_id int not null,
 	recipe_id int not null,
+	day varchar(20),
+	week int,
 	CONSTRAINT PK_recipes_planner PRIMARY KEY (rp_id),
 	CONSTRAINT FK_recipes_planner_recipe FOREIGN KEY (recipe_id) REFERENCES recipe(recipe_id),
 	CONSTRAINT FK_recipes_planner_planner FOREIGN KEY (planner_id) REFERENCES planner(planner_id),
+	CONSTRAINT CHK_day CHECK (day IN ('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday')),
 )
 

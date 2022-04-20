@@ -95,7 +95,7 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    string sqlText = "SELECT u.user_id, username, planner_id, name, day, week, isSharable FROM planner as p JOIN users as u ON p.user_id = u.user_id WHERE p.user_id = @user_id"; 
+                    string sqlText = "SELECT u.user_id, username, planner_id, name, isSharable FROM planner as p JOIN users as u ON p.user_id = u.user_id WHERE p.user_id = @user_id"; 
                    // string sqlText = "SELECT r.planner_id, r.name, r.user_id, r.day, r.week, r.isSharable FROM planner as r JOIN recipes_planner as rp ON rp.planner_id = r.planner_id JOIN users as u ON r.user_id = u.user_id WHERE u.user_id = @user_id";
 
 
@@ -122,31 +122,30 @@ namespace Capstone.DAO
 
         // Add new meal plan
 
-        public Planner AddMealPlan(string name, int user_id, string day, int week, bool isSharable)
+        public Planner AddMealPlan(Planner plan)
         {
-            Planner newMealPlan = new Planner();
+            int plannerId = 0;
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
 
-                    string sqlText = "INSERT INTO planner (name, user_id, day, week, isSharable) VALUES (@name, @user_id, @day, @week, @isSharable)";
+                    string sqlText = "INSERT INTO planner (name, user_id, isSharable) VALUES (@name, @user_id, @isSharable)";
                     SqlCommand cmd = new SqlCommand(sqlText, conn);
 
-                    cmd.Parameters.AddWithValue("@name", name);
-                    cmd.Parameters.AddWithValue("@user_id", user_id);
-                    cmd.Parameters.AddWithValue("@day", day);
-                    cmd.Parameters.AddWithValue("@week", week);
-                    cmd.Parameters.AddWithValue("@isSharable", isSharable);
-                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.AddWithValue("@name", plan.Name);
+                    cmd.Parameters.AddWithValue("@user_id", plan.UserId);
+                    cmd.Parameters.AddWithValue("@isSharable", plan.IsSharable);
+                    plannerId = Convert.ToInt32(cmd.ExecuteScalar());
+                    plan.PlannerId = plannerId;
                 }
             }
             catch (SqlException e)
             {
                 Console.WriteLine(e);
             }
-            return newMealPlan;
+            return plan;
         }
 
         // Update meal plan
@@ -162,8 +161,6 @@ namespace Capstone.DAO
                     string sqlText = "UPDATE planner SET name = @name, day = @day, week = @week, isSharable = @isSharable WHERE planner_id = @planner_id;";
                     SqlCommand cmd = new SqlCommand(sqlText, conn);
                     cmd.Parameters.AddWithValue("@name", planner.Name);
-                    cmd.Parameters.AddWithValue("@day", planner.Day);
-                    cmd.Parameters.AddWithValue("@week", planner.Week);
                     cmd.Parameters.AddWithValue("@isSharable", planner.IsSharable);
                     cmd.Parameters.AddWithValue("@planner_id", planner.PlannerId);
                     int rowsAffected = cmd.ExecuteNonQuery();
@@ -199,14 +196,23 @@ namespace Capstone.DAO
 
             myPlanner.PlannerId = Convert.ToInt32(reader["planner_id"]);
             myPlanner.Name = Convert.ToString(reader["name"]);
-            myPlanner.UserId = Convert.ToInt32(reader["user_id"]);  // causes an error when value is NULL so I commented it out
-            myPlanner.Day = Convert.ToString(reader["day"]);
-            myPlanner.Week = Convert.ToInt32(reader["week"]);
+         /*   myPlanner.UserId = Convert.ToInt32(reader["user_id"]);*/  // causes an error when value is NULL so I commented it out
             myPlanner.IsSharable = Convert.ToBoolean(reader["isSharable"]);
 
             return myPlanner;
-
         }
-        
+
+        private RecipesPlanner GetRecipesPlannerFromReader(SqlDataReader reader)
+        {
+            RecipesPlanner myPlanner = new RecipesPlanner();
+            myPlanner.rpId = Convert.ToInt32(reader["rp_id"]);
+            myPlanner.PlannerId = Convert.ToInt32(reader["planner_id"]);
+            myPlanner.RecipeId = Convert.ToInt32(reader["recipe_id"]);
+            myPlanner.Day = Convert.ToString(reader["day"]);  
+            myPlanner.Week = Convert.ToInt32(reader["week"]);
+
+            return myPlanner;
+        }
+
     }
 }

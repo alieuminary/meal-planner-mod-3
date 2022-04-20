@@ -10,6 +10,8 @@ import MealPlans from '../views/MealPlans.vue'
 import GroceryList from '../views/GroceryList.vue'
 import AllRecipes from '../views/AllRecipes.vue'
 import Card from '../views/Card.vue'
+import EditCard from '../views/EditCard.vue'
+import AddCard from '../views/AddCard.vue'
 
 Vue.use(Router)
 
@@ -97,6 +99,16 @@ const router = new Router({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/recipes/create',
+      name: 'AddCard',
+      component: AddCard
+    },
+    {
+      path: '/recipes/:id/edit',
+      name: 'EditCard',
+      component: EditCard
     }
     
   ]

@@ -2,7 +2,6 @@
     <div>
         <h1>Store your groceries</h1>
         <grocery-list />
-
     </div>
 </template>
 
@@ -10,9 +9,7 @@
 import GroceryList from '../components/GroceryList'
 
 export default {
-    components: {
-        GroceryList
-    }
+    components: {GroceryList}
 
 };
 </script>

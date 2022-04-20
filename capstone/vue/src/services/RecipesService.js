@@ -28,5 +28,14 @@ export default {
     },
     GetAllMyRecipes(userId){
         return http.get(`/planner/userId=${userId}`)
-    }
+    },
+    updateRecipe(recipe){
+        return http.put(`/recipe/${recipe.id}`, recipe)
+    },
+    addRecipe(recipe) {
+        return http.post(`/recipe`, recipe);
+      },
+    getAllIngredients() {
+        return http.get('/ingredient');
+    },
 }

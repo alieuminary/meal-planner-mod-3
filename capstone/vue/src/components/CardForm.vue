@@ -1,0 +1,206 @@
+<template>
+  <form v-on:submit.prevent="submitForm" class="cardForm">
+    <div class="status-message error" v-show="errorMsg !== ''">{{errorMsg}}</div>
+    <div class="form-group">
+      <label for="title">RECIPE NAME:</label>
+      <input id="title" type="text" class="form-control" v-model="recipe.recipeName" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label for="tag">AREA:</label>
+      <select id="tag" class="form-control" v-model="recipe.areaId">
+        <option value=1>American</option>
+        <option value=2>British</option>
+        <option value=3>Canadian</option>
+      </select>
+      <label for="status">CATEGORY:</label>
+      <select id="tag" class="form-control" v-model="recipe.categoryId">
+        <option value=1>Beef</option>
+        <option value=2>Chicken</option>
+        <option value=3>Dessert</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="description">INSTRUCTIONS:</label>
+      <textarea id="description" class="form-control" v-model="recipe.instructions"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="title">IMAGE:</label>
+      <input id="title" type="text" class="form-control" v-model="recipe.recipeImage" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label for="title">YOUTUBE:</label>
+      <input id="title" type="text" class="form-control" v-model="recipe.youtube" autocomplete="off" />
+    </div>
+    <button class="btn btn-submit">Submit</button>
+    <button class="btn btn-cancel" v-on:click.prevent="cancelForm" type="cancel">Cancel</button>
+  </form>
+</template>
+
+<script>
+import recipesService from "@/services/RecipesService.js";
+import moment from "moment";
+
+export default {
+  name: "card-form",
+  props: {
+    recipeId: {
+      type: Number,
+      default: 0
+    }
+  },
+  data() {
+    return {
+      recipe: {
+        recipeName: "",
+        categoryId: "",
+        areaId: "",
+        instructions: "",
+        recipeImage: null,
+        youtube: "",
+        date:"",
+        userId:""
+      },
+      errorMsg: ""
+    };
+  },
+  methods: {
+    submitForm() {
+      const newRecipe = {
+        recipeId: Number(this.$route.params.id),
+        recipeName: this.recipe.recipeName,
+        categoryId: this.recipe.categoryId,
+        areaId: this.recipe.areaId,
+        instructions: this.recipe.instructions,
+        recipeImage: this.recipe.recipeImage,
+        youtube: this.recipe.youtube,
+        date: moment().format("MMM Do YYYY"),
+        userId: 0
+      };
+
+      if (this.recipeId === 0) {
+        // add
+        recipesService
+          .addRecipe(newRecipe)
+          .then(response => {
+            if (response.status === 201) {
+              this.$router.push(`/recipes/${newRecipe.recipeId}`);
+            }
+          })
+          .catch(error => {
+            this.handleErrorResponse(error, "adding");
+          });
+      } else {
+        // update
+        newRecipe.recipeId = this.recipeId;
+        newRecipe.date = this.recipe.date;
+        recipesService
+          .updateRecipe(newRecipe)
+          .then(response => {
+            if (response.status === 200) {
+              this.$router.push(`/recipes/${newRecipe.recipeId}`);
+            }
+          })
+          .catch(error => {
+            this.handleErrorResponse(error, "updating");
+          });
+      }
+    },
+    cancelForm() {
+      this.$router.push(`/recipes/${this.$route.params.id}`);
+    },
+    handleErrorResponse(error, verb) {
+      if (error.response) {
+        this.errorMsg =
+          "Error " + verb + " recipe. Response received was '" +
+          error.response.statusText +
+          "'.";
+      } else if (error.request) {
+        this.errorMsg =
+          "Error " + verb + " recipe. Server could not be reached.";
+      } else {
+        this.errorMsg =
+          "Error " + verb + " recipe. Request could not be created.";
+      }
+    }
+  },
+  created() {
+    if (this.recipeId != 0) {
+      recipesService
+        .getRecipeById(this.recipeId)
+        .then(response => {
+          this.recipe = response.data;
+        })
+        .catch(error => {
+          if (error.response && error.response.status === 404) {
+            alert(
+              "Recipe not available. This recipe may have been deleted or you have entered an invalid recipe ID."
+            );
+            this.$router.push("/");
+          }
+        });
+    }
+  }
+};
+</script>
+
+
+<style>
+.cardForm {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.form-group {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+.form-control {
+  display: block;
+  width: 80%;
+  height: 30px;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+textarea.form-control {
+  height: 75px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+select.form-control {
+  width: 20%;
+  display: inline-block;
+  margin: 10px 20px 10px 10px;
+}
+.btn-submit {
+  color: #fff;
+  background-color: #0062cc;
+  border-color: #005cbf;
+}
+.btn-cancel {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+.status-message {
+  display: block;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.status-message.success {
+  background-color: #90ee90;
+}
+.status-message.error {
+  background-color: #f08080;
+}
+</style>

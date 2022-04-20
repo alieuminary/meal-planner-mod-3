@@ -1,53 +1,52 @@
 <template>
     <div>
-      <input type="text" placeholder='What would you like to buy?'>
-       <div class="todo-list">
-        
-        <ul>
-        <li v-for="ingredient in filteredIngredients" v-bind:key="ingredient.name"
-            v-bind:class="{ finished: ingredient.done }">
-          <input type="checkbox" v-model="ingredient.done" />
-          {{ ingredient.name }}
-        </li>
-      </ul>
+      <input type="text" v-model="searchBar" placeholder='What would you like to buy?'>
+      <div class="container">
+        <div class="todo-list">  
+          <ul>
+            <li v-for="ingred in filteredIngredients" :key="ingred.ingredId"
+              @click="addToGroceries(ingred.name)">
+              {{ ingred.name }}
+            </li>
+          </ul>
+        </div>
+        <div class="groceries">
+          List: {{groceryList.length}}
+          <div v-for="item in groceryList" :key="item">
+            {{item}}
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 </template>
 
 
 <script>
-export default {
-    name: "grocery-list",
-    data(){
-        return {
-            newIngredient: [],
-            filterText: '',
-            ingredientList: [
-                {
-                    name: 'Salt',
-                    done: false
-                },
-                {
-                    name: 'Lime',
-                    done: false
-                },
-                {
-                    name: 'butter',
-                    done: false
-                },
-                {
-                    name: 'chicken',
-                    done: false
-                },
-            ]
-        }
-    
+import recipesService from "@/services/RecipesService.js";
 
-},
+export default {
+  name: "grocery-list",
+  data(){
+    return {
+      searchBar:'',
+      ingredientList: [],
+      groceryList:[]
+    };
+  },
+  methods: {
+    addToGroceries(item){
+      this.groceryList.push(item);
+    }
+  },
+ created(){
+    recipesService.getAllIngredients().then(response => {
+          this.ingredientList = response.data;
+        });
+  },
   computed: {
     filteredIngredients() {
       return this.ingredientList.filter((ingredient) => {
-        return ingredient.name.includes(this.filterText);
+        return ingredient.name.toLowerCase().match(this.searchBar);
       });
     }
   }
@@ -55,7 +54,22 @@ export default {
 </script>
 
 <style>
+.container {
+  display:grid;
+  grid-template-columns: auto auto;
+  gap:10px;
+}
+
 .todo-list {
+
+    width:450px;
+    background: #fff;
+    margin: 50px auto;
+    font-family: 'Roboto Condensed', sans-serif;
+    border-radius: 10px;
+}
+
+.groceries {
     width:450px;
     background: #fff;
     margin: 50px auto;

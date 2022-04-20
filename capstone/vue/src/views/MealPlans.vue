@@ -1,18 +1,25 @@
 <template>
     <div>
         <h1>My Meal Plan Page</h1>
-        <p>Display meal plan Here</p>
+        <meal-plan-form />
         <calendar />
+        
     </div>
 </template>
 
 <script>
 
 import Calendar from '../components/Calendar.vue';
+import MealPlanForm from '../components/MealPlanForm.vue'
 
 export default {
   components: {
-    Calendar
+    Calendar,
+    MealPlanForm
   }
 };
 </script>
+
+<style scoped>
+
+</style>

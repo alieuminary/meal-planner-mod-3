@@ -3,9 +3,13 @@
       <h1> {{ card.recipeName }} </h1>
       <img :src="card.recipeImage">
       <h2>DIRECTIONS</h2>
-      <p>{{card.instructions}}</p>
+      <p
+      v-for="(instruct,index) in instructionsIntoArray(card.instructions)"
+      :key="index">
+        {{instruct}}
+      </p>
       <h2>INGREDIENTS</h2>
-      <div
+      <div 
       v-for="ingred in ri"
       :key="ingred.riRecipeId"
       >
@@ -13,9 +17,12 @@
       </div>
 
     <div class="recipeButtons">
-      <div class="editRecipe">
-        <button v-on:click="editMyRecipe()">Edit Recipe</button>
-      </div>
+      <router-link
+        tag="button"
+        :to="{ name: 'EditCard', params: {id: card.recipeId} }"
+        class="btn editCard"
+      >Edit Recipe</router-link>
+    </div>
 
       <div class="saveRecipe">
         <button v-on:click="saveMyRecipe()">Save Recipe</button>
@@ -35,7 +42,6 @@
       </form>
 
     </div>
-  </div>
 </template>
 
 <script>
@@ -50,7 +56,7 @@ export default {
     return {
       card: {},
       ri: [],
-      editable: false
+      editable: false,
     };
   },
   methods: {
@@ -59,6 +65,10 @@ export default {
     },
     saveMyRecipe(){
 
+    },
+    instructionsIntoArray(txt){
+        const array = txt.split(". ");
+        return array;
     }
   },
   created(){
