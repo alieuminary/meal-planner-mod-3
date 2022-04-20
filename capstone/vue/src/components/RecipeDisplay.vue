@@ -9,7 +9,7 @@
         <img class="recipeImage" v-bind:src="recipe.recipeImage"/>
 
         <div id="recipe-modify-container">
-            <button class="recipe-modify-btns direction-btn" v-on:click="changeDisplay">Recipe Instructions
+            <button class="recipe-modify-btns direction-btn" v-on:click="changeDisplay($event.target)">Recipe Instructions
             </button> 
             <button class="recipe-modify-btns modify-btn">Add to My Recipes</button>
         </div>
@@ -43,13 +43,14 @@ export default {
                 this.ingredients = response.data;
             })
         },
-        changeDisplay() {
+        changeDisplay(target) {
             if (!this.displayInstructions){
                 this.displayInstructions = true;
             }
             else {
                 this.displayInstructions = false;
             }
+            alert(target)
         }
     },
     created() {

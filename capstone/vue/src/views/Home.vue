@@ -4,6 +4,13 @@
     <div class="myButton">
       <button>
       <router-link v-bind:to="{ name: 'all-recipes'}">All Recipes</router-link>
+
+      <router-link
+        tag="button"
+        :to="{ name: 'AddCard', params: {}}"
+        class="btn editCard"
+      >Create Recipe</router-link>
+
       </button>
     </div>
   </div>

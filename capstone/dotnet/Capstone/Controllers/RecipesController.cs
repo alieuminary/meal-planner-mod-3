@@ -141,7 +141,7 @@ namespace Capstone.Controllers
         {
             if (recipe != null)
             {
-                recipe.UserId = Int32.Parse(User.FindFirst("sub")?.Value);
+                //recipe.UserId = Int32.Parse(User.FindFirst("sub")?.Value);
                 Recipe newRecipe = recipesDao.AddRecipe(recipe);
                 
                 return Created($"/recipe/{newRecipe.RecipeId}", newRecipe);

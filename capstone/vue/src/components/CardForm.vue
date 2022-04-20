@@ -52,12 +52,16 @@ export default {
     return {
       recipe: {
         recipeName: "",
-        categoryId: "",
-        areaId: "",
+        drinkAlternate: "",
+        categoryId: 0,
+        recipeTags: "",
+        areaId: 0,
         instructions: "",
+        source: "",
         recipeImage: null,
         youtube: "",
         date:"",
+        imageSource: "",
         userId:""
       },
       errorMsg: ""
@@ -65,14 +69,19 @@ export default {
   },
   methods: {
     submitForm() {
+      
       const newRecipe = {
         recipeId: Number(this.$route.params.id),
         recipeName: this.recipe.recipeName,
+        drinkAlternate: this.recipe.drinkAlternate,
         categoryId: this.recipe.categoryId,
+        recipeTags: this.recipe.recipeTags,
+        source: this.recipe.source,
         areaId: this.recipe.areaId,
         instructions: this.recipe.instructions,
         recipeImage: this.recipe.recipeImage,
         youtube: this.recipe.youtube,
+        imageSource: this.recipe.imageSource,
         date: moment().format("MMM Do YYYY"),
         userId: 0
       };
@@ -91,12 +100,13 @@ export default {
           });
       } else {
         // update
-        newRecipe.recipeId = this.recipeId;
-        newRecipe.date = this.recipe.date;
+        alert("alert")
+        newRecipe.categoryId = parseInt(this.recipe.categoryId)
+        newRecipe.areaId = parseInt(this.recipe.areaId)
         recipesService
           .updateRecipe(newRecipe)
           .then(response => {
-            if (response.status === 200) {
+            if (response.status === 201) {
               this.$router.push(`/recipes/${newRecipe.recipeId}`);
             }
           })

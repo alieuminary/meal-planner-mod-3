@@ -30,7 +30,9 @@ export default {
         return http.get(`/planner/userId=${userId}`)
     },
     updateRecipe(recipe){
-        return http.put(`/recipe/${recipe.id}`, recipe)
+        console.log(recipe)
+        alert(recipe.userId)
+        return http.put('/recipe/update', recipe)
     },
     addRecipe(recipe) {
         return http.post(`/recipe`, recipe);
