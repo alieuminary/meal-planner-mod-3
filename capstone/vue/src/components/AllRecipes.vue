@@ -1,10 +1,9 @@
 <template>
   <div class="all-recipes">
-      <h2>Recipes</h2>
-    <input type="text" v-model="searchBar" placeholder="search recipes">
-    <label for="by">Search By:</label>
-    <select class="by">
-        <option v-for="index in by" :key="index">{{index}}</option>
+    <input  class="search-recipes" type="text" v-model="searchBar" placeholder="search recipes">
+    <label for="by">Search by:</label>
+    <select class="btn-search">
+        <option  v-for="index in by" :key="index">{{index}}</option>
     </select>
     <div class="container">
         <div
@@ -15,7 +14,7 @@
             <router-link :to="{ name: 'recipes', params: { id: recipe.recipeId } }">
                 <div class="card">
                     <img :src="recipe.recipeImage" style="width:100%">
-                    <h1>{{recipe.recipeName}}</h1>       
+                    <h2 class="recipe-name">{{recipe.recipeName}}</h2>       
                 </div>
             </router-link>
         </div>
@@ -54,13 +53,13 @@ export default {
 .container{
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-  grid-gap: 10px;
+  grid-gap: 1rem;
 }
 
 .column{
     float: left;
     width: 25%;
-    padding: 0 10px;
+    padding: 0 1rem;
 }
 
 .card {
@@ -68,8 +67,21 @@ export default {
     max-width: 300px;
     margin: auto;
     text-align: center;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-size: 50%;
 }
-    
+
+.recipe-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.5;
+  background-color: #f5c177;
+  color: #54782c;
+  padding: 0.25rem;
+}
+
+.btn-search {
+    padding: 1rem 0;
+    margin-top: 0.75rem;
+    margin-bottom: 1rem;
+}   
 </style>

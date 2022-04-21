@@ -1,5 +1,8 @@
 <template>
-  <all-recipes />
+  <div class="content-one-column">
+    <h1>Recipes</h1>
+    <all-recipes />
+  </div>
 </template>
 
 <script>
@@ -10,6 +13,17 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+* {
+  box-sizing: border-box;
+  padding: 0 3rem;
+  margin: 0;
+}
 
+.content-one-column {
+  display: grid;
+  width: 100%;
+  margin: 0;
+  padding: 0;  
+}
 </style>

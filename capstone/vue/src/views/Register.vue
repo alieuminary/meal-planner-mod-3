@@ -1,5 +1,5 @@
 <template>
-  <div id="register" class="text-center">
+  <div id="register" class="content-one-column">
     <h1>Register to save your meal plans and recipes!</h1>
     <h2>With SMPL you’ll have go-to recipes and meal plans to save time and eat healthier. Register today and we’ll send you our five most popular meal plans.</h2>
     <form class="form-register" @submit.prevent="register">
@@ -93,24 +93,31 @@ export default {
 </script>
 
 <style scoped>
-#register {
-  width: 80%;
-  margin: auto;
+* {
+  box-sizing: border-box;
+  padding: 0 3rem;
+  margin: 0;
 }
 
-.form-register {
+.content-one-column {
+  display: grid;
+  width: 100%;
+  margin: 0;
+  padding: 0;  
+}
+
+.form-signin {
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: auto;
-  line-height: 4em;
-  margin: 25px 0px;
-  padding: 50px 100px;
+  line-height: 4;
+  margin: 0;
+  padding: 2rem 5rem 0 5rem;
 }
 
-.form-register h1 {
-  font-family: 'Montserrat', sans-serif;  
+.form-signin h1 {
   font-weight: 500;
   color: #54782c;
 };
-
 </style>

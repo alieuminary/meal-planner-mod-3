@@ -1,50 +1,30 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <h1 class="logo">SMPL</h1>
-      <div class="menu">
-      <router-link v-bind:to="{ name: 'home' }">Home</router-link>
-      <router-link v-bind:to="{ name: 'my-recipes' }">My Recipes</router-link>
-      <router-link v-bind:to="{ name: 'meal-plan' }">My Meal Plans</router-link> 
-      <router-link v-bind:to="{ name: 'grocery-list' }">Grocery List</router-link> 
-      <router-link id="logout-btn" v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
-      </div>
-      <!-- <nav-bar  /> -->
-      <!-- <router-link v-bind:to="{ name: 'home' }">Home</router-link>&nbsp;|&nbsp;
-      <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link> -->
-       
-    </div>
+
+    <nav-bar />
+
     <div id="container">
-      <!-- <footer-bar /> -->
     <router-view />      
     </div>
 
-    <div id="footer">
-      <div id="copyright">
-        <p>&copy; SMPL </p>
-      </div>
-      <p>
-        Follow Us! 
-        <font-awesome-icon icon="fa-brands fa-facebook" />
-        <font-awesome-icon icon="fa-brands fa-instagram" />
-        <font-awesome-icon icon="fa-brands fa-twitter" />
-      </p>
-    </div>
+    <footer-bar />
+
   </div>
 </template>
 
+
+// Either keep the Nav and Footer in App.vue (delete those components) ... OR use components and include script below.
 <script>
-// import NavBar from '@/components/NavBar'
-// import FooterBar from '@/components/FooterBar'
+import NavBar from '@/components/NavBar'
+import FooterBar from '@/components/FooterBar'
 
-// export default {
-//   name: 'app',
-//   components:{
-//     //NavBar,
-//     FooterBar
-//   }
-
-// }
+export default {
+  name: 'app',
+  components:{
+    NavBar,
+    FooterBar
+  }
+}
 </script>
 
 
@@ -58,139 +38,107 @@
 }
 
 #app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  margin: 0 auto;
-  max-width: 1200px;
-  overflow: visible;
-  text-align: center;  
-  }
+  background: #faf8f6;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(75px, auto) 1fr minmax(100px, auto);
+  /* height: 100vh; */
+  row-gap: 3rem;
+  grid-template-areas: 
+    "header" 
+    "container"
+    "footer";
+}
+
+header {
+  grid-area: header;
+  grid-area: 1/1/2/2; 
+}
 
 #container {
-    background-color: #faf8f6;
-    padding: 75px 0px 25px 0px;
-  }
+  grid-area: container;
+  grid-area: 2/1/3/2;
+}
 
+footer {
+  grid-area: footer;
+  grid-area: 3/1/4/2;
+}
+
+/* Global Font and Color */
 body {
   font-family: 'Montserrat', sans-serif;
-  letter-spacing: 0.05em;
+  font-size: 1rem;
+  letter-spacing: 0.05rem;
   color: #262f35;
-  font-size: 1em;
 }
 
 h1 {
-  /* font-family: Georgia, 'Times New Roman', Times, serif; */
   font-family: 'Montserrat', sans-serif;
-  letter-spacing: 0.05em;
+  font-size: 3rem;
   font-weight: 600;
-  font-size: 3em;
-  margin-bottom: 0.5em;
+  letter-spacing: 0.05rem;
+  line-height: 1.5;
   }
 
 h2 {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.75em;
+  font-size: 1.75rem;
   font-weight: 400;
   line-height: 1.5;
-  margin-bottom: 0.25em;
+  margin-bottom: 0.25rem;
   }
 
 h3 {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.25em;
+  font-size: 1.25rem;
   font-weight: 500;
   line-height: 1.3;
-  margin-bottom: 0.25em;
+  margin-bottom: 0.25rem;
   }
 
 .sr-only {
   font-family: Georgia, 'Times New Roman', Times, serif;
-  font-size: 1.5em;
+  font-size: 1.5rem;
   font-weight: 600;
   text-transform: uppercase;
   }
 
-button {
-  font-family: 'Montserrat', sans-serif;
-  color: #262f35;
-  font-size: 1.75em;
-  font-weight: 600;
-  display: block;
-  align-items:center;
-  line-height: 2em;
-  padding: 10px;
-  border: none;
+.button-standard {
   background-color: #f5c177;
+  color: #262f35;
+  transition-duration: 0.4s;
+  font-size: 1.25rem;
+  font-weight: 500;
+  border: none;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.button:hover {
+  background-color: #faf8f6; /* Green */
+  color: #c6c6c6;
 }
 
 input {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.25em;
+  font-size: 1.25rem;
   width: 100%;
-  line-height: 3em;
+  line-height: 3;
   margin-bottom: 10px;
   text-align: center;
   border: none;
   background-color: #e9e9e9;
 }
 
-.logo {
-  font-family: 'Montserrat', sans-serif;
-  color: #f5c177;
-  line-height: 1.2;
-  font-size: 3em;
-  font-weight: 400;
-  margin: 50px;
-}
+/* Later-stage Nice-to-have... 
 
-#nav{
-    display: flex;
-    align-items: center;
-    justify-content:space-between;
-    gap: 20px;
-    background-color: #54782c;
-    height: 75px;
+@media (max-width: 650px) {
+  body {
   }
-
-.menu {
-    display: flex;
-    padding-right: 30px;
-    gap: 1em;
-    font-size: 24px;
-    letter-spacing: .05rem;
-  }
-
-.menu a {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px ;
-    border: #c6c6c6 solid 1px;
-  }
-
-.menu a:hover {
-    background-color: #f5c177;
-    color: #000;
-    border-radius: 0px;
-    transition: 0.3s ease;
-  }
-
-#logout-btn {
-    background-color: blue;
-  }
-
-#footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #BFA38A;
-    width: 100%;
-    height: 150px;
-    padding: 0;
-  }
-
-#footer p {
-    font-size: 1.25em;
-}
-
+  } */
 
 </style>

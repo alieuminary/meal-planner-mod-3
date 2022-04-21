@@ -77,10 +77,6 @@ export default {
 </script>
 
 <style scoped>
-body {
-  background-color:#282423;
-}
-
 .jzdbox1 {
   width:315px; 
   background:#332f2e; 

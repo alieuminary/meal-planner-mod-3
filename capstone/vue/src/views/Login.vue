@@ -1,9 +1,7 @@
 <template>
-  <div id="login" class="text-center">
+  <div id="login" class="content-one-column">
     <h1>The Ultimate SMPL Cooking App</h1>
-    <h2>
-      Conquer meal planning and live a healthier life with Shawn’s Meal Planning App–the all-in-one app for recipe saving, meal planning, and grocery shopping.
-    </h2>
+    <h2>Conquer meal planning and live a healthier life with Shawn’s Meal Planning App–the all-in-one app for recipe saving, meal planning, and grocery shopping.</h2>
     <form class="form-signin" @submit.prevent="login">
       <h1 class="h3 mb-3 font-weight-normal">Sign In</h1>
       <div
@@ -36,7 +34,7 @@
         required
       />
       <router-link :to="{ name: 'register' }">Need an account?</router-link>
-      <button type="submit">Sign in</button>  
+      <button id="btn-login" type="submit">Sign in</button>  
     </form>
   </div>
 </template>
@@ -80,24 +78,51 @@ export default {
 </script>
 
 <style scoped>
-#login {
-  width: 80%;
-  margin: auto;
-  padding: 0px;  
+* {
+  box-sizing: border-box;
+  padding: 0 3rem;
+  margin: 0;
+}
+
+.content-one-column {
+  display: grid;
+  width: 100%;
+  margin: 0;
+  padding: 0;  
 }
 
 .form-signin {
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: auto;
-  line-height: 4em;
-  margin: 25px 0px;
-  padding: 50px 100px;
+  line-height: 4;
+  margin: 0;
+  padding: 2rem 5rem 0 5rem;
 }
 
 .form-signin h1 {
-  font-family: 'Montserrat', sans-serif;  
   font-weight: 500;
   color: #54782c;
 };
+
+#btn-login {
+  background: rgb(256, 256, 256, 0.3);
+  color: white;
+  margin: 0 0 0 2rem;
+  transition-duration: 0.4s;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border: none;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+#btn-login:hover {
+  background-color: #faf8f6; 
+  color: #c6c6c6;
+}
 </style>

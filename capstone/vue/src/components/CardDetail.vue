@@ -2,13 +2,13 @@
   <div class="card">
       <h1> {{ card.recipeName }} </h1>
       <img :src="card.recipeImage">
-      <h2>DIRECTIONS</h2>
+      <h2>Cooking Instructions</h2>
       <p
       v-for="(instruct,index) in instructionsIntoArray(card.instructions)"
       :key="index">
         {{instruct}}
       </p>
-      <h2>INGREDIENTS</h2>
+      <h2>Ingredients</h2>
       <div 
       v-for="ingred in ri"
       :key="ingred.riRecipeId"
@@ -72,7 +72,6 @@ export default {
 </script>
 
 <style>
-
 .recipeButtons{
   padding: 20px;
   display: flex;

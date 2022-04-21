@@ -2,17 +2,17 @@
   <form v-on:submit.prevent="submitForm" class="cardForm">
     <div class="status-message error" v-show="errorMsg !== ''">{{errorMsg}}</div>
     <div class="form-group">
-      <label for="title">RECIPE NAME:</label>
+      <label for="title">Recipe Name:</label>
       <input id="title" type="text" class="form-control" v-model="recipe.recipeName" autocomplete="off" />
     </div>
     <div class="form-group">
-      <label for="tag">AREA:</label>
+      <label for="tag">Area:</label>
       <select id="tag" class="form-control" v-model="recipe.areaId">
         <option value=1>American</option>
         <option value=2>British</option>
         <option value=3>Canadian</option>
       </select>
-      <label for="status">CATEGORY:</label>
+      <label for="status">Category:</label>
       <select id="tag" class="form-control" v-model="recipe.categoryId">
         <option value=1>Beef</option>
         <option value=2>Chicken</option>
@@ -20,15 +20,15 @@
       </select>
     </div>
     <div class="form-group">
-      <label for="description">INSTRUCTIONS:</label>
+      <label for="description">Instructions:</label>
       <textarea id="description" class="form-control" v-model="recipe.instructions"></textarea>
     </div>
     <div class="form-group">
-      <label for="title">IMAGE:</label>
+      <label for="title">Image:</label>
       <input id="title" type="text" class="form-control" v-model="recipe.recipeImage" autocomplete="off" />
     </div>
     <div class="form-group">
-      <label for="title">YOUTUBE:</label>
+      <label for="title">Youtube:</label>
       <input id="title" type="text" class="form-control" v-model="recipe.youtube" autocomplete="off" />
     </div>
     <button class="btn btn-submit">Submit</button>
@@ -189,15 +189,26 @@ select.form-control {
   margin: 10px 20px 10px 10px;
 }
 .btn-submit {
-  color: #fff;
-  background-color: #0062cc;
-  border-color: #005cbf;
+  color: #262f35;
+  background-color: #f5c177;
+  border: none;
+  margin-top: 1rem;
+
 }
 .btn-cancel {
   color: #fff;
   background-color: #dc3545;
-  border-color: #dc3545;
+  border: none;
+    margin-top: 1rem;
+
 }
+
+.button-standard {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 1rem 0;
+}
+
 .status-message {
   display: block;
   border-radius: 5px;

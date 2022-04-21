@@ -1,20 +1,20 @@
 <template>
     <div class="add-plan-popup">
-        <button>ADD NEW MEAL PLAN</button>
+        <button>Add New Meal Plan</button>
         <div class="popup-content">
-            <h2>Add New Plan</h2>
-            <form @submit.prevent="">
+            <form class="form-new-plan" @submit.prevent="">
+                <h2>Create a New Meal Plan Below</h2>
                 <div class="group">
                     <label>MEAL PLAN NAME</label>
                     <input type="text">
                 </div>
 
                 <div class="group">
-                    <label>IS SHARABLE?</label>
-                    <input type="radio" v-model="isSharable" value=true>
+                    <h3>IS SHARABLE?</h3>
                     <label>Yes</label>
-                    <input type="radio" v-model="isSharable" value=false>
+                    <input type="radio" v-model="isSharable" value=true>
                     <label>No</label>
+                    <input type="radio" v-model="isSharable" value=false>
                     <button type="submit">CREATE</button>
                     <button type="button">CLOSE</button>
                 </div>
@@ -36,5 +36,13 @@ export default {
 </script>
 
 <style scoped>
-
+.form-new-plan {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+  line-height: 4;
+  margin: 0;
+  padding: 2rem 5rem 0 5rem;
+}
 </style>
