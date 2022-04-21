@@ -14,7 +14,19 @@
             <button class="recipe-modify-btns delete-btn" v-on:click="deleteRecipe(recipe.recipeId)">DELETE</button>
         </div>
         <div class="instructions" v-if="displayInstructions">
-            {{recipe.instructions}}
+        <h2>Instructions</h2>
+        <p
+        v-for="(instruct,index) in instructionsIntoArray(recipe.instructions)"
+        :key="index">
+        {{index + 1}}. {{instruct}}
+        </p>
+        <h2>Ingredients</h2>
+        <div 
+        v-for="(ingred, index) in ingredients" 
+        :key="ingred.riRecipeId"
+        >
+        {{index + 1}}. {{ingred.name}}
+        </div>
         </div>
     </div>
   </div>
@@ -52,9 +64,16 @@ export default {
         },
         deleteRecipe(recipeId){
             recipesService
-                .deleteFromMyRecipes(recipeId);
-                }
+                .deleteFromMyRecipes(recipeId)
+                .then(response => {
+                if (response.status === 200) {
+                this.$router.go(0)}})
             },
+        instructionsIntoArray(txt){
+        const array = txt.split(". ");
+        return array;
+    }
+    },
     created() {
     this.getRecipes();
     }

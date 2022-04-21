@@ -6,14 +6,14 @@
       <p
       v-for="(instruct,index) in instructionsIntoArray(card.instructions)"
       :key="index">
-        {{instruct}}
+      {{index + 1}}. {{instruct}}
       </p>
       <h2>Ingredients</h2>
-      <div 
-      v-for="ingred in ri"
+
+      <div v-for="(ingred, index) in ri"
       :key="ingred.riRecipeId"
       >
-        {{ingred.name}}
+       {{index + 1}}. {{ingred.name}}
       </div>
 
     <div class="recipeButtons">

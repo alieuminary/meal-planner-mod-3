@@ -35,7 +35,7 @@ export default {
         return http.put('/recipe/update', recipe)
     },
     addRecipe(recipe) {
-        return http.post(`/recipe`, recipe);
+        return http.post(`/recipe/post`, recipe);
       },
     getAllIngredients() {
         return http.get('/ingredient');

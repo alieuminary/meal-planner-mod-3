@@ -62,14 +62,14 @@ export default {
         youtube: "",
         date:"",
         imageSource: "",
-        userId:""
+        userId: 1
       },
       errorMsg: ""
     };
   },
   methods: {
     submitForm() {
-      
+      alert("submitting")
       const newRecipe = {
         recipeId: Number(this.$route.params.id),
         recipeName: this.recipe.recipeName,
@@ -83,16 +83,18 @@ export default {
         youtube: this.recipe.youtube,
         imageSource: this.recipe.imageSource,
         date: moment().format("MMM Do YYYY"),
-        userId: 0
+        userId: 1
       };
 
       if (this.recipeId === 0) {
         // add
+        this.recipe.categoryId = parseInt(this.recipe.categoryId)
+        this.recipe.areaId = parseInt(this.recipe.areaId)
         recipesService
-          .addRecipe(newRecipe)
+          .addRecipe(this.recipe)
           .then(response => {
             if (response.status === 201) {
-              this.$router.push(`/recipes/${newRecipe.recipeId}`);
+              this.$router.push(`/allrecipes/`);
             }
           })
           .catch(error => {
@@ -100,7 +102,6 @@ export default {
           });
       } else {
         // update
-        alert("alert")
         newRecipe.categoryId = parseInt(this.recipe.categoryId)
         newRecipe.areaId = parseInt(this.recipe.areaId)
         recipesService
