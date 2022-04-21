@@ -2,7 +2,7 @@
   <nav class="flex-header">
     <div class="logo">SMPL</div>
     <router-link class="menu" tag= "nav-link" v-bind:to="{ name: 'home' }"><a href="">Home</a></router-link>
-    <router-link class="menu" tag= "nav-link" v-bind:to="{ name: 'recipes' }" v-if="$store.state.token != ''"><a href="">My Recipes</a></router-link>
+    <router-link class="menu" tag= "nav-link" v-bind:to="{ name: 'my-recipes' }" v-if="$store.state.token != ''"><a href="">My Recipes</a></router-link>
     <router-link class="menu" tag= "nav-link" v-bind:to="{ name: 'meal-plan' }" v-if="$store.state.token != ''"><a href="">My Meal Plans</a></router-link> 
     <router-link class="menu" tag= "nav-link" v-bind:to="{ name: 'grocery-list' }" v-if="$store.state.token != ''"><a href="">Grocery List</a></router-link> 
     <router-link  class="btn-logout" id="logout-btn" tag= "button1" v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
