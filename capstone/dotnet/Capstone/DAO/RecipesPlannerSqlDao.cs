@@ -15,6 +15,33 @@ namespace Capstone.DAO
         {
             connectionString = dbConnectionString;
         }
+        //public List<Recipe> GetRecipesByPlanner(int plannerId)
+        //{
+        //    List<Recipe> recipes = new List<Recipe>();
+        //    try
+        //    {
+        //        using (SqlConnection conn = new SqlConnection(connectionString))
+        //        {
+        //            conn.Open();
+        //            SqlCommand cmd = new SqlCommand("SELECT * FROM recipes_planner " +
+        //                                            "WHERE planner_id = @planner_id; ", conn);
+        //            cmd.Parameters.AddWithValue("@planner_id", plannerId);
+        //            SqlDataReader reader = cmd.ExecuteReader();
+        //            while (reader.Read())
+        //            {
+        //                Recipe recipe = new Recipe();
+        //                recipe = GetRecipesPlannerFromReader(reader);
+        //                recipes.Add(recipe);
+        //            }
+        //        }
+        //    }
+        //    catch (SqlException e)
+        //    {
+        //        Console.WriteLine(e); ;
+        //    }
+        //    return recipes;
+        //}
+
 
         private RecipesPlanner GetRecipesPlannerFromReader(SqlDataReader reader)
         {

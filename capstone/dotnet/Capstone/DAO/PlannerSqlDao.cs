@@ -216,17 +216,5 @@ namespace Capstone.DAO
             return myPlanner;
         }
 
-        private RecipesPlanner GetRecipesPlannerFromReader(SqlDataReader reader)
-        {
-            RecipesPlanner myPlanner = new RecipesPlanner();
-            myPlanner.rpId = Convert.ToInt32(reader["rp_id"]);
-            myPlanner.PlannerId = Convert.ToInt32(reader["planner_id"]);
-            myPlanner.RecipeId = Convert.ToInt32(reader["recipe_id"]);
-            myPlanner.Day = Convert.ToString(reader["day"]);
-            myPlanner.Week = Convert.ToInt32(reader["week"]);
-
-            return myPlanner;
-        }
-
     }
 }
