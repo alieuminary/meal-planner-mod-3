@@ -2,7 +2,7 @@
     <div>
       <input type="text" v-model="searchBar" placeholder='What would you like to buy?'>
       <div class="container">
-        <div class="todo-list">  
+        <div class="grocery-list">  
           <ul>
             <li v-for="ingred in filteredIngredients" :key="ingred.ingredId"
               @click="addToGroceries(ingred.name)">
@@ -60,7 +60,7 @@ export default {
   gap:10px;
 }
 
-.todo-list {
+.grocery-list {
 
     width:450px;
     background: #fff;

@@ -104,23 +104,38 @@ h3 {
   text-transform: uppercase;
   }
 
-.button-standard {
-  background-color: #f5c177;
-  color: #262f35;
-  transition-duration: 0.4s;
-  font-size: 1.25rem;
-  font-weight: 500;
-  border: none;
-  text-decoration: none;
-  padding: 1rem 2rem;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
+/* BUTTON Global Styles */
+
+button {
+    border: 2px solid rgba(38, 47, 53, 0.7);
+    color: #262f35;
+    padding: .5rem;
+    margin: .5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition-duration: 0.4s;
 }
 
-.button:hover {
-  background-color: #faf8f6; /* Green */
-  color: #c6c6c6;
+button:hover {
+  background-color: rgba(84, 120, 44, 0.5);
+}
+
+.delete-btn:hover {
+    background-color: rgba(230, 37, 30, 1);
+}
+
+.btn-feature {
+  width: 100%;
+  background-color: #f5c177;
+  transition-duration: 0.4s;
+  border: none;
+  line-height: 3rem;
+}
+
+.btn-feature:hover {
+    background-color: rgba(84, 120, 44, 0.5);
 }
 
 input {

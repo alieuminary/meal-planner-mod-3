@@ -9,9 +9,9 @@
         <img class="recipeImage" v-bind:src="recipe.recipeImage"/>
 
         <div id="recipe-modify-container">
-            <button class="recipe-modify-btns direction-btn" v-on:click="changeDisplay(), getIngredients(recipe)">Recipe Instructions
+            <button class="direction-btn" v-on:click="changeDisplay(), getIngredients(recipe)">Recipe Instructions
             </button> 
-            <button class="recipe-modify-btns delete-btn" v-on:click="deleteRecipe(recipe.recipeId)">DELETE</button>
+            <button class="delete-btn" v-on:click="deleteRecipe(recipe.recipeId)">DELETE</button>
         </div>
         <div class="instructions" v-if="displayInstructions">
             {{recipe.instructions}}
@@ -78,30 +78,9 @@ export default {
     justify-content: center;
 }
 
-.recipe-modify-btns {
-    
-    background-color: transparent;
-    border: 2px solid black;
-    color: black;
-    padding: .25em;
-    margin: .5em;
-    font-size: 16px;
-    cursor: pointer;
-}
 
-button {
-    border: 2px solid black;
-    padding: .25em;
-    margin: .5em;
-    font-size: 20px;
-}
 
 .recipeImage{
     width: 30%;
 }
-
-.instructions{
-
-}
-    
 </style>
