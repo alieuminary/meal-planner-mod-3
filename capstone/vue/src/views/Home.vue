@@ -5,12 +5,12 @@
     <div class="left1">
       <h2>Over 1,000 recipes</h2>
       <p>Edit or save recipes, and find cooking instructions.</p>
-      <router-link class="button-standard" tag="button" v-bind:to="{ name: 'all-recipes'}">All Recipes</router-link>
+      <router-link class="btn-feature" tag="button" v-bind:to="{ name: 'all-recipes'}">All Recipes</router-link>
     </div>
     <div class="middle">
         <h2>Add favorite meals</h2>
         <p>Enter a new recipe into your favorites.</p>
-        <router-link class="button-standard"
+        <router-link class="btn-feature"
         tag="button"
         :to="{ name: 'AddCard', params: {}}"
       >Create Recipe</router-link>
@@ -44,6 +44,8 @@ export default {
   padding: 0;  
 }
 
+
+
 /* 3-COLUMN GRID */
 .grid3-columns {
   display: grid;
@@ -74,10 +76,8 @@ export default {
   padding: 1rem;
 }
 
-.button-standard {
-  width: 100%;
-  margin-top: 1rem;
-  padding: 1rem 0;
+.btn-feature {
+    margin-top: 1rem;
 }
 
 @media (max-width: 650px) {

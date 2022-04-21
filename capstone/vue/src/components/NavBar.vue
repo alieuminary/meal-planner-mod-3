@@ -1,10 +1,12 @@
 <template>
   <nav class="flex-header">
-    <div class="logo">SMPL</div>
-    <router-link class="menu" tag= "nav-link" v-bind:to="{ name: 'home' }"><a href="">Home</a></router-link>
-    <router-link class="menu" tag= "nav-link" v-bind:to="{ name: 'my-recipes' }" v-if="$store.state.token != ''"><a href="">My Recipes</a></router-link>
-    <router-link class="menu" tag= "nav-link" v-bind:to="{ name: 'meal-plan' }" v-if="$store.state.token != ''"><a href="">My Meal Plans</a></router-link> 
-    <router-link class="menu" tag= "nav-link" v-bind:to="{ name: 'grocery-list' }" v-if="$store.state.token != ''"><a href="">Grocery List</a></router-link> 
+    <div class="logo"><a target="_blank" href="">
+    <img src="../assets/smpl_logo2.png" alt="SMPL" width="auto" height="100">
+  </a></div>
+    <router-link class="menu" tag= "nav-link" v-bind:to="{ name: 'home' }">Home</router-link>
+    <router-link class="menu" tag= "nav-link" v-bind:to="{ name: 'my-recipes' }" v-if="$store.state.token != ''">My Recipes</router-link>
+    <router-link class="menu" tag= "nav-link" v-bind:to="{ name: 'meal-plan' }" v-if="$store.state.token != ''">My Meal Plans</router-link> 
+    <router-link class="menu" tag= "nav-link" v-bind:to="{ name: 'grocery-list' }" v-if="$store.state.token != ''">Grocery List</router-link> 
     <router-link  class="btn-logout" id="logout-btn" tag= "button1" v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
   </nav>
 </template>
@@ -37,34 +39,30 @@ export default {
 
 .menu {
   flex: 0 0 auto;
-
-  /* alignment */
-}
-
-.menu a {
   text-decoration: none;
   border: none;
   font-size: 1.5rem;
   color: #fff;
   padding: 1rem;
+  /* alignment */
 }
 
-.menu a:hover {
+.menu:hover {
   color: #000;
   background: #f5c177;
 }
 
-.menu a:active {
-  background: #f5c177;
+.menu:active {
+  background: rgba(191, 163, 138, 1);
 }
 
-#logout-btn {
-  background: rgb(256, 256, 256, 0.3);
+.btn-logout {
+  background: rgba(250, 248, 246, 0.3);
   color: white;
   margin: 0 0 0 2rem;
   transition-duration: 0.4s;
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 500;
   border: none;
   text-decoration: none;
   padding: 1rem 2rem;
@@ -73,9 +71,9 @@ export default {
   display: inline-block;
 }
 
-#logout-btn:hover {
-  background-color: #faf8f6; 
-  color: #c6c6c6;
+.btn-logout:hover {
+  background-color: rgba(250, 248, 246, 1); 
+  color: rgba(38, 47, 53, 0.8);
 }
 
 @media (max-width: 1100px) {
@@ -98,7 +96,7 @@ export default {
     border-bottom: 1px solid white;
   }
 
-#logout-btn {
+.btn-logout {
     flex: 1;
     border-bottom: none;
     text-align: center;

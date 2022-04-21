@@ -31,8 +31,8 @@
       <label for="title">Youtube:</label>
       <input id="title" type="text" class="form-control" v-model="recipe.youtube" autocomplete="off" />
     </div>
-    <button class="btn btn-submit">Submit</button>
-    <button class="btn btn-cancel" v-on:click.prevent="cancelForm" type="cancel">Cancel</button>
+    <button>Submit</button>
+    <button class="delete-btn" v-on:click.prevent="cancelForm" type="cancel">Cancel</button>
   </form>
 </template>
 
@@ -189,26 +189,6 @@ select.form-control {
   display: inline-block;
   margin: 10px 20px 10px 10px;
 }
-.btn-submit {
-  color: #262f35;
-  background-color: #f5c177;
-  border: none;
-  margin-top: 1rem;
-
-}
-.btn-cancel {
-  color: #fff;
-  background-color: #dc3545;
-  border: none;
-    margin-top: 1rem;
-
-}
-
-.button-standard {
-  width: 100%;
-  margin-top: 1rem;
-  padding: 1rem 0;
-}
 
 .status-message {
   display: block;
@@ -216,13 +196,15 @@ select.form-control {
   font-weight: bold;
   font-size: 1rem;
   text-align: center;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
 .status-message.success {
-  background-color: #90ee90;
+  background-color: rgba(84, 120, 44, 1);
+  color: white;
 }
 .status-message.error {
-  background-color: #f08080;
+  background-color: rgba(230, 37, 30, 1);
+  color: white;
 }
 </style>

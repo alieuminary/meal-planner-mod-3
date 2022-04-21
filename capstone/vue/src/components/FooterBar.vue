@@ -1,6 +1,9 @@
 <template>
     <footer>
         <div class="left">
+          <a target="_blank" href="">
+    <img src="../assets/smpl_logo1.png" alt="SMPL" width="auto" height="50">
+  </a>
             <h2>SMPL</h2>
             <p>Shawn's Meal Planner &copy; 2022</p>
         </div>

@@ -107,7 +107,7 @@ export default {
 };
 
 #btn-login {
-  background: rgb(256, 256, 256, 0.3);
+  background: rgba(191, 163, 138, 1);
   color: white;
   margin: 0 0 0 2rem;
   transition-duration: 0.4s;
@@ -122,7 +122,7 @@ export default {
 }
 
 #btn-login:hover {
-  background-color: #faf8f6; 
-  color: #c6c6c6;
+  background-color: rgba(250, 248, 246, 1); 
+  color: rgba(84, 120, 44, 1);
 }
 </style>
