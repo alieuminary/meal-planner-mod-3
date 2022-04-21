@@ -25,5 +25,7 @@ namespace Capstone.DAO
 
         // Update/Modify a meal plan
         bool UpdateMealPlan(Planner planner);
+
+        void DeletePlanner(int plannerId);
     }
 }

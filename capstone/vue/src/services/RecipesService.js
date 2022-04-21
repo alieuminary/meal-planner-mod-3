@@ -30,8 +30,6 @@ export default {
         return http.get(`/planner/userId=${userId}`)
     },
     updateRecipe(recipe){
-        console.log(recipe)
-        alert(recipe.userId)
         return http.put('/recipe/update', recipe)
     },
     addRecipe(recipe) {
@@ -52,5 +50,35 @@ export default {
     deleteFromMyRecipes(recipeId) {
         alert("Recipe deleted");
         return http.delete(`/userrecipes/${recipeId}=delete`);
+    },
+    getIngredientById(ingredId){
+        return http.get(`/ingredient/${ingredId}`);
+    },
+    getIngredientsByTypeId(typeId){
+        return http.get(`/ingredient/t=${typeId}`)
+    },
+    addIngredient(ingred){
+        return http.post(`/ingredient/post`, ingred);
+    },
+    updateIngredient(ingred){
+        return http.push('/recipe/update', ingred)
+    },
+    addIngredientToRecipe(ri){
+        return http.post(`/ri/post`, ri);
+    },
+    updateIngredientToRecipe(ri){
+        return http.push('/ri/update', ri);
+    },
+    addPlanner(planner){
+        return http.post('/planner/post', planner);
+    },
+    deletePlanner(plannerId){
+        return http.delete(`/planner/${plannerId}`);
+    },
+    getPlannerById(plannerId){
+        return http.get(`/planner/${plannerId}`)
+    },
+    updatePlanner(planner){
+        return http.put(`/planner/update`, planner)
     }
 }

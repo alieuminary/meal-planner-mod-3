@@ -19,6 +19,7 @@ if(currentToken != null) {
 export default new Vuex.Store({
   state: {
     myRecipes: [],
+    myMealPlans: [],
     token: currentToken || '',
     user: currentUser || {}
   },
@@ -44,6 +45,9 @@ export default new Vuex.Store({
     },
     SET_RECIPES(state, data){
       state.myRecipes = data;
-    }
+    },
+    SET_MY_MEAL_PLANS(state, data) {
+      state.myMealPlans = data;
+    },
   }
 })

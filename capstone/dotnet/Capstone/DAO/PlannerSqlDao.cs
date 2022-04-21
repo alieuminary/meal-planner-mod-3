@@ -70,9 +70,9 @@ namespace Capstone.DAO
 
                     while (reader.Read())
                     {
-                       
+
                         planner = GetPlannerFromReader(reader);
-                        
+
                     }
                 }
             }
@@ -95,8 +95,9 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    string sqlText = "SELECT u.user_id, username, planner_id, name, isSharable FROM planner as p JOIN users as u ON p.user_id = u.user_id WHERE p.user_id = @user_id"; 
-                   // string sqlText = "SELECT r.planner_id, r.name, r.user_id, r.day, r.week, r.isSharable FROM planner as r JOIN recipes_planner as rp ON rp.planner_id = r.planner_id JOIN users as u ON r.user_id = u.user_id WHERE u.user_id = @user_id";
+                    //string sqlText = "SELECT u.user_id, username, planner_id, name, isSharable FROM planner as p JOIN users as u ON p.user_id = u.user_id WHERE p.user_id = @user_id"; 
+                    // string sqlText = "SELECT r.planner_id, r.name, r.user_id, r.day, r.week, r.isSharable FROM planner as r JOIN recipes_planner as rp ON rp.planner_id = r.planner_id JOIN users as u ON r.user_id = u.user_id WHERE u.user_id = @user_id";
+                    string sqlText = "SELECT * FROM planner WHERE user_id = @user_id";
 
 
                     SqlCommand cmd = new SqlCommand(sqlText, conn);
@@ -158,7 +159,7 @@ namespace Capstone.DAO
                 {
                     conn.Open();
 
-                    string sqlText = "UPDATE planner SET name = @name, day = @day, week = @week, isSharable = @isSharable WHERE planner_id = @planner_id;";
+                    string sqlText = "UPDATE planner SET name = @name, isSharable = @isSharable WHERE planner_id = @planner_id;";
                     SqlCommand cmd = new SqlCommand(sqlText, conn);
                     cmd.Parameters.AddWithValue("@name", planner.Name);
                     cmd.Parameters.AddWithValue("@isSharable", planner.IsSharable);
@@ -181,10 +182,23 @@ namespace Capstone.DAO
             {
                 throw;
             }
-           
+
         }
 
+        public void DeletePlanner(int plannerId)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
 
+                string sqlTxt = "DELETE FROM recipes_planner WHERE planner_id = @planner_id;" +
+                                "DELETE FROM planner WHERE planner_id = @planner_id;";
+                SqlCommand cmd = new SqlCommand(sqlTxt, conn);
+                cmd.Parameters.AddWithValue("@planner_id", plannerId);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
 
 
 
@@ -196,7 +210,7 @@ namespace Capstone.DAO
 
             myPlanner.PlannerId = Convert.ToInt32(reader["planner_id"]);
             myPlanner.Name = Convert.ToString(reader["name"]);
-         /*   myPlanner.UserId = Convert.ToInt32(reader["user_id"]);*/  // causes an error when value is NULL so I commented it out
+            /*   myPlanner.UserId = Convert.ToInt32(reader["user_id"]);*/  // causes an error when value is NULL so I commented it out
             myPlanner.IsSharable = Convert.ToBoolean(reader["isSharable"]);
 
             return myPlanner;
@@ -208,7 +222,7 @@ namespace Capstone.DAO
             myPlanner.rpId = Convert.ToInt32(reader["rp_id"]);
             myPlanner.PlannerId = Convert.ToInt32(reader["planner_id"]);
             myPlanner.RecipeId = Convert.ToInt32(reader["recipe_id"]);
-            myPlanner.Day = Convert.ToString(reader["day"]);  
+            myPlanner.Day = Convert.ToString(reader["day"]);
             myPlanner.Week = Convert.ToInt32(reader["week"]);
 
             return myPlanner;

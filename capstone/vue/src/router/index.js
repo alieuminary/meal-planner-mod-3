@@ -12,6 +12,8 @@ import AllRecipes from '../views/AllRecipes.vue'
 import Card from '../views/Card.vue'
 import EditCard from '../views/EditCard.vue'
 import AddCard from '../views/AddCard.vue'
+import AddPlan from '../views/AddPlan.vue'
+import EditPlan from '../views/EditPlan.vue'
 
 Vue.use(Router)
 
@@ -109,7 +111,17 @@ const router = new Router({
       path: '/recipes/:id/edit',
       name: 'EditCard',
       component: EditCard
-    }
+    },
+    {
+      path: '/planner/create',
+      name: 'AddPlan',
+      component: AddPlan
+    },
+    {
+      path: '/planner/:id/edit',
+      name: 'EditPlan',
+      component: EditPlan
+    },
     
   ]
 })

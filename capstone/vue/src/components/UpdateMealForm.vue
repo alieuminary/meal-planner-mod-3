@@ -1,6 +1,6 @@
 <template>
     <div class="add-plan-popup">
-        <button>Add New Meal Plan</button>
+        <h2>Update Meal Plan {{this.plannerId}}</h2>
         <div class="popup-content">
             <form class="form-new-plan" @submit.prevent>
                 <div class="status-message error" v-show="errorMsg !== ''">{{errorMsg}}</div>
@@ -16,7 +16,7 @@
                     <input type="radio" v-model="planner.isSharable" value="true">
                     <label>No</label>
                     <input type="radio" v-model="planner.isSharable" value="false">
-                    <button type="submit" @click="savePlan()">CREATE</button>
+                    <button type="submit" @click="updatePlan()">CREATE</button>
                     <button type="button" @click.prevent="cancelForm">CLOSE</button>
                 </div>
             </form>
@@ -28,24 +28,26 @@
 import recipesService from "@/services/RecipesService.js";
 export default {
     name: "meal-plan-form",
+    props: ["plannerId"],
     data(){
         return{
             planner: {
                 name: "",
-                userId: 1,
                 isSharable: ""
             },
             errorMsg: ""
         };
     },
      methods: {
-    savePlan() {
-        this.planner.isSharable = Boolean(this.planner.isSharable)
+    updatePlan() {
+        const newPlanner = this.planner;
+        newPlanner.isSharable = Boolean(this.planner.isSharable)
+        newPlanner.plannerId = this.plannerId
         console.log(this.planner);
         recipesService
-            .addPlanner(this.planner)
+            .updatePlanner(newPlanner)
             .then((res) => {
-            if (res.status === 201) {
+            if (res.status === 200) {
                 this.$router.push("/mealplan");
             }
             })
@@ -69,6 +71,18 @@ export default {
         this.errorMsg =
           "Error " + verb + " recipe. Request could not be created.";
       }
+  },
+  created(){
+    recipesService
+        .getPlannerById(this.plannerId)
+        .then(response => {
+          this.planner = response.data;
+        })
+        .catch(error => {
+        if (error.response.status == 404) {
+          this.$router.push({name: 'NotFound'});
+        }
+      });
   }
      }
 };

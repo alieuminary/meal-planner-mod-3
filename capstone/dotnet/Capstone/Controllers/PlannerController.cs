@@ -71,27 +71,25 @@ namespace Capstone.Controllers
 
 
         // handle requests to create a new meal plan
-        [HttpPost()]
+        [HttpPost("post")]
         public ActionResult AddMealPlan(Planner userParam)
         {
-
-
             if (userParam != null)
             {
                 Planner newPlanner = plannerDao.AddMealPlan(userParam);
-                return Created($"/planner", newPlanner);
+                return Created($"/planner/{newPlanner.PlannerId}", newPlanner);
             }
             else
             {
                 return BadRequest();
             }
-            
+
         }
 
         // handle requests to update a single meal plan
         [HttpPut("update")]
 
-        public ActionResult<Planner> UpdateMealPlan(Planner planner, int plannerId)
+        public ActionResult<Planner> UpdateMealPlan(Planner planner)
         {
 
             //if (plannerDao.GetPlannerByPlannerId(plannerId) != null)
@@ -108,10 +106,16 @@ namespace Capstone.Controllers
 
             if (result == true)
             {
-                Planner updatedMealPlan = plannerDao.GetPlannerByPlannerId(plannerId);
+                Planner updatedMealPlan = plannerDao.GetPlannerByPlannerId(planner.PlannerId);
                 return Ok(updatedMealPlan);
             }
             return NotFound();
+        }
+
+        [HttpDelete("{plannerId}")]
+        public void DeletePlanner(int plannerId)
+        {
+            plannerDao.DeletePlanner(plannerId);
         }
     }
 }
