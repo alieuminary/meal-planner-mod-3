@@ -9,13 +9,12 @@
         <img class="recipeImage" v-bind:src="recipe.recipeImage"/>
 
         <div id="recipe-modify-container">
-            <button class="recipe-modify-btns direction-btn" v-on:click="changeDisplay($event.target)">Recipe Instructions
+            <button class="recipe-modify-btns direction-btn" v-on:click="changeDisplay(), getIngredients(recipe)">Recipe Instructions
             </button> 
-            <button class="recipe-modify-btns modify-btn">Add to My Recipes</button>
+            <button class="recipe-modify-btns delete-btn" v-on:click="deleteRecipe(recipe.recipeId)">DELETE</button>
         </div>
         <div class="instructions" v-if="displayInstructions">
             {{recipe.instructions}}
-            {{ingredients}}
         </div>
     </div>
   </div>
@@ -50,8 +49,12 @@ export default {
             else {
                 this.displayInstructions = false;
             }
-        }
-    },
+        },
+        deleteRecipe(recipeId){
+            recipesService
+                .deleteFromMyRecipes(recipeId);
+                }
+            },
     created() {
     this.getRecipes();
     }

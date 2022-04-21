@@ -10,5 +10,7 @@ namespace Capstone.DAO
     {
         List<Recipe> GetUserRecipes(int userId);
         UserRecipes AddRecipe(int recipeId, int userId);
+
+        void DeleteRecipe(int recipeId, int userId);
     }
 }

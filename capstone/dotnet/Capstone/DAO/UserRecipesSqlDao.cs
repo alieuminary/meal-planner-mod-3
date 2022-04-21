@@ -76,6 +76,28 @@ namespace Capstone.DAO
             return userRecipes;
         }
 
+        public void DeleteRecipe(int recipeId, int userId)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("DELETE FROM user_recipes " +
+                                                    "WHERE recipe_id = @recipeId AND user_id = @user_id", conn);
+                    cmd.Parameters.AddWithValue("@recipeId", recipeId);
+                    cmd.Parameters.AddWithValue("@user_id", userId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
         private Recipe GetRecipeFromReader(SqlDataReader reader)
         {
             Recipe myRecipe = new Recipe();

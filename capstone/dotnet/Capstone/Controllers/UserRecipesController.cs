@@ -57,5 +57,13 @@ namespace Capstone.Controllers
             }
 
         }
+
+        [HttpDelete("{recipeId}=delete")]
+        public void DeleteRecipe(int recipeId)
+        {
+            int userId = Int32.Parse(User.FindFirst("sub")?.Value);
+
+            userRecipesDao.DeleteRecipe(recipeId, userId);
+        }
     }
 }

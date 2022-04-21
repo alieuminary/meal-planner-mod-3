@@ -48,5 +48,9 @@ export default {
     },
     getMyRecipesByUser() {
         return http.get('/userrecipes');
+    },
+    deleteFromMyRecipes(recipeId) {
+        alert("Recipe deleted");
+        return http.delete(`/userrecipes/${recipeId}=delete`);
     }
 }
