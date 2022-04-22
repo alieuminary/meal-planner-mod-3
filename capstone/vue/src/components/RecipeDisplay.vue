@@ -19,6 +19,14 @@
         <button class="delete-btn" v-on:click="deleteRecipe(recipe.recipeId)">
           DELETE
         </button>
+        <button @click="showMealPlans()">Add to Meal Plans</button>
+      <div v-if="isShown">
+        <div v-for="plan in plans" :key="plan.plannerId">
+          <div @click="saveAndPush({plannerId: plan.plannerId, recipeId: recipe.recipeId, day: 'Monday', week: 1})">{{plan.name}}</div>
+          
+        </div>
+      </div>
+        
       </div>
       <div class="instructions" v-if="displayInstructions === index">
         <h2>Instructions</h2>
@@ -49,6 +57,7 @@ export default {
       ingredients: [],
       userId: 0,
       plans: [],
+      isShown: false,
     };
   },
   name: "recipe-display",
@@ -92,6 +101,14 @@ export default {
       recipesService.getPlannerByUserId(this.userId).then((response) => {
         this.plans = response.data;
       });
+      this.isShown = !this.isShown
+    },
+    saveAndPush(rp){
+      this.addToPlan(rp);
+      this.$router.push(`/mealplan`)
+    },
+    addToPlan(rp){
+      recipesService.addRp(rp)
     },
   },
   created() {
