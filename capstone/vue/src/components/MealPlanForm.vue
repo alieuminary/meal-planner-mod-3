@@ -5,17 +5,17 @@
             <form class="form-new-plan" @submit.prevent>
                 <div class="status-message error" v-show="errorMsg !== ''">{{errorMsg}}</div>
                 <h2>Create a New Meal Plan Below</h2>
-                <div class="group">
+                <div class="form-group">
                     <label >MEAL PLAN NAME</label>
-                    <input type="text" v-model="planner.name" />
+                    <input class="form-control" type="text" v-model="planner.name" />
                 </div>
 
-                <div class="group">
+                <div class="form-group">
                     <h3>IS SHARABLE?</h3>
                     <label>Yes</label>
-                    <input type="radio" v-model="planner.isSharable" value="true">
+                    <input class="form-control" type="radio" v-model="planner.isSharable" value="true">
                     <label>No</label>
-                    <input type="radio" v-model="planner.isSharable" value="false">
+                    <input class="form-control" type="radio" v-model="planner.isSharable" value="false">
                     <button type="submit" @click="savePlan()">CREATE</button>
                     <button type="button" @click.prevent="cancelForm">CLOSE</button>
                 </div>
@@ -32,7 +32,7 @@ export default {
         return{
             planner: {
                 name: "",
-                userId: 1,
+                userId: 0,
                 isSharable: ""
             },
             errorMsg: ""
@@ -70,21 +70,17 @@ export default {
           "Error " + verb + " recipe. Request could not be created.";
       }
   }
-     }
+     },
+     created() {
+    recipesService.getUserId().then(response => {
+          this.planner.userId = response.data;
+        });
+  }
 };
 </script>
 
 <style scoped>
 .form-new-plan {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: auto;
-  line-height: 4;
-  margin: 0;
-  padding: 2rem 5rem 0 5rem;
-}
-.cardForm {
   padding: 10px;
   margin-bottom: 10px;
 }
@@ -117,29 +113,22 @@ select.form-control {
   display: inline-block;
   margin: 10px 20px 10px 10px;
 }
-.btn-submit {
-  color: #fff;
-  background-color: #0062cc;
-  border-color: #005cbf;
-}
-.btn-cancel {
-  color: #fff;
-  background-color: #dc3545;
-  border-color: #dc3545;
-}
+
 .status-message {
   display: block;
   border-radius: 5px;
   font-weight: bold;
   font-size: 1rem;
   text-align: center;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
 .status-message.success {
-  background-color: #90ee90;
+  background-color: rgba(84, 120, 44, 1);
+  color: white;
 }
 .status-message.error {
-  background-color: #f08080;
+  background-color: rgba(230, 37, 30, 1);
+  color: white;
 }
 </style>

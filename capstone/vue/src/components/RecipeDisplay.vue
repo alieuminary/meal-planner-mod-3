@@ -1,34 +1,41 @@
 <template>
   <div class="all-recipes">
+    <div
+      class="recipe-container"
+      v-for="(recipe, index) in this.$store.state.myRecipes"
+      v-bind:key="recipe.id"
+      v-on:click="setActiveRow(index)"
+    >
+      <h2>{{ recipe.recipeName }}</h2>
+      <img class="recipeImage" v-bind:src="recipe.recipeImage" />
 
-    <div class="recipe-container"
-
-        v-for="recipe in this.$store.state.myRecipes"
-        v-bind:key="recipe.id">
-        <h2>{{ recipe.recipeName }}</h2>
-        <img class="recipeImage" v-bind:src="recipe.recipeImage"/>
-
-        <div id="recipe-modify-container">
-            <button class="direction-btn" v-on:click="changeDisplay(), getIngredients(recipe)">Recipe Instructions
-            </button> 
-            <button class="delete-btn" v-on:click="deleteRecipe(recipe.recipeId)">DELETE</button>
-        </div>
-        <div class="instructions" v-if="displayInstructions">
+      <div id="recipe-modify-container">
+        <button
+          class="direction-btn"
+          v-on:click="changeDisplay(), getIngredients(recipe)"
+        >
+          Recipe Instructions
+        </button>
+        <button class="delete-btn" v-on:click="deleteRecipe(recipe.recipeId)">
+          DELETE
+        </button>
+      </div>
+      <div class="instructions" v-if="displayInstructions === index">
         <h2>Instructions</h2>
         <p
-        v-for="(instruct,index) in instructionsIntoArray(recipe.instructions)"
-        :key="index">
-        {{index + 1}}. {{instruct}}
+          v-for="(instruct, index) in instructionsIntoArray(
+            recipe.instructions
+          )"
+          :key="index"
+        >
+          {{ index + 1 }}. {{ instruct }}
         </p>
         <h2>Ingredients</h2>
-        <div 
-        v-for="(ingred, index) in ingredients" 
-        :key="ingred.riRecipeId"
-        >
-        {{index + 1}}. {{ingred.name}}
+        <div v-for="(ingred, index) in ingredients" :key="ingred.riRecipeId">
+          {{ index + 1 }}. {{ ingred.name }}
         </div>
-        </div>
-    </div>
+      </div>
+      </div>
   </div>
 </template>
 
@@ -36,53 +43,69 @@
 import recipesService from "@/services/RecipesService.js";
 
 export default {
-    data() {
-        return {
-            displayInstructions: false,
-            ingredients: []
+  data() {
+    return {
+      displayInstructions: false,
+      ingredients: [],
+      userId: 0,
+      plans: [],
+    };
+  },
+  name: "recipe-display",
+  methods: {
+    getRecipes() {
+      recipesService.getMyRecipesByUser().then((response) => {
+        this.$store.commit("SET_RECIPES", response.data);
+      });
+    },
+    getIngredients(recipe) {
+      recipesService
+        .GetAllRecipesIngredientsByRecipeId(recipe.recipeId)
+        .then((response) => {
+          this.ingredients = response.data;
+        });
+    },
+    changeDisplay() {
+      if (!this.displayInstructions) {
+        this.displayInstructions = true;
+      } else if (typeof this.displayInstructions === "number") {
+        this.displayInstructions = false;
+      } else {
+        this.displayInstructions = false;
+      }
+    },
+    deleteRecipe(recipeId) {
+      recipesService.deleteFromMyRecipes(recipeId).then((response) => {
+        if (response.status === 200) {
+          this.$router.go(0);
         }
+      });
     },
-    name: "recipe-display",
-    methods: {
-        getRecipes() {
-            recipesService.getMyRecipesByUser().then(response => {
-                this.$store.commit("SET_RECIPES", response.data);
-            });
-        },
-        getIngredients(recipe) {
-            recipesService.GetAllRecipesIngredientsByRecipeId(recipe.recipeId).then(response => {
-                this.ingredients = response.data;
-            })
-        },
-        changeDisplay() {
-            if (!this.displayInstructions){
-                this.displayInstructions = true;
-            }
-            else {
-                this.displayInstructions = false;
-            }
-        },
-        deleteRecipe(recipeId){
-            recipesService
-                .deleteFromMyRecipes(recipeId)
-                .then(response => {
-                if (response.status === 200) {
-                this.$router.go(0)}})
-            },
-        instructionsIntoArray(txt){
-        const array = txt.split(". ");
-        return array;
-    }
+    instructionsIntoArray(txt) {
+      const array = txt.split(". ");
+      return array;
     },
-    created() {
+    setActiveRow(index) {
+      this.displayInstructions = index;
+    },
+    showMealPlans() {
+      recipesService.getPlannerByUserId(this.userId).then((response) => {
+        this.plans = response.data;
+      });
+    },
+  },
+  created() {
     this.getRecipes();
-    }
-}
+    recipesService.getUserId().then((response) => {
+      this.userId = response.data;
+    });
+  },
+};
 </script>
 
 <style>
-.recipe-container{
-  display: flex; 
+.recipe-container {
+  display: flex;
   flex-direction: column;
   align-items: center;
   border: 1px black solid;
@@ -92,14 +115,12 @@ export default {
 }
 
 #recipe-modify-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
-
-
-.recipeImage{
-    width: 30%;
+.recipeImage {
+  width: 30%;
 }
 </style>

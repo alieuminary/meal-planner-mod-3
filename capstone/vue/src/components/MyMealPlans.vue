@@ -3,18 +3,17 @@
     <table>
       <thead>
         <tr>
-          <th>MEAL PLAN</th>
+          <th @click="getPlans(userId)">MEAL PLAN</th>
           <th>EDIT</th>
           <th>DELETE</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="plan in this.$store.state.myMealPlans" v-bind:key="plan.plannerId">
-          <td width="80%">
-            <!-- <router-link
-              v-bind:to="{ name: 'Messages', params: { id: topic.id } }"
-            >{{ topic.title }}</router-link> -->
-            {{plan.name}}
+        <!-- <tr v-for="plan in this.$store.state.myMealPlans" v-bind:key="plan.plannerId"> -->
+        <tr v-for="plan in plans" v-bind:key="plan.plannerId">
+          <td width="50%">
+            <router-link 
+              :to="{ name: 'PlanRecipes', params: { id: plan.plannerId } }">{{plan.name}}</router-link>
           </td>
           <td>
             <router-link
@@ -35,10 +34,25 @@ import recipesService from "@/services/RecipesService.js";
 
 export default {
   name: "topic-list",
+  props:['userId'],
+  data(){
+        return{
+          isActive: false,
+          plans:[],
+          rpList: [],
+          recipes:[],
+          
+
+        };
+    },
   methods: {
-    getPlans() {
-      recipesService.getPlannerByUserId(1).then(response => {
-        this.$store.commit("SET_MY_MEAL_PLANS", response.data);
+    toggle(){
+      this.isActive = !this.isActive
+    },
+    getPlans(userId) {
+      recipesService.getPlannerByUserId(userId).then(response => {
+        // this.$store.commit("SET_MY_MEAL_PLANS", response.data);
+        this.plans = response.data
       });
     },
     deletePlanner(plannerId) {
@@ -52,10 +66,24 @@ export default {
         .catch((err) => {
           alert(`Error occurred: ${err.message}`);
         });
+    },
+    getRp(plannerId){
+      recipesService.getRpByPlannerId(plannerId).then(response =>{
+            return response.data;
+        })
     }
   },
   created() {
-    this.getPlans();
+    recipesService.getAllRps().then(response => {
+          this.rpList = response.data;
+        });
+    this.getPlans(this.userId);
   }
 };
 </script>
+
+<style scoped>
+span{
+  color: white;
+}
+</style>

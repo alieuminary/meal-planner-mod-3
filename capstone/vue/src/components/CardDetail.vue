@@ -24,7 +24,13 @@
       >Edit Recipe</router-link>
 
       <button v-on:click="saveMyRecipe()">Save Recipe</button>
-
+      <button @click="showPlans()">Add to Meal Plans</button>
+      <div v-if="isShown">
+        <div v-for="plan in plans" :key="plan.plannerId">
+          <div @click="saveAndPush({plannerId: plan.plannerId, recipeId: card.recipeId, day: 'Monday', week: 1})">{{plan.name}}</div>
+          
+        </div>
+      </div>
     </div>
 
     </div>
@@ -43,6 +49,9 @@ export default {
       card: {},
       ri: [],
       editable: false,
+      userId: "",
+      plans: [],
+      isShown: false,
     };
   },
   methods: {
@@ -54,6 +63,19 @@ export default {
     instructionsIntoArray(txt){
         const array = txt.split(". ");
         return array;
+    },
+    showPlans() {
+      recipesService.getPlannerByUserId(this.userId).then((response) => {
+        this.plans = response.data;
+      });
+      this.isShown = !this.isShown
+    },
+    addToPlan(rp){
+      recipesService.addRp(rp)
+    },
+    saveAndPush(rp){
+      this.addToPlan(rp);
+      this.$router.push(`/mealplan`)
     }
   },
   created(){
@@ -67,6 +89,9 @@ export default {
         .then(response => {
           this.ri = response.data;
         });
+        recipesService.getUserId().then((response) => {
+      this.userId = response.data;
+    });
   }
 };
 </script>

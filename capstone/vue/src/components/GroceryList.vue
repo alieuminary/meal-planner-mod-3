@@ -12,8 +12,10 @@
         </div>
         <div class="groceries">
           List: {{groceryList.length}}
-          <div v-for="item in groceryList" :key="item">
+          <div v-for="(item,index) in groceryList" :key="item">
+            <div @click="remove(index)">
             {{item}}
+            </div>
           </div>
         </div>
       </div>
@@ -36,6 +38,9 @@ export default {
   methods: {
     addToGroceries(item){
       this.groceryList.push(item);
+    },
+    remove(index){
+      this.groceryList.splice(index,1)
     }
   },
  created(){

@@ -21,6 +21,12 @@ namespace Capstone.Controllers
             this.userRecipesDao = userRecipesDao;
         }
 
+        [HttpGet("user")]
+        public int getUserId()
+        {
+            return Int32.Parse(User.FindFirst("sub")?.Value);
+        }
+
         [HttpGet()]
         public ActionResult<List<Recipe>> GetUserRecipesById()
         {
