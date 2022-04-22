@@ -6,6 +6,7 @@
             <select class="btn-search">
                 <option  v-for="index in days" :key="index">{{index}}</option>
             </select>
+            <a href="#" @click="deletePlanner(plan.rpId)">Delete</a>
         </div>
     
     </div>
@@ -33,7 +34,24 @@ export default {
                   return this.recipes[i].recipeName
               }
           }
-      }
+      },
+      getRpByPlannerId(){
+        recipesService.getRpByPlannerId(this.$route.params.id).then(response => {
+          this.rpList = response.data;
+        });
+      },
+    deletePlanner(plannerId) {
+      recipesService
+        .deleteRp(plannerId)
+        .then((res) => {
+          if (res.status === 200) {
+            this.getRpByPlannerId();
+          }
+        })
+        .catch((err) => {
+          alert(`Error occurred: ${err.message}`);
+        });
+    },
   },
  created(){
     recipesService.getRpByPlannerId(this.$route.params.id).then(response => {
