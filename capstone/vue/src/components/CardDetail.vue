@@ -26,7 +26,7 @@
       <button v-on:click="saveMyRecipe()">Save Recipe</button>
       <button @click="showPlans()">Add to Meal Plans</button>
       <div v-if="isShown">
-        <div v-for="plan in plans" :key="plan.plannerId">
+        <div class="button" v-for="plan in plans" :key="plan.plannerId">
           <div @click="saveAndPush({plannerId: plan.plannerId, recipeId: card.recipeId, day: 'Monday', week: 1})">{{plan.name}}</div>
           
         </div>
@@ -103,5 +103,20 @@ export default {
   justify-content: center;
 }
 
+.button {
+    border: 2px solid rgba(38, 47, 53, 0.7);
+    color: #262f35;
+    padding: .5rem;
+    margin: .5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition-duration: 0.4s;
+}
+
+.button:hover {
+  background-color: rgba(84, 120, 44, 0.5);
+}
 
 </style>
