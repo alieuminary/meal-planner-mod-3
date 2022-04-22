@@ -1,9 +1,10 @@
 <template>
   <div class="topic-list">
-    <table>
+    <button @click="getPlans(userId),toggle()">VIEW MEAL PLANS</button>
+    <table v-if="isActive">
       <thead>
         <tr>
-          <th @click="getPlans(userId)">MEAL PLAN</th>
+          <th>MEAL PLAN</th>
           <th>EDIT</th>
           <th>DELETE</th>
         </tr>
@@ -83,7 +84,20 @@ export default {
 </script>
 
 <style scoped>
-span{
-  color: white;
+* {
+  box-sizing: border-box;
+  padding: 0 3rem;
+  margin: 0;
+}
+
+.content-one-column {
+  display: grid;
+  width: 100%;
+  margin: 0;
+  padding: 0;  
+}
+
+button {
+  margin: 1rem 0;
 }
 </style>
