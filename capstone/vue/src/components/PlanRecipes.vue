@@ -61,7 +61,8 @@ export default {
         });
     recipesService.getList().then(response => {
           this.recipes = response.data;
-        });    
+        });  
+      
   },
 }
 </script>
