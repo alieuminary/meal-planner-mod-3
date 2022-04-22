@@ -10,15 +10,17 @@
         </div>
     
     </div>
-    {{this.plannerId}}
+    <calendar />
 </div>
 </template>
 
 
 <script>
 import recipesService from "@/services/RecipesService.js";
+import Calendar from './Calendar.vue';
 
 export default {
+  components: { Calendar },
   name: "plan-recipes",
   data(){
     return {
