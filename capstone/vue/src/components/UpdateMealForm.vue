@@ -1,6 +1,6 @@
 <template>
     <div class="add-plan-popup">
-        <h2>Update Meal Plan {{this.plannerId}}</h2>
+        <p>Update Meal Plan {{this.plannerId}}</p>
         <div class="popup-content">
             <form class="form-new-plan" @submit.prevent>
                 <div class="status-message error" v-show="errorMsg !== ''">{{errorMsg}}</div>
@@ -10,14 +10,14 @@
                     <input type="text" v-model="planner.name" />
                 </div>
 
-                <div class="group">
-                    <h3>IS SHARABLE?</h3>
+                <div class="form-group">
+                    <h3>Can we feature your meal plan in the SMPL Community?</h3>
                     <label>Yes</label>
-                    <input type="radio" v-model="planner.isSharable" value="true">
+                    <input class="form-control" type="radio" v-model="planner.isSharable" value="true">
                     <label>No</label>
-                    <input type="radio" v-model="planner.isSharable" value="false">
+                    <input class="form-control" type="radio" v-model="planner.isSharable" value="false">
                     <button type="submit" @click="updatePlan()">CREATE</button>
-                    <button type="button" @click.prevent="cancelForm">CLOSE</button>
+                    <button type="button" @click.prevent="cancelForm">Cancel</button>
                 </div>
             </form>
         </div>
@@ -90,15 +90,6 @@ export default {
 
 <style scoped>
 .form-new-plan {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: auto;
-  line-height: 4;
-  margin: 0;
-  padding: 2rem 5rem 0 5rem;
-}
-.cardForm {
   padding: 10px;
   margin-bottom: 10px;
 }
@@ -131,29 +122,25 @@ select.form-control {
   display: inline-block;
   margin: 10px 20px 10px 10px;
 }
-.btn-submit {
-  color: #fff;
-  background-color: #0062cc;
-  border-color: #005cbf;
-}
-.btn-cancel {
-  color: #fff;
-  background-color: #dc3545;
-  border-color: #dc3545;
-}
+
 .status-message {
   display: block;
   border-radius: 5px;
   font-weight: bold;
   font-size: 1rem;
   text-align: center;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
 .status-message.success {
-  background-color: #90ee90;
+  background-color: rgba(84, 120, 44, 1);
+  color: white;
 }
 .status-message.error {
-  background-color: #f08080;
+  background-color: rgba(230, 37, 30, 1);
+  color: white;
+}
+.delete-btn:hover {
+    background-color: rgba(230, 37, 30, 1);
 }
 </style>

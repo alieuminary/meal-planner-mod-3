@@ -1,7 +1,7 @@
 <template>
-<div>
-    <div v-for="plan in rpList" v-bind:key="plan.rpId">
-        <div>
+<div >
+    <div class="content-one-column" v-for="plan in rpList" v-bind:key="plan.rpId">
+        <div >
             <div>{{getRecipeName(plan.recipeId)}}</div> 
             <select class="btn-search">
                 <option  v-for="index in days" :key="index">{{index}}</option>
@@ -63,3 +63,18 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+* {
+  box-sizing: border-box;
+  padding: 0 3rem;
+  margin: 0;
+}
+
+.content-one-column {
+  display: grid;
+  width: 100%;
+  margin: 0;
+  padding: 0;  
+}
+</style>

@@ -1,14 +1,17 @@
 <template>
     <div class="content-one-column">
         <h1>My Meal Plan Page</h1>
+        <div>
         <router-link
         tag="button"
         :to="{ name: 'AddPlan', params: {}}"
         class="btn editCard"
-      >ADD NEW MEAL PLAN</router-link>
+      >ADD NEW MEAL PLAN</router-link></div>
+  <div class="try">
       <my-meal-plans :userId="userId" />
+      
         <!-- <calendar /> -->
-        
+        </div>
     </div>
 </template>
 
@@ -51,7 +54,19 @@ export default {
 }
 
 button {
-  margin: 2rem 0;
+  border: 2px solid rgba(38, 47, 53, 0.7);
+    color: #262f35;
+    padding: .5rem;
+    margin: .5rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition-duration: 0.4s;
+
 }
 
+.try {
+  padding: 0;
+}
 </style>

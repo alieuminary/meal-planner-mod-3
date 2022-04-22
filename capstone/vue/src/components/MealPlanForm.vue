@@ -11,13 +11,13 @@
                 </div>
 
                 <div class="form-group">
-                    <h3>IS SHARABLE?</h3>
+                    <h3>Can we feature your meal plan in the SMPL Community?</h3>
                     <label>Yes</label>
                     <input class="form-control" type="radio" v-model="planner.isSharable" value="true">
                     <label>No</label>
                     <input class="form-control" type="radio" v-model="planner.isSharable" value="false">
-                    <button type="submit" @click="savePlan()">CREATE</button>
-                    <button type="button" @click.prevent="cancelForm">CLOSE</button>
+                    <button type="submit" @click="savePlan()">Create</button>
+                    <button type="button" class="delete-btn:hover" @click.prevent="cancelForm">Cancel</button>
                 </div>
             </form>
         </div>
@@ -130,5 +130,8 @@ select.form-control {
 .status-message.error {
   background-color: rgba(230, 37, 30, 1);
   color: white;
+}
+.delete-btn:hover {
+    background-color: rgba(230, 37, 30, 1);
 }
 </style>
