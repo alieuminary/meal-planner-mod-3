@@ -8,7 +8,7 @@
         class="btn editCard"
       >ADD NEW MEAL PLAN</router-link></div>
   <div class="try">
-      <my-meal-plans :userId="userId" />
+      <my-meal-plans :userId="this.userId" />
       
         <!-- <calendar /> -->
         </div>
@@ -28,7 +28,7 @@ export default {
   },
    data() {
     return {
-      userId: "",
+      userId: 1,
     };
   },
   created() {

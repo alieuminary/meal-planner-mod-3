@@ -42,8 +42,6 @@ export default {
           plans:[],
           rpList: [],
           recipes:[],
-          
-
         };
     },
   methods: {
@@ -61,7 +59,7 @@ export default {
         .deletePlanner(plannerId)
         .then((res) => {
           if (res.status === 200) {
-            this.getPlans();
+            this.$router.go(0);
           }
         })
         .catch((err) => {
