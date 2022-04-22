@@ -80,5 +80,23 @@ export default {
     },
     updatePlanner(planner){
         return http.put(`/planner/update`, planner)
-    }
+    },
+    getRpByPlannerId(plannerId){
+        return http.get(`/recipesplanner/plan=${plannerId}`)
+    },
+    addRp(rp){
+        return http.post(`/recipesplanner/post`, rp)
+    },
+    updateRp(rp){
+        return http.put(`/recipesplanner/update`, rp)
+    },
+    deleteRp(plannerId){
+        return http.delete(`/recipesplanner/${plannerId}`);
+    },
+    getAllRps(){
+        return http.get('/recipesplanner')
+    },
+    getUserId(){
+        return http.get('/userrecipes/user')
+    },
 }
